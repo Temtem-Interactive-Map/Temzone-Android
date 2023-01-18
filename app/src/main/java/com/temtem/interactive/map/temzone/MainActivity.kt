@@ -8,9 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.temtem.interactive.map.temzone.databinding.ActivityMainBinding
 import com.temtem.interactive.map.temzone.extensions.moveToPosition
 import com.temtem.interactive.map.temzone.markers.Marker
-import kotlin.math.max
-import kotlin.math.pow
-import kotlin.random.Random
 import ovh.plrapps.mapview.MapView
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
@@ -19,6 +16,10 @@ import ovh.plrapps.mapview.api.constrainScroll
 import ovh.plrapps.mapview.api.setMarkerTapListener
 import ovh.plrapps.mapview.core.TileStreamProvider
 import ovh.plrapps.mapview.markers.MarkerTapListener
+import java.io.IOException
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private companion object {
@@ -26,17 +27,18 @@ class MainActivity : AppCompatActivity() {
         private const val zoom = 6
         private const val tileSize = 256
         private val mapSize = tileSize * 2.0.pow(zoom).toInt()
+        private val mapCenter = mapSize / 2.0
         private const val mapMinHorizontal = tileSize * 7.0
         private val mapMaxHorizontal = mapSize - tileSize * 7.0
         private const val mapMinVertical = tileSize * 10.0
         private val mapMaxVertical = mapSize - tileSize * 11.0
-        private val mapCenter = mapSize / 2.0
     }
 
     private val binding: ActivityMainBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -50,7 +52,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureMap(mapView: MapView) {
         val tiles = TileStreamProvider { row, col, zoom ->
-            baseContext.assets.open("tiles/$zoom/$col/$row.png")
+            try {
+                baseContext.assets.open("tiles/$zoom/$col/$row.png")
+            } catch (e: IOException) {
+                null
+            }
         }
         val config = MapViewConfiguration(
             zoom + 1, mapSize, mapSize, tileSize, tiles

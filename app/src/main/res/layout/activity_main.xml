@@ -9,6 +9,6 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/yankees_blue" />
+        android:background="@color/map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
