@@ -1,38 +1,41 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
 }
 
 android {
-    namespace 'com.temtem.interactive.map.temzone'
+    namespace "com.temtem.interactive.map.temzone"
     compileSdk 33
 
     defaultConfig {
-        applicationId 'com.temtem.interactive.map.temzone'
+        applicationId "com.temtem.interactive.map.temzone"
         minSdk 23
         targetSdk 33
         versionCode 1
-        versionName '0.1.0-a.1'
+        versionName "0.1.0-alpha.1"
 
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
+
     buildFeatures {
         viewBinding true
     }
@@ -40,13 +43,13 @@ android {
 
 dependencies {
     // Core dependencies
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'com.github.yogacp:android-viewbinding:1.0.4'
-    implementation 'ovh.plrapps:mapview:3.1.5'
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "com.google.android.material:material:1.8.0"
+    implementation "com.github.yogacp:android-viewbinding:1.0.4"
+    implementation "ovh.plrapps:mapview:3.1.5"
+    implementation platform("com.google.firebase:firebase-bom:31.2.0")
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
 }
