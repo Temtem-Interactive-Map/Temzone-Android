@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         )
         setContentView(R.layout.activity_main)
 
+        if (savedInstanceState == null) {
+            binding.searchBar.startOnLoadAnimation()
+        }
+
         configureMap(binding.mapView)
 
         addMarkers(binding.mapView)
