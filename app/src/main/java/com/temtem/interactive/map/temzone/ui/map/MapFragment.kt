@@ -34,8 +34,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         private val MAP_CENTER = MAP_SIZE / 2.0
         private const val MAP_MIN_HORIZONTAL = TILE_SIZE * 7.0
         private val MAP_MAX_HORIZONTAL = MAP_SIZE - TILE_SIZE * 7.0
-        private const val MAP_MIN_VERTICAL = TILE_SIZE * 11.0
-        private val MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 9.0
+        private const val MAP_MIN_VERTICAL = TILE_SIZE * 7.0
+        private val MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 11.0
     }
 
     private val binding: MapFragmentBinding by viewBinding()
