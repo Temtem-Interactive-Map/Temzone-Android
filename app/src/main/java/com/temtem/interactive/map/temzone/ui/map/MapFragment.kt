@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.google.android.material.search.SearchView.TransitionState
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
 import com.temtem.interactive.map.temzone.extensions.MarkerView
@@ -13,7 +16,6 @@ import com.temtem.interactive.map.temzone.extensions.addMarker
 import com.temtem.interactive.map.temzone.extensions.moveToPosition
 import com.temtem.interactive.map.temzone.model.Marker
 import com.temtem.interactive.map.temzone.model.MarkerType
-import ovh.plrapps.mapview.MapView
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.constrainScroll
@@ -23,6 +25,7 @@ import ovh.plrapps.mapview.markers.MarkerTapListener
 import java.io.IOException
 import kotlin.math.max
 import kotlin.math.pow
+
 
 class MapFragment : Fragment(R.layout.map_fragment) {
 
@@ -39,17 +42,45 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     }
 
     private val binding: MapFragmentBinding by viewBinding()
+    private val searchBar by lazy { binding.searchBar }
+    private val searchView by lazy { binding.searchView }
+    private val mapView by lazy { binding.mapView }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            binding.searchbar.startOnLoadAnimation()
-        }
+        configureSearchBar()
+        configureSearchView()
+        configureMap()
 
-        configureMap(binding.mapView)
-        addMarkers(binding.mapView)
+        addMarkers()
     }
 
-    private fun configureMap(mapView: MapView) {
+    private fun configureSearchBar() {
+        searchBar.inflateMenu(R.menu.search_bar_menu)
+    }
+
+    private fun configureSearchView() {
+        searchView.editText.setOnEditorActionListener { _, _, _ ->
+            false
+        }
+
+        val onBackPressedCallback: OnBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                    searchView.hide()
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(),
+            onBackPressedCallback
+        )
+
+        searchView.addTransitionListener { _, _, newState ->
+            onBackPressedCallback.isEnabled = newState == TransitionState.SHOWN
+        }
+    }
+
+    private fun configureMap() {
         val tiles = TileStreamProvider { row, col, zoom ->
             try {
                 requireContext().assets.open("tiles/$zoom/$col/$row.png")
@@ -96,7 +127,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         })
     }
 
-    private fun addMarkers(mapView: MapView) {
+    private fun addMarkers() {
         val marker = Marker(
             "id", MarkerType.SAIPARK, "title", "subtitle", 11039.0, 6692.0
         )
