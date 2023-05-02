@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.search.SearchView.TransitionState
