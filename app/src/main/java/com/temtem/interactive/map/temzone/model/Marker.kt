@@ -5,6 +5,6 @@ data class Marker(
     val type: MarkerType,
     val title: String,
     val subtitle: String,
-    val x: Double,
-    val y: Double,
+    val coordinates: Coordinates,
+    val obtained: Boolean
 )
