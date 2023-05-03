@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.search.SearchView.TransitionState
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
@@ -58,6 +59,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         configureSearchView()
         configureMap()
         configureBottomDrawer()
+        configureBackButton()
 
         addMarker(
             Marker(
@@ -79,7 +81,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 false
             )
         )
-
         repeat(600) {
             addMarker(
                 Marker(
@@ -102,20 +103,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     private fun configureSearchView() {
         searchView.editText.setOnEditorActionListener { _, _, _ ->
             false
-        }
-
-        val onBackPressedCallback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                searchView.hide()
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(), onBackPressedCallback
-        )
-
-        searchView.addTransitionListener { _, _, newState ->
-            onBackPressedCallback.isEnabled = newState == TransitionState.SHOWN
         }
     }
 
@@ -186,6 +173,78 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         bottomSheetBehavior.halfExpandedRatio = 0.6f
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior.setUpdateImportantForAccessibilityOnSiblings(true)
+    }
+
+    private fun configureBackButton() {
+        val onSearchViewStateHiddenBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                    searchView.hide()
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(), onSearchViewStateHiddenBackPressedCallback
+        )
+
+        val onBottomSheetStateHalfExpandedBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(), onBottomSheetStateHalfExpandedBackPressedCallback
+        )
+
+        val onBottomSheetStateHiddenBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(), onBottomSheetStateHiddenBackPressedCallback
+        )
+
+        searchView.addTransitionListener { _, _, newState ->
+            when (newState) {
+                TransitionState.SHOWN -> {
+                    onSearchViewStateHiddenBackPressedCallback.isEnabled = true
+                    onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
+                }
+
+                else -> {
+                    onSearchViewStateHiddenBackPressedCallback.isEnabled = false
+                    onBottomSheetStateHiddenBackPressedCallback.isEnabled = true
+                }
+            }
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = true
+                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
+                    }
+
+                    BottomSheetBehavior.STATE_HALF_EXPANDED, BottomSheetBehavior.STATE_COLLAPSED -> {
+                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = false
+                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = true
+                    }
+
+                    else -> {
+                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = false
+                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
     }
 
     private fun addMarker(marker: Marker) {
