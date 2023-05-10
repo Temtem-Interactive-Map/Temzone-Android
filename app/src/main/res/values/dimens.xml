@@ -1,3 +1,5 @@
 <resources>
-    <dimen name="bottom_sheet_peek_height">100dp</dimen>
+    <dimen name="show_app_bar_layout_offset">8dp</dimen>
+    <dimen name="hide_app_bar_layout_offset">110dp</dimen>
+    <dimen name="marker_bottom_sheet_peek_height">100dp</dimen>
 </resources>

@@ -1,8 +1,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/map_fragment">
+    android:id="@+id/graph_navigation"
+    app:startDestination="@id/login_fragment">
 
     <fragment
         android:id="@+id/login_fragment"
@@ -14,7 +14,7 @@
             android:id="@+id/from_login_fragment_to_map_fragment"
             app:destination="@id/map_fragment"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/nav_graph"
+            app:popUpTo="@+id/graph_navigation"
             app:popUpToInclusive="true" />
 
     </fragment>

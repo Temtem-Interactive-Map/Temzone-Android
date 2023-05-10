@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="marker_bottom_sheet_peek_height">200dp</dimen>
+</resources>

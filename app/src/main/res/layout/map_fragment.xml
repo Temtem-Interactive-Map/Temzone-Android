@@ -1,29 +1,46 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionGroup="true">
 
     <ovh.plrapps.mapview.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/map" />
+        android:background="@color/map"
+        android:elevation="-2dp" />
 
-    <FrameLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.ShowAppBarLayoutBehavior">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationContentDescription="@string/bottom_sheet_toolbar_navigation_content_description"
+            app:navigationIcon="@drawable/expand_more_icon" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.HideAppBarLayoutBehavior">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:menu="@menu/search_bar_menu" />
 
-    </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
@@ -32,24 +49,28 @@
         android:hint="@string/search_hint"
         app:layout_anchor="@id/search_bar" />
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_drawer"
-        style="@style/Widget.Material3.BottomSheet"
+        style="@style/Widget.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="-1dp"
+        app:behavior_fitToContents="false"
+        app:behavior_halfExpandedRatio="0.6"
+        app:behavior_peekHeight="@dimen/marker_bottom_sheet_peek_height"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-                android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
-    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

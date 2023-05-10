@@ -1,4 +1,4 @@
-package com.temtem.interactive.map.temzone.extensions
+package com.temtem.interactive.map.temzone.utils.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -8,18 +8,20 @@ import android.util.TypedValue
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.search.SearchView.TransitionState
+import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.data.Coordinates
+import com.temtem.interactive.map.temzone.data.Marker
+import com.temtem.interactive.map.temzone.data.MarkerType
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
-import com.temtem.interactive.map.temzone.extensions.MarkerView
-import com.temtem.interactive.map.temzone.extensions.moveToPosition
-import com.temtem.interactive.map.temzone.model.Coordinates
-import com.temtem.interactive.map.temzone.model.Marker
-import com.temtem.interactive.map.temzone.model.MarkerType
+import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
+import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.addMarker
@@ -30,7 +32,6 @@ import ovh.plrapps.mapview.markers.MarkerTapListener
 import java.io.IOException
 import kotlin.math.max
 import kotlin.math.pow
-import kotlin.random.Random
 
 class MapFragment : Fragment(R.layout.map_fragment) {
 
@@ -49,64 +50,52 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
     private val viewModel: MapViewModel by viewModels()
     private val binding: MapFragmentBinding by viewBinding()
+    private val toolbar by lazy { binding.toolbar }
     private val searchBar by lazy { binding.searchBar }
     private val searchView by lazy { binding.searchView }
     private val mapView by lazy { binding.mapView }
     private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomDrawer) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        configureSearchBar()
-        configureSearchView()
-        configureMap()
-        configureBottomDrawer()
-        configureBackButton()
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, windowInsets ->
+            bottomSheetBehavior.expandedOffset =
+                resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
+                    .toInt()
 
-        addMarker(
-            Marker(
-                "id", MarkerType.SAIPARK, "title", "subtitle", Coordinates(11039.0, 6692.0), false
-            )
-        )
-        addMarker(
-            Marker(
-                "id", MarkerType.SPAWN, "Mimit", "subtitle", Coordinates(11039.0 / 2, 6692.0), true
-            )
-        )
-        addMarker(
-            Marker(
-                "id",
-                MarkerType.SPAWN,
-                "Mimit",
-                "subtitle",
-                Coordinates(11039.0 / 2 - 100, 6692.0),
-                false
-            )
-        )
-        repeat(600) {
-            addMarker(
-                Marker(
-                    "id", MarkerType.SPAWN, "Mimit", "subtitle", Coordinates(
-                        Random.nextDouble(
-                            MAP_MIN_HORIZONTAL + TILE_SIZE * 2, MAP_MAX_HORIZONTAL - TILE_SIZE * 2
-                        ), Random.nextDouble(
-                            MAP_MIN_VERTICAL + TILE_SIZE * 2, MAP_MAX_VERTICAL - TILE_SIZE * 2
-                        )
-                    ), false
-                )
-            )
+            windowInsets
         }
-    }
 
-    private fun configureSearchBar() {
-        searchBar.inflateMenu(R.menu.search_bar_menu)
-    }
+        // region Toolbar configuration
+        toolbar.setNavigationOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            }
+        }
+        // endregion
 
-    private fun configureSearchView() {
+        // region Search bar configuration
+        searchBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.search_bar_menu_settings -> {
+                }
+            }
+            true
+        }
+        // endregion
+
+        // region Search view configuration
         searchView.editText.setOnEditorActionListener { _, _, _ ->
             false
         }
-    }
+        // endregion
 
-    private fun configureMap() {
+        // region Map view configuration
         val tiles = TileStreamProvider { row, col, zoom ->
             try {
                 resources.assets.open("tiles/$zoom/$col/$row.png")
@@ -141,21 +130,21 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         mapView.setMarkerTapListener(object : MarkerTapListener {
             override fun onMarkerTap(view: View, x: Int, y: Int) {
-                if (view is MarkerView) {
-                    mapView.moveToPosition(
-                        view.x,
-                        view.y + (resources.displayMetrics.heightPixels / (4 * SCALE)),
-                        SCALE,
-                        true
-                    )
+                val markerView = view as MarkerView
 
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                mapView.moveToPosition(
+                    markerView.x,
+                    markerView.y + (resources.displayMetrics.heightPixels / (resources.getInteger(R.integer.marker_height_scale) * SCALE)),
+                    SCALE,
+                    true
+                )
 
-                    viewModel.canCollapseBottomDrawer = false
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        viewModel.canCollapseBottomDrawer = true
-                    }, 500)
-                }
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+                viewModel.canCollapseBottomDrawer = false
+                Handler(Looper.getMainLooper()).postDelayed({
+                    viewModel.canCollapseBottomDrawer = true
+                }, 500)
             }
         })
 
@@ -164,24 +153,14 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
-    }
+        // endregion
 
-    private fun configureBottomDrawer() {
-        bottomSheetBehavior.isFitToContents = false
-        bottomSheetBehavior.peekHeight =
-            resources.getDimensionPixelSize(R.dimen.bottom_sheet_peek_height)
-        bottomSheetBehavior.halfExpandedRatio = 0.6f
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetBehavior.setUpdateImportantForAccessibilityOnSiblings(true)
-    }
-
-    private fun configureBackButton() {
-        val onSearchViewStateHiddenBackPressedCallback =
-            object : OnBackPressedCallback(false) {
-                override fun handleOnBackPressed() {
-                    searchView.hide()
-                }
+        // region Back button configuration
+        val onSearchViewStateHiddenBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                searchView.hide()
             }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             requireActivity(), onSearchViewStateHiddenBackPressedCallback
@@ -198,12 +177,11 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             requireActivity(), onBottomSheetStateHalfExpandedBackPressedCallback
         )
 
-        val onBottomSheetStateHiddenBackPressedCallback =
-            object : OnBackPressedCallback(false) {
-                override fun handleOnBackPressed() {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
+        val onBottomSheetStateHiddenBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             requireActivity(), onBottomSheetStateHiddenBackPressedCallback
@@ -241,10 +219,45 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                         onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
                     }
                 }
+
+                searchBar.isEnabled =
+                    !(newState == BottomSheetBehavior.STATE_DRAGGING || newState == BottomSheetBehavior.STATE_SETTLING)
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+        // endregion
+
+        // region Markers configuration
+        addMarker(
+            Marker(
+                "id", MarkerType.SAIPARK, "title", "subtitle", Coordinates(11039.0, 6692.0), false
+            )
+        )
+        addMarker(
+            Marker(
+                "id", MarkerType.SPAWN, "Mimit", "subtitle", Coordinates(11039.0 / 2, 6692.0), true
+            )
+        )
+        addMarker(
+            Marker(
+                "id",
+                MarkerType.SPAWN,
+                "Mimit",
+                "subtitle",
+                Coordinates(11039.0 / 2 - 100, 6692.0),
+                false
+            )
+        )
+        // endregion
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
     private fun addMarker(marker: Marker) {
