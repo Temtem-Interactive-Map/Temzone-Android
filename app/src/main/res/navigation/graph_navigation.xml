@@ -23,6 +23,18 @@
         android:id="@+id/map_fragment"
         android:name="com.temtem.interactive.map.temzone.ui.map.MapFragment"
         android:label="MapFragment"
-        tools:layout="@layout/map_fragment" />
+        tools:layout="@layout/map_fragment">
+
+        <action
+            android:id="@+id/from_map_fragment_to_map_layers_dialog_fragment"
+            app:destination="@id/map_layers_dialog_fragment" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/map_layers_dialog_fragment"
+        android:name="com.temtem.interactive.map.temzone.ui.map.MapLayersDialogFragment"
+        android:label="MapLayersDialogFragment"
+        tools:layout="@layout/map_layers_dialog_fragment" />
 
 </navigation>

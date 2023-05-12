@@ -1,7 +1,16 @@
 <resources>
+    <!-- Application -->
     <string name="app_name" translatable="false">Temzone</string>
+
+    <!-- Login fragment -->
     <string name="login_button_text">Login</string>
-    <string name="bottom_sheet_toolbar_navigation_content_description">Collapse bottom sheet</string>
+
+    <!-- Map fragment -->
+    <string name="expand_more_toolbar_navigation_content_description">Collapse bottom sheet</string>
     <string name="search_hint">Search here</string>
     <string name="search_bar_menu_settings_title">Settings</string>
+    <string name="map_layers_button_content_description">Map layers</string>
+
+    <!-- Map layers dialog fragment -->
+    <string name="map_details_text">Map details</string>
 </resources>

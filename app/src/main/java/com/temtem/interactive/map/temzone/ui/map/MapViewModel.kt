@@ -4,5 +4,4 @@ import androidx.lifecycle.ViewModel
 
 class MapViewModel : ViewModel() {
 
-    var canCollapseBottomDrawer = false
 }

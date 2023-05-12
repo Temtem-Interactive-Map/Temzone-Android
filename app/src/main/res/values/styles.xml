@@ -1,8 +1,17 @@
 <resources>
 
-    <style name="Widget.BottomSheet" parent="Widget.Material3.BottomSheet">
+    <style name="Widget.Temzone.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Small.Primary">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraLarge</item>
+    </style>
+
+    <style name="Widget.Temzone.BottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="android:maxWidth">@null</item>
-        <item name="shapeAppearance">?attr/shapeAppearanceCornerMedium</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+    <style name="Widget.Temzone.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:maxWidth">@null</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
     </style>
 
 </resources>

@@ -10,26 +10,27 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.temtem.interactive.map.temzone.R
 
-class ShowAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
+class BottomSheetAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
     AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
-        private const val SLIDE_OFFSET_THRESHOLD = 0.95
+        private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.95
     }
 
     private val animationDuration =
         context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-    private val childOffset = context.resources.getDimension(R.dimen.show_app_bar_layout_offset)
+    private val appBarLayoutOffset =
+        context.resources.getDimension(R.dimen.bottom_sheet_app_bar_layout_offset)
 
-    private var childVisible = false
-    private var childStartY: Float? = null
+    private var appBarLayoutVisible = false
+    private var appBarLayoutStartY: Float? = null
 
     override fun layoutDependsOn(
         parent: CoordinatorLayout, child: View, dependency: View
     ): Boolean {
-        if (childStartY == null) {
-            childStartY = child.y
-            child.y = childStartY!! - childOffset
+        if (appBarLayoutStartY == null) {
+            appBarLayoutStartY = child.y
+            child.y = appBarLayoutStartY!! - appBarLayoutOffset
             child.visibility = View.GONE
         }
 
@@ -46,30 +47,30 @@ class ShowAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
         val bottomSheetBehavior = layoutParams.behavior as BottomSheetBehavior<*>
         val slideOffset = bottomSheetBehavior.calculateSlideOffset()
 
-        if (!childVisible && slideOffset >= SLIDE_OFFSET_THRESHOLD) {
-            childVisible = true
+        if (slideOffset >= APP_BAR_SLIDE_OFFSET_THRESHOLD) {
+            if (!appBarLayoutVisible) {
+                appBarLayoutVisible = true
 
-            child.animate().apply {
-                alpha(1f)
-                translationY(childStartY!!)
-                duration = animationDuration
-                setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator) {
-                        child.visibility = View.VISIBLE
-                    }
-                })
-                start()
+                child.animate().apply {
+                    alpha(1f)
+                    y(appBarLayoutStartY!!)
+                    duration = animationDuration
+                    setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationStart(animation: Animator) {
+                            child.visibility = View.VISIBLE
+                        }
+                    })
+                    start()
+                }
+
+                return true
             }
-
-            return true
-        }
-
-        if (childVisible && slideOffset < SLIDE_OFFSET_THRESHOLD) {
-            childVisible = false
+        } else if (appBarLayoutVisible) {
+            appBarLayoutVisible = false
 
             child.animate().apply {
                 alpha(0f)
-                translationY(childStartY!! - childOffset)
+                y(appBarLayoutStartY!! - appBarLayoutOffset)
                 duration = animationDuration
                 setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {

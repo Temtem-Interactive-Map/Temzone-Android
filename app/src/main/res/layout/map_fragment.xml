@@ -15,13 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.ShowAppBarLayoutBehavior">
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.BottomSheetAppBarLayoutBehavior">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationContentDescription="@string/bottom_sheet_toolbar_navigation_content_description"
+            app:navigationContentDescription="@string/expand_more_toolbar_navigation_content_description"
             app:navigationIcon="@drawable/expand_more_icon" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.HideAppBarLayoutBehavior">
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.SearchAppBarLayoutBehavior">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/search_bar"
@@ -39,6 +39,16 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             app:menu="@menu/search_bar_menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/map_layers_button"
+            style="@style/Widget.Temzone.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="@dimen/m3_searchbar_margin_horizontal"
+            android:contentDescription="@string/map_layers_button_content_description"
+            app:srcCompat="@drawable/layers_icon" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,7 +61,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_drawer"
-        style="@style/Widget.BottomSheet"
+        style="@style/Widget.Temzone.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="-1dp"
