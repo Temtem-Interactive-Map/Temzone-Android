@@ -13,4 +13,9 @@
 
     <!-- Map layers dialog fragment -->
     <string name="map_details_text">Map details</string>
+    <string name="temtem_text">Temtem</string>
+    <string name="landmarks_text">Landmarks</string>
+
+    <!-- Settings fragment -->
+    <string name="settings_text">Settings</string>
 </resources>
