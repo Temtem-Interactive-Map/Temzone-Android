@@ -7,13 +7,15 @@ import ovh.plrapps.mapview.MapView
 
 @SuppressLint("ViewConstructor")
 class MarkerView(
-    context: Context,
-    val id: String,
-    val x: Double,
-    val y: Double
+    context: Context, val id: String, val x: Double, val y: Double
 ) : AppCompatImageView(context)
 
-fun MapView.moveToPosition(x: Double, y: Double, destinationScale: Float, shouldAnimate: Boolean) {
+fun MapView.moveToPosition(
+    x: Double,
+    y: Double,
+    destinationScale: Float,
+    shouldAnimate: Boolean
+) {
     val scaledX = (x * destinationScale).toInt()
     val scaledY = (y * destinationScale).toInt()
 

@@ -2,9 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
+        style="@style/TextAppearance.Temzone.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/map_details_text" />
@@ -15,5 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/close_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temtem_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/landmarks_text" />
 
 </LinearLayout>

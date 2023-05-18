@@ -8,7 +8,11 @@ import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
@@ -19,7 +23,7 @@ import com.temtem.interactive.map.temzone.data.Coordinates
 import com.temtem.interactive.map.temzone.data.Marker
 import com.temtem.interactive.map.temzone.data.MarkerType
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
-import com.temtem.interactive.map.temzone.utils.bindings.viewBinding
+import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
 import ovh.plrapps.mapview.MapViewConfiguration
@@ -46,26 +50,35 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         private const val MAP_MIN_VERTICAL = TILE_SIZE * 11.0
         private val MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 11.0
         private const val MARKER_OPACITY = 153
+        private const val BOTTOM_SHEET_STATE = "bottomSheetState"
     }
 
-    private val binding: MapFragmentBinding by viewBinding()
-    private val toolbar by lazy { binding.toolbar }
-    private val searchBar by lazy { binding.searchBar }
-    private val searchView by lazy { binding.searchView }
-    private val mapLayersButton by lazy { binding.mapLayersButton }
-    private val mapView by lazy { binding.mapView }
-    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomDrawer) }
+    private val viewModel: MapViewModel by viewModels()
+    private val viewBinding: MapFragmentBinding by viewBindings()
 
     private var canCollapseBottomDrawer = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        WindowInsetsControllerCompat(
+            requireActivity().window, requireActivity().window.decorView
+        ).apply {
+            isAppearanceLightStatusBars = false
+        }
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ViewCompat.setOnApplyWindowInsetsListener(view) { _, windowInsets ->
+        val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
+
+        // region Configure window insets
+
+        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { _, windowInsets ->
             bottomSheetBehavior.expandedOffset =
                 resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
                     .toInt()
@@ -73,39 +86,83 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             windowInsets
         }
 
-        // region Toolbar configuration
-        toolbar.setNavigationOnClickListener {
+        // endregion
+
+        // region Configure toolbar
+
+        viewBinding.toolbar.setNavigationOnClickListener {
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                viewBinding.bottomDrawer.scrollTo(0, 0)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
+
         // endregion
 
-        // region Search bar configuration
-        searchBar.setOnMenuItemClickListener {
+        // region Configure search bar
+
+        viewBinding.searchBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.search_bar_menu_settings -> {
+                    val direction = MapFragmentDirections.fromMapFragmentToSettingsFragment()
+
+                    findNavController().navigate(direction)
                 }
             }
             true
         }
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                viewBinding.searchBar.isClickable =
+                    !(newState == BottomSheetBehavior.STATE_DRAGGING || newState == BottomSheetBehavior.STATE_SETTLING)
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+
         // endregion
 
-        // region Search view configuration
-        searchView.editText.setOnEditorActionListener { _, _, _ ->
+        // region Configure search view
+
+        viewBinding.searchView.editText.setOnEditorActionListener { _, _, _ ->
             false
         }
+
+        viewBinding.searchView.addTransitionListener { _, _, newState ->
+            when (newState) {
+                TransitionState.SHOWN, TransitionState.SHOWING -> {
+                    WindowInsetsControllerCompat(
+                        requireActivity().window, requireActivity().window.decorView
+                    ).apply {
+                        isAppearanceLightStatusBars = true
+                    }
+                }
+
+                else -> {
+                    WindowInsetsControllerCompat(
+                        requireActivity().window, requireActivity().window.decorView
+                    ).apply {
+                        isAppearanceLightStatusBars = false
+                    }
+                }
+            }
+        }
+
         // endregion
 
-        // region Map layers button configuration
-        mapLayersButton.setOnClickListener {
+        // region Configure map layers button
+
+        viewBinding.mapLayersButton.setOnClickListener {
             val direction = MapFragmentDirections.fromMapFragmentToMapLayersDialogFragment()
 
             findNavController().navigate(direction)
         }
+
         // endregion
 
-        // region Map view configuration
+        // region Configure map view
+
         val tiles = TileStreamProvider { row, col, zoom ->
             try {
                 resources.assets.open("tiles/$zoom/$col/$row.png")
@@ -122,7 +179,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             setMinimumScaleMode(MinimumScaleMode.FILL)
         }
 
-        mapView.apply {
+        viewBinding.mapView.apply {
             configure(config)
             defineBounds(0.0, 0.0, MAP_SIZE.toDouble(), MAP_SIZE.toDouble())
             constrainScroll(
@@ -138,16 +195,32 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             moveToPosition(MAP_CENTER, MAP_CENTER, scale.toFloat(), false)
         }
 
-        mapView.setMarkerTapListener(object : MarkerTapListener {
+        viewBinding.mapView.setMarkerTapListener(object : MarkerTapListener {
             override fun onMarkerTap(view: View, x: Int, y: Int) {
                 val markerView = view as MarkerView
 
-                mapView.moveToPosition(
+                viewBinding.mapView.moveToPosition(
                     markerView.x,
-                    markerView.y + (resources.displayMetrics.heightPixels / (resources.getInteger(R.integer.marker_height_scale) * SCALE)),
+                    markerView.y + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                        R.integer.marker_height_scale
+                    ) * SCALE)),
                     SCALE,
                     true
                 )
+
+//                binding.searchBar.navigationIcon = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.arrow_back_icon
+//                )
+//                binding.searchBar.menu.clear()
+//                binding.searchBar.setNavigationOnClickListener {
+//                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//                    binding.searchBar.inflateMenu(R.menu.search_bar_menu)
+//                    binding.searchBar.navigationIcon = ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.layers_icon
+//                    )
+//                }
 
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
 
@@ -158,103 +231,75 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             }
         })
 
-        mapView.addReferentialListener {
+        viewBinding.mapView.addReferentialListener {
             if (canCollapseBottomDrawer && bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN && bottomSheetBehavior.state != BottomSheetBehavior.STATE_SETTLING) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
+
         // endregion
 
-        // region Bottom sheet configuration
+        // region Configure bottom sheet
+
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                searchBar.isClickable =
-                    !(newState == BottomSheetBehavior.STATE_DRAGGING || newState == BottomSheetBehavior.STATE_SETTLING)
-
                 if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
-                    mapLayersButton.isClickable = false
-                    mapLayersButton.hide()
+                    viewBinding.mapLayersButton.isClickable = false
+                    viewBinding.mapLayersButton.hide()
                 } else if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    mapLayersButton.isClickable = true
-                    mapLayersButton.show()
+                    viewBinding.mapLayersButton.isClickable = true
+                    viewBinding.mapLayersButton.show()
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+
         // endregion
 
-        // region Back button configuration
-        val onSearchViewStateHiddenBackPressedCallback = object : OnBackPressedCallback(false) {
+        // region Configure back button
+
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                searchView.hide()
-            }
-        }
+                when (viewBinding.searchView.currentTransitionState) {
+                    TransitionState.SHOWN, TransitionState.SHOWING -> {
+                        viewBinding.searchView.hide()
+                    }
 
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(), onSearchViewStateHiddenBackPressedCallback
-        )
+                    else -> when (bottomSheetBehavior.state) {
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                        }
 
-        val onBottomSheetStateHalfExpandedBackPressedCallback =
-            object : OnBackPressedCallback(false) {
-                override fun handleOnBackPressed() {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-                }
-            }
+                        BottomSheetBehavior.STATE_HALF_EXPANDED, BottomSheetBehavior.STATE_COLLAPSED -> {
+                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        }
 
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(), onBottomSheetStateHalfExpandedBackPressedCallback
-        )
-
-        val onBottomSheetStateHiddenBackPressedCallback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(), onBottomSheetStateHiddenBackPressedCallback
-        )
-
-        searchView.addTransitionListener { _, _, newState ->
-            when (newState) {
-                TransitionState.SHOWN -> {
-                    onSearchViewStateHiddenBackPressedCallback.isEnabled = true
-                    onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
-                }
-
-                else -> {
-                    onSearchViewStateHiddenBackPressedCallback.isEnabled = false
-                    onBottomSheetStateHiddenBackPressedCallback.isEnabled = true
+                        else -> {
+                            requireActivity().finish()
+                        }
+                    }
                 }
             }
         }
 
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = true
-                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
-                    }
-
-                    BottomSheetBehavior.STATE_HALF_EXPANDED, BottomSheetBehavior.STATE_COLLAPSED -> {
-                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = false
-                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = true
-                    }
-
-                    else -> {
-                        onBottomSheetStateHalfExpandedBackPressedCallback.isEnabled = false
-                        onBottomSheetStateHiddenBackPressedCallback.isEnabled = false
-                    }
-                }
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                onBackPressedCallback.isEnabled = true
             }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            override fun onPause(owner: LifecycleOwner) {
+                onBackPressedCallback.isEnabled = false
+            }
         })
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(), onBackPressedCallback
+        )
+
         // endregion
 
-        // region Markers configuration
+        // region Add markers to map
         addMarker(
             Marker(
                 "id", MarkerType.SAIPARK, "title", "subtitle", Coordinates(11039.0, 6692.0), false
@@ -278,20 +323,32 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         // endregion
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        WindowInsetsControllerCompat(
+            requireActivity().window, requireActivity().window.decorView
+        ).apply {
+            isAppearanceLightStatusBars = false
+        }
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
 
         if (savedInstanceState == null) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
-            bottomSheetBehavior.state = savedInstanceState.getInt("bottomSheetState")
+            bottomSheetBehavior.state = savedInstanceState.getInt(BOTTOM_SHEET_STATE)
 
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HALF_EXPANDED) {
-                mapLayersButton.isClickable = false
-                mapLayersButton.hide()
+                viewBinding.mapLayersButton.isClickable = false
+                viewBinding.mapLayersButton.hide()
             } else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED || bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                mapLayersButton.isClickable = true
-                mapLayersButton.show()
+                viewBinding.mapLayersButton.isClickable = true
+                viewBinding.mapLayersButton.show()
             }
 
             canCollapseBottomDrawer = false
@@ -302,9 +359,9 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+        val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
 
-        outState.putInt("bottomSheetState", bottomSheetBehavior.state)
+        outState.putInt(BOTTOM_SHEET_STATE, bottomSheetBehavior.state)
     }
 
     private fun addMarker(marker: Marker) {
@@ -338,7 +395,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             setImageDrawable(drawable)
         }
 
-        mapView.addMarker(
+        viewBinding.mapView.addMarker(
             markerView, markerView.x, markerView.y, -0.5f, -0.5f, 0f, 0f, markerView.id
         )
     }

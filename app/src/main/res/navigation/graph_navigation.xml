@@ -13,7 +13,6 @@
         <action
             android:id="@+id/from_login_fragment_to_map_fragment"
             app:destination="@id/map_fragment"
-            app:launchSingleTop="true"
             app:popUpTo="@+id/graph_navigation"
             app:popUpToInclusive="true" />
 
@@ -29,6 +28,10 @@
             android:id="@+id/from_map_fragment_to_map_layers_dialog_fragment"
             app:destination="@id/map_layers_dialog_fragment" />
 
+        <action
+            android:id="@+id/from_map_fragment_to_settings_fragment"
+            app:destination="@id/settings_fragment" />
+
     </fragment>
 
     <dialog
@@ -36,5 +39,11 @@
         android:name="com.temtem.interactive.map.temzone.ui.map.MapLayersDialogFragment"
         android:label="MapLayersDialogFragment"
         tools:layout="@layout/map_layers_dialog_fragment" />
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.temtem.interactive.map.temzone.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/settings_fragment" />
 
 </navigation>
