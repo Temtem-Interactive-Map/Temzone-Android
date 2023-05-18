@@ -81,7 +81,6 @@ class SearchAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
             }
         } else if (appBarLayoutVisible) {
             appBarLayoutVisible = false
-            println("UPDATE")
 
             child.animate().apply {
                 y(appBarLayoutStartY!!)
