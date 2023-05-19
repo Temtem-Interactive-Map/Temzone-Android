@@ -9,6 +9,14 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * Returns a property delegate to access [ViewBinding] by **default** scoped to this [Fragment]:
+ * ```
+ * class MyFragment : Fragment() {
+ *     val viewBinding: MyViewBinding by viewBindings()
+ * }
+ * ```
+ */
 inline fun <reified T : ViewBinding> Fragment.viewBindings(): ReadOnlyProperty<Fragment, T> =
     object : ReadOnlyProperty<Fragment, T>, DefaultLifecycleObserver {
         private var binding: T? = null
