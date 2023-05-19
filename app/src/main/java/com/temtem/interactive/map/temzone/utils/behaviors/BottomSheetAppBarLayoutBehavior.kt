@@ -12,8 +12,9 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.temtem.interactive.map.temzone.R
 
-class BottomSheetAppBarLayoutBehavior(private val context: Context, attrs: AttributeSet) :
-    AppBarLayout.ScrollingViewBehavior(context, attrs) {
+class BottomSheetAppBarLayoutBehavior(
+    private val context: Context, attrs: AttributeSet
+) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
         private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.95
@@ -64,8 +65,7 @@ class BottomSheetAppBarLayoutBehavior(private val context: Context, attrs: Attri
                             val activity = context as Activity
 
                             WindowInsetsControllerCompat(
-                                activity.window,
-                                activity.window.decorView
+                                activity.window, activity.window.decorView
                             ).apply {
                                 isAppearanceLightStatusBars = true
                             }
@@ -88,8 +88,7 @@ class BottomSheetAppBarLayoutBehavior(private val context: Context, attrs: Attri
                         val activity = context as Activity
 
                         WindowInsetsControllerCompat(
-                            activity.window,
-                            activity.window.decorView
+                            activity.window, activity.window.decorView
                         ).apply {
                             isAppearanceLightStatusBars = false
                         }

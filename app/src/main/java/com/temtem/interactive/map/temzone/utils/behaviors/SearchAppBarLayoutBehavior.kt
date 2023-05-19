@@ -11,8 +11,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.temtem.interactive.map.temzone.R
 
-class SearchAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
-    AppBarLayout.ScrollingViewBehavior(context, attrs) {
+class SearchAppBarLayoutBehavior(
+    context: Context, attrs: AttributeSet
+) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
         private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.6
@@ -55,23 +56,7 @@ class SearchAppBarLayoutBehavior(context: Context, attrs: AttributeSet) :
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            val floatingActionButton =
-                                child.findViewById<FloatingActionButton>(R.id.map_layers_button)
-
-                            floatingActionButton.animate().apply {
-                                alpha(0f)
-                                duration = animationDuration
-                                setListener(object : AnimatorListenerAdapter() {
-                                    override fun onAnimationStart(animation: Animator) {
-                                        floatingActionButton.isClickable = false
-                                    }
-
-                                    override fun onAnimationEnd(animation: Animator) {
-                                        floatingActionButton.visibility = View.GONE
-                                    }
-                                })
-                                start()
-                            }
+                            child.findViewById<FloatingActionButton>(R.id.map_layers_button).hide()
                         }
                     })
                     start()
