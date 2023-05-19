@@ -2,13 +2,13 @@ package com.temtem.interactive.map.temzone.ui.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SettingsFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
+import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
@@ -17,15 +17,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WindowInsetsControllerCompat(
-            requireActivity().window,
-            requireActivity().window.decorView
-        ).apply {
-            isAppearanceLightStatusBars = true
-        }
-
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
+        setLightStatusBar(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,11 +32,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     override fun onResume() {
         super.onResume()
 
-        WindowInsetsControllerCompat(
-            requireActivity().window,
-            requireActivity().window.decorView
-        ).apply {
-            isAppearanceLightStatusBars = true
-        }
+        setLightStatusBar(true)
     }
 }
