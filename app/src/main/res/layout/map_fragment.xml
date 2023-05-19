@@ -21,7 +21,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationContentDescription="@string/expand_more_toolbar_navigation_content_description"
+            app:navigationContentDescription="@string/expand_more_navigation_content_description"
             app:navigationIcon="@drawable/expand_more_icon" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginHorizontal="@dimen/m3_searchbar_margin_horizontal"
-            android:contentDescription="@string/map_layers_button_content_description"
+            android:contentDescription="@string/map_details"
             app:srcCompat="@drawable/layers_icon" />
 
     </com.google.android.material.appbar.AppBarLayout>

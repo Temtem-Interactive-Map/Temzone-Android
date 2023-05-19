@@ -8,7 +8,7 @@
         style="@style/TextAppearance.Temzone.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/map_details_text" />
+        android:text="@string/map_details" />
 
     <Button
         android:id="@+id/close_button"
@@ -20,11 +20,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/temtem_text" />
+        android:text="@string/temtem" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/landmarks_text" />
+        android:text="@string/landmarks" />
 
 </LinearLayout>

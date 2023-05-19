@@ -4,7 +4,7 @@
     <item
         android:id="@+id/search_bar_menu_settings"
         android:icon="@drawable/settings_icon"
-        android:title="@string/search_bar_menu_settings_title"
+        android:title="@string/settings"
         app:showAsAction="ifRoom" />
 
 </menu>
