@@ -8,7 +8,6 @@ import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -26,6 +25,7 @@ import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
+import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.addMarker
@@ -50,27 +50,28 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         private const val MAP_MIN_VERTICAL = TILE_SIZE * 11.0
         private val MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 11.0
         private const val MARKER_OPACITY = 153
-        private const val BOTTOM_SHEET_STATE = "bottomSheetState"
+        private const val MARKER_X = "marker_x"
+        private const val MARKER_Y = "marker_y"
+        private const val NULL_MARKER_COORDINATE = -1.0
+        private const val BOTTOM_SHEET_STATE = "bottom_sheet_state"
     }
 
     private val viewModel: MapViewModel by viewModels()
     private val viewBinding: MapFragmentBinding by viewBindings()
 
+    private var markerX = NULL_MARKER_COORDINATE
+    private var markerY = NULL_MARKER_COORDINATE
     private var canCollapseBottomDrawer = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WindowInsetsControllerCompat(
-            requireActivity().window, requireActivity().window.decorView
-        ).apply {
-            isAppearanceLightStatusBars = false
-        }
-
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
+        setLightStatusBar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,8 +93,10 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         viewBinding.toolbar.setNavigationOnClickListener {
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                viewBinding.bottomDrawer.scrollTo(0, 0)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+                // Resets bottom drawer scroll position
+                viewBinding.bottomDrawer.scrollTo(0, 0)
             }
         }
 
@@ -132,19 +135,11 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         viewBinding.searchView.addTransitionListener { _, _, newState ->
             when (newState) {
                 TransitionState.SHOWN, TransitionState.SHOWING -> {
-                    WindowInsetsControllerCompat(
-                        requireActivity().window, requireActivity().window.decorView
-                    ).apply {
-                        isAppearanceLightStatusBars = true
-                    }
+                    setLightStatusBar(true)
                 }
 
                 else -> {
-                    WindowInsetsControllerCompat(
-                        requireActivity().window, requireActivity().window.decorView
-                    ).apply {
-                        isAppearanceLightStatusBars = false
-                    }
+                    setLightStatusBar(false)
                 }
             }
         }
@@ -158,6 +153,28 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
             findNavController().navigate(direction)
         }
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                        viewBinding.mapLayersButton.isClickable = false
+                        viewBinding.mapLayersButton.hide()
+                    }
+
+                    BottomSheetBehavior.STATE_COLLAPSED, BottomSheetBehavior.STATE_HIDDEN -> {
+                        viewBinding.mapLayersButton.isClickable = true
+                        viewBinding.mapLayersButton.show()
+                    }
+
+                    else -> {
+                        viewBinding.mapLayersButton.isClickable = false
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
 
         // endregion
 
@@ -192,6 +209,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 requireContext().resources.displayMetrics.widthPixels / logicalWidth,
                 requireContext().resources.displayMetrics.heightPixels / logicalHeight
             )
+
             moveToPosition(MAP_CENTER, MAP_CENTER, scale.toFloat(), false)
         }
 
@@ -199,6 +217,21 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             override fun onMarkerTap(view: View, x: Int, y: Int) {
                 val markerView = view as MarkerView
 
+                // Change the search bar menu to a back menu
+                showSearchBarBackMenu()
+
+                // Hide the map layers button
+                viewBinding.mapLayersButton.isClickable = false
+                viewBinding.mapLayersButton.hide()
+
+                // Set the marker coordinates
+                markerX = markerView.x
+                markerY = markerView.y
+
+                // Show the bottom sheet
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+                // Center the marker on the screen
                 viewBinding.mapView.moveToPosition(
                     markerView.x,
                     markerView.y + (resources.displayMetrics.heightPixels / (resources.getInteger(
@@ -208,52 +241,56 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     true
                 )
 
-//                binding.searchBar.navigationIcon = ContextCompat.getDrawable(
-//                    requireContext(),
-//                    R.drawable.arrow_back_icon
-//                )
-//                binding.searchBar.menu.clear()
-//                binding.searchBar.setNavigationOnClickListener {
-//                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-//                    binding.searchBar.inflateMenu(R.menu.search_bar_menu)
-//                    binding.searchBar.navigationIcon = ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.layers_icon
-//                    )
-//                }
-
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-
-                canCollapseBottomDrawer = false
-                Handler(Looper.getMainLooper()).postDelayed({
-                    canCollapseBottomDrawer = true
-                }, 500)
+                delayCollapseBottomDrawer()
             }
         })
 
-        viewBinding.mapView.addReferentialListener {
-            if (canCollapseBottomDrawer && bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN && bottomSheetBehavior.state != BottomSheetBehavior.STATE_SETTLING) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
-        }
-
-        // endregion
-
-        // region Configure bottom sheet
-
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
-                    viewBinding.mapLayersButton.isClickable = false
-                    viewBinding.mapLayersButton.hide()
-                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    viewBinding.mapLayersButton.isClickable = true
-                    viewBinding.mapLayersButton.show()
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    viewBinding.mapView.moveToPosition(
+                        markerX,
+                        markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                            R.integer.marker_height_scale
+                        ) * SCALE)),
+                        SCALE,
+                        false
+                    )
+
+                    delayCollapseBottomDrawer()
+                } else if (canCollapseBottomDrawer && newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+                    viewBinding.mapView.moveToPosition(
+                        markerX,
+                        markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                            R.integer.marker_height_scale
+                        ) * SCALE)),
+                        SCALE,
+                        true
+                    )
+
+                    delayCollapseBottomDrawer()
+                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    // Reset the search bar menu
+                    viewBinding.searchBar.menu.clear()
+                    viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
+                    viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+                    viewBinding.searchBar.setNavigationOnClickListener(null)
+
+                    // Reset the marker coordinates
+                    markerX = NULL_MARKER_COORDINATE
+                    markerY = NULL_MARKER_COORDINATE
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+
+        // Collapse the bottom sheet when the map is tapped or panned
+        viewBinding.mapView.addReferentialListener {
+            if (canCollapseBottomDrawer && bottomSheetBehavior.state == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
 
         // endregion
 
@@ -326,11 +363,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     override fun onResume() {
         super.onResume()
 
-        WindowInsetsControllerCompat(
-            requireActivity().window, requireActivity().window.decorView
-        ).apply {
-            isAppearanceLightStatusBars = false
-        }
+        setLightStatusBar(false)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -341,6 +374,24 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         if (savedInstanceState == null) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
+            // Restore the marker coordinates
+            markerX = savedInstanceState.getDouble(MARKER_X)
+            markerY = savedInstanceState.getDouble(MARKER_Y)
+
+            if (markerX != NULL_MARKER_COORDINATE && markerY != NULL_MARKER_COORDINATE) {
+                // Change the search bar menu to a back menu
+                showSearchBarBackMenu()
+
+                // Center the marker on the screen
+                viewBinding.mapView.moveToPosition(
+                    markerX,
+                    markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(R.integer.marker_height_scale) * SCALE)),
+                    SCALE,
+                    false
+                )
+            }
+
+            // Restore the bottom sheet state
             bottomSheetBehavior.state = savedInstanceState.getInt(BOTTOM_SHEET_STATE)
 
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HALF_EXPANDED) {
@@ -350,18 +401,49 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 viewBinding.mapLayersButton.isClickable = true
                 viewBinding.mapLayersButton.show()
             }
-
-            canCollapseBottomDrawer = false
-            Handler(Looper.getMainLooper()).postDelayed({
-                canCollapseBottomDrawer = true
-            }, 100)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
 
+        outState.putDouble(MARKER_X, markerX)
+        outState.putDouble(MARKER_Y, markerY)
         outState.putInt(BOTTOM_SHEET_STATE, bottomSheetBehavior.state)
+    }
+
+    private fun showSearchBarBackMenu() {
+        viewBinding.searchBar.menu.clear()
+        viewBinding.searchBar.inflateMenu(R.menu.search_bar_back_menu)
+        viewBinding.searchBar.setNavigationIcon(R.drawable.arrow_back_icon)
+        viewBinding.searchBar.setNavigationOnClickListener {
+            hideSearchBarBackMenu()
+
+            // Reset the marker coordinates
+            markerX = NULL_MARKER_COORDINATE
+            markerY = NULL_MARKER_COORDINATE
+
+            // Hide the bottom sheet
+            val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
+
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+    }
+
+    private fun hideSearchBarBackMenu() {
+        viewBinding.searchBar.menu.clear()
+        viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
+        viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+        viewBinding.searchBar.setNavigationOnClickListener(null)
+    }
+
+    private fun delayCollapseBottomDrawer() {
+        // Delay the re-enabling of the capability to collapse the bottom sheet in order to prevent
+        // it from being immediately collapsed after moving the map
+        canCollapseBottomDrawer = false
+        Handler(Looper.getMainLooper()).postDelayed({
+            canCollapseBottomDrawer = true
+        }, 500)
     }
 
     private fun addMarker(marker: Marker) {
