@@ -416,6 +416,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         viewBinding.searchBar.menu.clear()
         viewBinding.searchBar.inflateMenu(R.menu.search_bar_back_menu)
         viewBinding.searchBar.setNavigationIcon(R.drawable.arrow_back_icon)
+        viewBinding.searchBar.setNavigationContentDescription(R.string.arrow_back_navigation_content_description)
         viewBinding.searchBar.setNavigationOnClickListener {
             hideSearchBarBackMenu()
 
@@ -434,6 +435,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         viewBinding.searchBar.menu.clear()
         viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
         viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+        viewBinding.searchBar.navigationContentDescription = null
         viewBinding.searchBar.setNavigationOnClickListener(null)
     }
 
