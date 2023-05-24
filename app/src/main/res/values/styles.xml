@@ -58,4 +58,9 @@
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
     </style>
 
+    <style name="ThemeOverlay.Temzone.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="behavior_draggable">false</item>
+        <item name="bottomSheetStyle">@style/Widget.Temzone.BottomSheet.Modal</item>
+    </style>
+
 </resources>

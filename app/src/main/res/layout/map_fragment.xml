@@ -8,7 +8,7 @@
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/map"
+        android:background="@color/maastricht_blue"
         android:elevation="-2dp" />
 
     <com.google.android.material.appbar.AppBarLayout
@@ -37,7 +37,7 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
+            android:hint="@string/search_here"
             app:menu="@menu/search_bar_menu" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -56,7 +56,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/search_hint"
+        android:hint="@string/search_here"
         app:layout_anchor="@id/search_bar" />
 
     <androidx.core.widget.NestedScrollView
@@ -67,7 +67,7 @@
         android:elevation="-1dp"
         app:behavior_fitToContents="false"
         app:behavior_halfExpandedRatio="0.6"
-        app:behavior_peekHeight="@dimen/marker_bottom_sheet_peek_height"
+        app:behavior_peekHeight="100dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout

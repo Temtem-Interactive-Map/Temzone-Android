@@ -1,11 +1,15 @@
 <resources>
+
     <string name="app_name" translatable="false">Temzone</string>
     <string name="arrow_back_navigation_content_description">Back</string>
     <string name="expand_more_navigation_content_description">Collapse the bottom sheet</string>
-    <string name="login">Login</string>
-    <string name="search_hint">Search here</string>
+    <string name="close_button_content_description">Close the map details</string>
+
+    <string name="sign_in">Sign in</string>
+    <string name="search_here">Search here</string>
     <string name="map_details">Map details</string>
     <string name="temtem">Temtem</string>
     <string name="landmarks">Landmarks</string>
     <string name="settings">Settings</string>
+
 </resources>

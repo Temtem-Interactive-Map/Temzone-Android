@@ -50,17 +50,17 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         private const val MAP_MIN_VERTICAL = TILE_SIZE * 11.0
         private val MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 11.0
         private const val MARKER_OPACITY = 153
-        private const val MARKER_X = "marker_x"
-        private const val MARKER_Y = "marker_y"
+        private const val MARKER_COORDINATE_X = "MARKER_COORDINATE_X"
+        private const val MARKER_COORDINATE_Y = "MARKER_COORDINATE_Y"
         private const val NULL_MARKER_COORDINATE = -1.0
-        private const val BOTTOM_SHEET_STATE = "bottom_sheet_state"
+        private const val BOTTOM_SHEET_STATE = "BOTTOM_SHEET_STATE"
     }
 
     private val viewModel: MapViewModel by viewModels()
     private val viewBinding: MapFragmentBinding by viewBindings()
 
-    private var markerX = NULL_MARKER_COORDINATE
-    private var markerY = NULL_MARKER_COORDINATE
+    private var markerCoordinateX = NULL_MARKER_COORDINATE
+    private var markerCoordinateY = NULL_MARKER_COORDINATE
     private var canCollapseBottomDrawer = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -225,8 +225,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 viewBinding.mapLayersButton.hide()
 
                 // Set the marker coordinates
-                markerX = markerView.x
-                markerY = markerView.y
+                markerCoordinateX = markerView.x
+                markerCoordinateY = markerView.y
 
                 // Show the bottom sheet
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -249,8 +249,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     viewBinding.mapView.moveToPosition(
-                        markerX,
-                        markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                        markerCoordinateX,
+                        markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
                             R.integer.marker_height_scale
                         ) * SCALE)),
                         SCALE,
@@ -260,8 +260,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     delayCollapseBottomDrawer()
                 } else if (canCollapseBottomDrawer && newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
                     viewBinding.mapView.moveToPosition(
-                        markerX,
-                        markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                        markerCoordinateX,
+                        markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
                             R.integer.marker_height_scale
                         ) * SCALE)),
                         SCALE,
@@ -277,8 +277,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     viewBinding.searchBar.setNavigationOnClickListener(null)
 
                     // Reset the marker coordinates
-                    markerX = NULL_MARKER_COORDINATE
-                    markerY = NULL_MARKER_COORDINATE
+                    markerCoordinateX = NULL_MARKER_COORDINATE
+                    markerCoordinateY = NULL_MARKER_COORDINATE
                 }
             }
 
@@ -375,17 +375,19 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
             // Restore the marker coordinates
-            markerX = savedInstanceState.getDouble(MARKER_X)
-            markerY = savedInstanceState.getDouble(MARKER_Y)
+            markerCoordinateX = savedInstanceState.getDouble(MARKER_COORDINATE_X)
+            markerCoordinateY = savedInstanceState.getDouble(MARKER_COORDINATE_Y)
 
-            if (markerX != NULL_MARKER_COORDINATE && markerY != NULL_MARKER_COORDINATE) {
+            if (markerCoordinateX != NULL_MARKER_COORDINATE && markerCoordinateY != NULL_MARKER_COORDINATE) {
                 // Change the search bar menu to a back menu
                 showSearchBarBackMenu()
 
                 // Center the marker on the screen
                 viewBinding.mapView.moveToPosition(
-                    markerX,
-                    markerY + (resources.displayMetrics.heightPixels / (resources.getInteger(R.integer.marker_height_scale) * SCALE)),
+                    markerCoordinateX,
+                    markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
+                        R.integer.marker_height_scale
+                    ) * SCALE)),
                     SCALE,
                     false
                 )
@@ -407,8 +409,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     override fun onSaveInstanceState(outState: Bundle) {
         val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
 
-        outState.putDouble(MARKER_X, markerX)
-        outState.putDouble(MARKER_Y, markerY)
+        outState.putDouble(MARKER_COORDINATE_X, markerCoordinateX)
+        outState.putDouble(MARKER_COORDINATE_Y, markerCoordinateY)
         outState.putInt(BOTTOM_SHEET_STATE, bottomSheetBehavior.state)
     }
 
@@ -421,8 +423,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             hideSearchBarBackMenu()
 
             // Reset the marker coordinates
-            markerX = NULL_MARKER_COORDINATE
-            markerY = NULL_MARKER_COORDINATE
+            markerCoordinateX = NULL_MARKER_COORDINATE
+            markerCoordinateY = NULL_MARKER_COORDINATE
 
             // Hide the bottom sheet
             val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)

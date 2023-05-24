@@ -1,30 +1,93 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextAppearance.Temzone.HeadlineSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map_details"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/close_button_content_description"
+            android:minWidth="0dp"
+            app:icon="@drawable/close_icon"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/temtem_button"
+        android:layout_width="@dimen/map_details_icon_size"
+        android:layout_height="@dimen/map_details_icon_size"
+        android:adjustViewBounds="true"
+        android:background="@drawable/select_state_indicator"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:importantForAccessibility="no"
+        android:paddingBottom="@dimen/map_details_icon_stroke_width"
+        android:scaleType="fitXY"
+        android:src="@drawable/temtem_icon"
+        app:layout_constraintEnd_toStartOf="@+id/landmark_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
     <TextView
-        style="@style/TextAppearance.Temzone.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/map_details" />
+        android:layout_marginTop="4dp"
+        android:text="@string/temtem"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/temtem_button"
+        app:layout_constraintStart_toStartOf="@+id/temtem_button"
+        app:layout_constraintTop_toBottomOf="@+id/temtem_button" />
 
-    <Button
-        android:id="@+id/close_button"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/close_icon" />
+    <ImageButton
+        android:id="@+id/landmark_button"
+        android:layout_width="@dimen/map_details_icon_size"
+        android:layout_height="@dimen/map_details_icon_size"
+        android:adjustViewBounds="true"
+        android:background="@drawable/select_state_indicator"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:importantForAccessibility="no"
+        android:paddingBottom="@dimen/map_details_icon_stroke_width"
+        android:scaleType="fitXY"
+        android:src="@drawable/landmark_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/temtem" />
+        android:layout_marginTop="4dp"
+        android:text="@string/landmarks"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/landmark_button"
+        app:layout_constraintStart_toStartOf="@+id/landmark_button"
+        app:layout_constraintTop_toBottomOf="@+id/landmark_button" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/landmarks" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
