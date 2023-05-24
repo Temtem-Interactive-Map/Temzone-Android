@@ -19,6 +19,8 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
         setLightStatusBar(true)
     }
@@ -26,6 +28,12 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+
+        viewBinding.signOutButton.setOnClickListener {
+            val direction = SettingsFragmentDirections.fromSettingsFragmentToSignInFragment()
+
+            findNavController().navigate(direction)
         }
     }
 

@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
+import com.temtem.interactive.map.temzone.databinding.ForgotPasswordFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
-class SignInFragment : Fragment(R.layout.sign_in_fragment) {
+class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
 
-    private val viewBinding: SignInFragmentBinding by viewBindings()
+    private val viewBinding: ForgotPasswordFragmentBinding by viewBindings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,22 +26,8 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.forgotPasswordTextView.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment()
-
-            findNavController().navigate(direction)
-        }
-
-        viewBinding.signInButton.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToMapFragment()
-
-            findNavController().navigate(direction)
-        }
-
-        viewBinding.signUpTextView.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToSignUpFragment()
-
-            findNavController().navigate(direction)
+        viewBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
