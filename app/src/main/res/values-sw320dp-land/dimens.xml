@@ -1,3 +1,5 @@
 <resources>
+
     <integer name="marker_height_scale">6</integer>
+
 </resources>
