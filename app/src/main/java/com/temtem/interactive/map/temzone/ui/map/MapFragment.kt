@@ -6,8 +6,11 @@ import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -36,6 +39,7 @@ import ovh.plrapps.mapview.markers.MarkerTapListener
 import java.io.IOException
 import kotlin.math.max
 import kotlin.math.pow
+
 
 class MapFragment : Fragment(R.layout.map_fragment) {
 
@@ -79,10 +83,18 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // region Configure window insets
 
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { _, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { windowView, windowInsets ->
             bottomSheetBehavior.expandedOffset =
                 resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
                     .toInt()
+
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            windowView.updateLayoutParams<MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
 
             windowInsets
         }
