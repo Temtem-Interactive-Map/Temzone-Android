@@ -2,18 +2,16 @@ package com.temtem.interactive.map.temzone.utils.behaviors
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.temtem.interactive.map.temzone.R
 
 class BottomSheetAppBarLayoutBehavior(
-    private val context: Context, attrs: AttributeSet
+    context: Context, attrs: AttributeSet
 ) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
@@ -61,14 +59,6 @@ class BottomSheetAppBarLayoutBehavior(
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
                             child.visibility = View.VISIBLE
-
-                            val activity = context as Activity
-
-                            WindowInsetsControllerCompat(
-                                activity.window, activity.window.decorView
-                            ).apply {
-                                isAppearanceLightStatusBars = true
-                            }
                         }
                     })
                     start()
@@ -84,16 +74,6 @@ class BottomSheetAppBarLayoutBehavior(
                 y(appBarLayoutStartY!! - appBarLayoutOffset)
                 duration = animationDuration
                 setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator) {
-                        val activity = context as Activity
-
-                        WindowInsetsControllerCompat(
-                            activity.window, activity.window.decorView
-                        ).apply {
-                            isAppearanceLightStatusBars = false
-                        }
-                    }
-
                     override fun onAnimationEnd(animation: Animator) {
                         child.visibility = View.GONE
                     }

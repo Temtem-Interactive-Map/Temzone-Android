@@ -6,11 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -28,7 +24,6 @@ import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
-import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.addMarker
@@ -39,7 +34,6 @@ import ovh.plrapps.mapview.markers.MarkerTapListener
 import java.io.IOException
 import kotlin.math.max
 import kotlin.math.pow
-
 
 class MapFragment : Fragment(R.layout.map_fragment) {
 
@@ -74,32 +68,10 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-
-        setLightStatusBar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
-
-        // region Configure window insets
-
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { windowView, windowInsets ->
-            bottomSheetBehavior.expandedOffset =
-                resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
-                    .toInt()
-
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            windowView.updateLayoutParams<MarginLayoutParams> {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-            }
-
-            windowInsets
-        }
-
-        // endregion
 
         // region Configure toolbar
 
@@ -142,18 +114,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         viewBinding.searchView.editText.setOnEditorActionListener { _, _, _ ->
             false
-        }
-
-        viewBinding.searchView.addTransitionListener { _, _, newState ->
-            when (newState) {
-                TransitionState.SHOWN, TransitionState.SHOWING -> {
-                    setLightStatusBar(true)
-                }
-
-                else -> {
-                    setLightStatusBar(false)
-                }
-            }
         }
 
         // endregion
@@ -306,6 +266,14 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
+        // Configure bottom sheet
+
+        bottomSheetBehavior.expandedOffset =
+            resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
+                .toInt()
+
+        // endregion
+
         // region Configure back button
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -370,12 +338,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             )
         )
         // endregion
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        setLightStatusBar(false)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

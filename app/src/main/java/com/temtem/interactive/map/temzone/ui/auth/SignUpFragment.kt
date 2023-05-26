@@ -12,7 +12,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
@@ -25,27 +24,9 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-
-        setLightStatusBar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // region Configure window insets
-
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { windowView, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            windowView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-            }
-
-            windowInsets
-        }
-
-        // endregion
-
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -59,11 +40,5 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         viewBinding.signInTextView.setOnClickListener {
             findNavController().popBackStack()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        setLightStatusBar(false)
     }
 }

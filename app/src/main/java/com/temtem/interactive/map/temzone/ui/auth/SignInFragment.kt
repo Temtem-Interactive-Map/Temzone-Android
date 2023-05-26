@@ -12,7 +12,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
@@ -25,27 +24,9 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-
-        setLightStatusBar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // region Configure window insets
-
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { windowView, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            windowView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-            }
-
-            windowInsets
-        }
-
-        // endregion
-
         viewBinding.forgotPasswordTextView.setOnClickListener {
             val direction = SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment()
 
@@ -63,11 +44,5 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
             findNavController().navigate(direction)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        setLightStatusBar(false)
     }
 }
