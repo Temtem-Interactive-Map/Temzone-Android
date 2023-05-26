@@ -63,7 +63,7 @@
         </item>
     </style>
 
-    <!-- Floating Action Button -->
+    <!-- Floating action button -->
     <style name="Widget.Temzone.FloatingActionButton" parent="Base.Widget.Material3.FloatingActionButton.Small">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraLarge</item>
         <item name="materialThemeOverlay">
@@ -76,19 +76,19 @@
         <item name="colorOnContainer">?attr/colorControlNormal</item>
     </style>
 
-    <!-- Bottom Sheet -->
+    <!-- Bottom sheet -->
     <style name="Widget.Temzone.BottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="android:maxWidth">@null</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
     </style>
 
-    <!-- Bottom Sheet Modal -->
+    <!-- Bottom sheet modal -->
     <style name="Widget.Temzone.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:maxWidth">@null</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
     </style>
 
-    <!-- Bottom Sheet Dialog -->
+    <!-- Bottom sheet dialog -->
     <style name="ThemeOverlay.Temzone.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="behavior_draggable">false</item>
         <item name="bottomSheetStyle">@style/Widget.Temzone.BottomSheet.Modal</item>

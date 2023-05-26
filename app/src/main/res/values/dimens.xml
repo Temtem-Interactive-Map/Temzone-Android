@@ -1,7 +1,13 @@
 <resources>
+    <dimen name="margin_horizontal">16dp</dimen>
     <dimen name="wave_icon_height">165dp</dimen>
+    <dimen name="common_icon_size">48dp</dimen>
+
+    <!-- Map details icon -->
     <dimen name="map_details_icon_size">80dp</dimen>
-    <dimen name="map_details_icon_stroke_width">6dp</dimen>
+    <dimen name="map_details_icon_stroke_width">4dp</dimen>
+    <dimen name="map_details_icon_corner_radius">12dp</dimen>
+
     <dimen name="bottom_sheet_app_bar_layout_offset">8dp</dimen>
     <dimen name="search_app_bar_layout_offset">110dp</dimen>
     <integer name="marker_height_scale">4</integer>

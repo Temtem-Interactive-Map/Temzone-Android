@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -22,14 +23,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/close_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/close_button_content_description"
-            android:minWidth="0dp"
-            app:icon="@drawable/close_icon"
-            app:iconPadding="0dp"
+            android:src="@drawable/close_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,14 +41,10 @@
         android:layout_width="@dimen/map_details_icon_size"
         android:layout_height="@dimen/map_details_icon_size"
         android:adjustViewBounds="true"
-        android:background="@drawable/select_state_indicator"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
-        android:paddingBottom="@dimen/map_details_icon_stroke_width"
         android:scaleType="fitXY"
-        android:src="@drawable/temtem_icon"
+        android:src="@drawable/temtem_check_button"
         app:layout_constraintEnd_toStartOf="@+id/landmark_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
@@ -68,14 +64,10 @@
         android:layout_width="@dimen/map_details_icon_size"
         android:layout_height="@dimen/map_details_icon_size"
         android:adjustViewBounds="true"
-        android:background="@drawable/select_state_indicator"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
-        android:paddingBottom="@dimen/map_details_icon_stroke_width"
         android:scaleType="fitXY"
-        android:src="@drawable/landmark_icon"
+        android:src="@drawable/landmark_check_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
