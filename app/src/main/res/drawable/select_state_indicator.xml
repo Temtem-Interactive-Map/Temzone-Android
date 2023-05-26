@@ -5,6 +5,6 @@
 
     <stroke
         android:width="@dimen/map_details_icon_stroke_width"
-        android:color="@color/royal_blue" />
+        android:color="?attr/colorPrimary" />
 
 </shape>

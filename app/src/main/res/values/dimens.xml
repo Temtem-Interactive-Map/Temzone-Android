@@ -4,6 +4,5 @@
     <dimen name="map_details_icon_stroke_width">6dp</dimen>
     <dimen name="bottom_sheet_app_bar_layout_offset">8dp</dimen>
     <dimen name="search_app_bar_layout_offset">110dp</dimen>
-
     <integer name="marker_height_scale">4</integer>
 </resources>
