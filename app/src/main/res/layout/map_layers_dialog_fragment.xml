@@ -2,20 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/margin_horizontal">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxWidth="640dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
-            style="@style/TextAppearance.Temzone.HeadlineSmall"
+            style="@style/TextAppearance.Temzone.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/map_details"
@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
+        style="@style/TextAppearance.Temzone.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -73,6 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
+        style="@style/TextAppearance.Temzone.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

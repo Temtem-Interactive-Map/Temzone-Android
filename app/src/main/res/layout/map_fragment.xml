@@ -38,7 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search_here"
-            app:menu="@menu/search_bar_menu" />
+            app:menu="@menu/search_bar_menu"
+            app:navigationIcon="@drawable/search_icon"
+            app:navigationIconTint="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/map_layers_button"
