@@ -8,6 +8,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SettingsFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
+import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
@@ -20,6 +21,8 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
+        requireActivity().setLightStatusBar(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,5 +35,11 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
             findNavController().navigate(direction)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().setLightStatusBar(true)
     }
 }

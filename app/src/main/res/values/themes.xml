@@ -8,7 +8,7 @@
 
     <style name="Theme.Temzone" parent="Theme.Material3.Light.NoActionBar">
         <!-- System UI -->
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="fontFamily">@font/rubik</item>
         <item name="elevationOverlayEnabled">false</item>
 

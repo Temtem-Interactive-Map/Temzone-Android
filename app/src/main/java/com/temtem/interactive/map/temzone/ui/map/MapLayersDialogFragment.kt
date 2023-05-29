@@ -1,7 +1,6 @@
 package com.temtem.interactive.map.temzone.ui.map
 
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -74,16 +73,16 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
         if (savedInstanceState != null) {
             temtemButtonChecked = savedInstanceState.getBoolean(TEMTEM_BUTTON_CHECKED)
             if (temtemButtonChecked) {
-                viewBinding.temtemButton.setBackgroundResource(R.drawable.check_border_shape)
+                viewBinding.temtemButton.setImageResource(R.drawable.temtem_check_button)
             } else {
-                viewBinding.temtemButton.setBackgroundColor(Color.WHITE)
+                viewBinding.temtemButton.setImageResource(R.drawable.temtem_uncheck_button)
             }
 
             landmarkButtonChecked = savedInstanceState.getBoolean(LANDMARK_BUTTON_CHECKED)
             if (landmarkButtonChecked) {
-                viewBinding.landmarkButton.setBackgroundResource(R.drawable.check_border_shape)
+                viewBinding.landmarkButton.setImageResource(R.drawable.landmark_check_button)
             } else {
-                viewBinding.landmarkButton.setBackgroundColor(Color.WHITE)
+                viewBinding.landmarkButton.setImageResource(R.drawable.landmark_uncheck_button)
             }
         }
     }

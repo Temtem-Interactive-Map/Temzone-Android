@@ -24,6 +24,7 @@ import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
+import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.addMarker
@@ -68,6 +69,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
+        requireActivity().setLightStatusBar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,6 +117,18 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         viewBinding.searchView.editText.setOnEditorActionListener { _, _, _ ->
             false
+        }
+
+        viewBinding.searchView.addTransitionListener { _, _, newState ->
+            when (newState) {
+                TransitionState.SHOWN, TransitionState.SHOWING -> {
+                    requireActivity().setLightStatusBar(true)
+                }
+
+                else -> {
+                    requireActivity().setLightStatusBar(false)
+                }
+            }
         }
 
         // endregion
@@ -206,9 +221,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 // Center the marker on the screen
                 viewBinding.mapView.moveToPosition(
                     markerView.x,
-                    markerView.y + (resources.displayMetrics.heightPixels / (resources.getInteger(
-                        R.integer.marker_height_scale
-                    ) * SCALE)),
+                    markerView.y + (resources.displayMetrics.heightPixels / (4 * SCALE)),
                     SCALE,
                     true
                 )
@@ -222,9 +235,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     viewBinding.mapView.moveToPosition(
                         markerCoordinateX,
-                        markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
-                            R.integer.marker_height_scale
-                        ) * SCALE)),
+                        markerCoordinateY + (resources.displayMetrics.heightPixels / (4 * SCALE)),
                         SCALE,
                         false
                     )
@@ -233,9 +244,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 } else if (canCollapseBottomDrawer && newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
                     viewBinding.mapView.moveToPosition(
                         markerCoordinateX,
-                        markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
-                            R.integer.marker_height_scale
-                        ) * SCALE)),
+                        markerCoordinateY + (resources.displayMetrics.heightPixels / (4 * SCALE)),
                         SCALE,
                         true
                     )
@@ -243,10 +252,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     delayCollapseBottomDrawer()
                 } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     // Reset the search bar menu
-                    viewBinding.searchBar.menu.clear()
-                    viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                    viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
-                    viewBinding.searchBar.setNavigationOnClickListener(null)
+                    hideSearchBarBackMenu()
 
                     // Reset the marker coordinates
                     markerCoordinateX = NULL_MARKER_COORDINATE
@@ -266,7 +272,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // Configure bottom sheet
+        // region Configure bottom sheet
 
         bottomSheetBehavior.expandedOffset =
             resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
@@ -359,9 +365,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 // Center the marker on the screen
                 viewBinding.mapView.moveToPosition(
                     markerCoordinateX,
-                    markerCoordinateY + (resources.displayMetrics.heightPixels / (resources.getInteger(
-                        R.integer.marker_height_scale
-                    ) * SCALE)),
+                    markerCoordinateY + (resources.displayMetrics.heightPixels / (4 * SCALE)),
                     SCALE,
                     false
                 )
@@ -377,6 +381,18 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 viewBinding.mapLayersButton.isClickable = true
                 viewBinding.mapLayersButton.show()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
+
+        if (viewBinding.searchView.currentTransitionState == TransitionState.SHOWN || bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            requireActivity().setLightStatusBar(true)
+        } else {
+            requireActivity().setLightStatusBar(false)
         }
     }
 

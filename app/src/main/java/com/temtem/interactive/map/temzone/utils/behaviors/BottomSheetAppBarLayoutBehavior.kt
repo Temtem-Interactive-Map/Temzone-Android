@@ -2,6 +2,7 @@ package com.temtem.interactive.map.temzone.utils.behaviors
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -9,9 +10,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class BottomSheetAppBarLayoutBehavior(
-    context: Context, attrs: AttributeSet
+    private val context: Context, attrs: AttributeSet
 ) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
@@ -59,6 +61,10 @@ class BottomSheetAppBarLayoutBehavior(
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
                             child.visibility = View.VISIBLE
+
+                            val activity = context as Activity
+
+                            activity.setLightStatusBar(true)
                         }
                     })
                     start()
@@ -74,6 +80,12 @@ class BottomSheetAppBarLayoutBehavior(
                 y(appBarLayoutStartY!! - appBarLayoutOffset)
                 duration = animationDuration
                 setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator) {
+                        val activity = context as Activity
+
+                        activity.setLightStatusBar(false)
+                    }
+
                     override fun onAnimationEnd(animation: Animator) {
                         child.visibility = View.GONE
                     }
