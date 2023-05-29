@@ -59,7 +59,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/search_here"
-        app:layout_anchor="@id/search_bar" />
+        app:layout_anchor="@id/search_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.search.SearchView>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_drawer"

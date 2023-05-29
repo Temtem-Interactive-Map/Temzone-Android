@@ -7,17 +7,18 @@ import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.search.SearchView.TransitionState
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.data.Coordinates
 import com.temtem.interactive.map.temzone.data.Marker
 import com.temtem.interactive.map.temzone.data.MarkerType
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
@@ -25,6 +26,7 @@ import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
+import kotlinx.coroutines.launch
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
 import ovh.plrapps.mapview.api.addMarker
@@ -115,8 +117,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // region Configure search view
 
-        viewBinding.searchView.editText.setOnEditorActionListener { _, _, _ ->
-            false
+        viewBinding.searchView.editText.addTextChangedListener {
+            viewModel.onSearchQueryChanged(it.toString())
         }
 
         viewBinding.searchView.addTransitionListener { _, _, newState ->
@@ -270,6 +272,15 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             }
         }
 
+        // Add markers to the map
+        lifecycleScope.launch {
+            viewModel.markers.collect { markers ->
+                markers.forEach {
+                    addMarker(it)
+                }
+            }
+        }
+
         // endregion
 
         // region Configure bottom sheet
@@ -320,29 +331,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             requireActivity(), onBackPressedCallback
         )
 
-        // endregion
-
-        // region Add markers to map
-        addMarker(
-            Marker(
-                "id", MarkerType.SAIPARK, "title", "subtitle", Coordinates(11039.0, 6692.0), false
-            )
-        )
-        addMarker(
-            Marker(
-                "id", MarkerType.SPAWN, "Mimit", "subtitle", Coordinates(11039.0 / 2, 6692.0), true
-            )
-        )
-        addMarker(
-            Marker(
-                "id",
-                MarkerType.SPAWN,
-                "Mimit",
-                "subtitle",
-                Coordinates(11039.0 / 2 - 100, 6692.0),
-                false
-            )
-        )
         // endregion
     }
 
@@ -449,13 +437,17 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     Drawable.createFromResourceStream(
                         null, TypedValue(), resources.assets.open(
                             "markers/${
-                                marker.title.replace("/[()]/g", "").replace(" ", "_").lowercase()
+                                marker.title.replace("/[()]/g", "").replace(" ", "_")
+                                    .lowercase()
                             }_icon.png"
                         ), null
                     )
                 } catch (e: IOException) {
                     Drawable.createFromResourceStream(
-                        null, TypedValue(), resources.assets.open("markers/temcard_icon.png"), null
+                        null,
+                        TypedValue(),
+                        resources.assets.open("markers/temcard_icon.png"),
+                        null
                     )
                 }
 

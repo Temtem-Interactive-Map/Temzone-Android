@@ -14,5 +14,6 @@
     <string name="temtem">Temtem</string>
     <string name="landmarks">Landmarks</string>
     <string name="settings">Settings</string>
+    <string name="marker_image">Marker image</string>
 
 </resources>

@@ -41,8 +41,8 @@
 
         <ImageButton
             android:id="@+id/temtem_button"
-            android:layout_width="@dimen/map_details_icon_size"
-            android:layout_height="@dimen/map_details_icon_size"
+            android:layout_width="@dimen/map_layer_button_size"
+            android:layout_height="@dimen/map_layer_button_size"
             android:adjustViewBounds="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:importantForAccessibility="no"
@@ -65,8 +65,8 @@
 
         <ImageButton
             android:id="@+id/landmark_button"
-            android:layout_width="@dimen/map_details_icon_size"
-            android:layout_height="@dimen/map_details_icon_size"
+            android:layout_width="@dimen/map_layer_button_size"
+            android:layout_height="@dimen/map_layer_button_size"
             android:adjustViewBounds="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:importantForAccessibility="no"
