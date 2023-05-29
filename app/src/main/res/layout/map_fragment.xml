@@ -43,8 +43,8 @@
             app:navigationIconTint="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/map_layers_button"
-            style="@style/Widget.Temzone.FloatingActionButton"
+            android:id="@+id/map_layer_floating_action_button"
+            style="@style/Widget.Temzone.MapLayerFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

@@ -135,9 +135,9 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure map layers button
+        // region Configure map layer floating action button
 
-        viewBinding.mapLayersButton.setOnClickListener {
+        viewBinding.mapLayerFloatingActionButton.setOnClickListener {
             val direction = MapFragmentDirections.fromMapFragmentToMapLayersDialogFragment()
 
             findNavController().navigate(direction)
@@ -147,17 +147,17 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        viewBinding.mapLayersButton.isClickable = false
-                        viewBinding.mapLayersButton.hide()
+                        viewBinding.mapLayerFloatingActionButton.isClickable = false
+                        viewBinding.mapLayerFloatingActionButton.hide()
                     }
 
                     BottomSheetBehavior.STATE_COLLAPSED, BottomSheetBehavior.STATE_HIDDEN -> {
-                        viewBinding.mapLayersButton.isClickable = true
-                        viewBinding.mapLayersButton.show()
+                        viewBinding.mapLayerFloatingActionButton.isClickable = true
+                        viewBinding.mapLayerFloatingActionButton.show()
                     }
 
                     else -> {
-                        viewBinding.mapLayersButton.isClickable = false
+                        viewBinding.mapLayerFloatingActionButton.isClickable = false
                     }
                 }
             }
@@ -209,9 +209,9 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 // Change the search bar menu to a back menu
                 showSearchBarBackMenu()
 
-                // Hide the map layers button
-                viewBinding.mapLayersButton.isClickable = false
-                viewBinding.mapLayersButton.hide()
+                // Hide the map layer floating action button
+                viewBinding.mapLayerFloatingActionButton.isClickable = false
+                viewBinding.mapLayerFloatingActionButton.hide()
 
                 // Set the marker coordinates
                 markerCoordinateX = markerView.x
@@ -363,11 +363,11 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             bottomSheetBehavior.state = savedInstanceState.getInt(BOTTOM_SHEET_STATE)
 
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HALF_EXPANDED) {
-                viewBinding.mapLayersButton.isClickable = false
-                viewBinding.mapLayersButton.hide()
+                viewBinding.mapLayerFloatingActionButton.isClickable = false
+                viewBinding.mapLayerFloatingActionButton.hide()
             } else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED || bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                viewBinding.mapLayersButton.isClickable = true
-                viewBinding.mapLayersButton.show()
+                viewBinding.mapLayerFloatingActionButton.isClickable = true
+                viewBinding.mapLayerFloatingActionButton.show()
             }
         }
     }

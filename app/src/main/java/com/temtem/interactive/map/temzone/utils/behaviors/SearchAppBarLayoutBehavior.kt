@@ -56,7 +56,7 @@ class SearchAppBarLayoutBehavior(
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            child.findViewById<FloatingActionButton>(R.id.map_layers_button).hide()
+                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button).hide()
                         }
                     })
                     start()

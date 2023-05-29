@@ -77,8 +77,8 @@
         <item name="fontFamily">@font/rubik</item>
     </style>
 
-    <!-- Floating action button -->
-    <style name="Widget.Temzone.FloatingActionButton" parent="Base.Widget.Material3.FloatingActionButton.Small">
+    <!-- Map layer floating action button -->
+    <style name="Widget.Temzone.MapLayerFloatingActionButton" parent="Base.Widget.Material3.FloatingActionButton.Small">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraLarge</item>
         <item name="materialThemeOverlay">
             @style/ThemeOverlay.Temzone.FloatingActionButton.Small
@@ -102,7 +102,7 @@
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
     </style>
 
-    <!-- Bottom sheet dialog -->
+    <!-- Bottom sheet dialog theme -->
     <style name="ThemeOverlay.Temzone.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="behavior_draggable">false</item>
         <item name="bottomSheetStyle">@style/Widget.Temzone.BottomSheet.Modal</item>
