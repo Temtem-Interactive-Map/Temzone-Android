@@ -6,6 +6,11 @@
     <dimen name="map_layers_dialog_fragment_padding_short">4dp</dimen>
     <dimen name="map_layers_dialog_fragment_padding_long">20dp</dimen>
 
+    <!-- Wave drawable -->
+    <dimen name="wave_drawable_height">165dp</dimen>
+    <dimen name="wave_drawable_text_max_width">280dp</dimen>
+    <dimen name="wave_drawable_text_padding_top">43dp</dimen>
+
     <!-- Map layer button -->
     <dimen name="map_layer_button_size">80dp</dimen>
     <dimen name="map_layer_button_stroke_width">4dp</dimen>

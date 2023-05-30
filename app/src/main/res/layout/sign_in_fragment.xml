@@ -8,7 +8,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="@dimen/wave_drawable_height"
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxWidth="280dp"
-        android:paddingTop="43dp"
+        android:maxWidth="@dimen/wave_drawable_text_max_width"
+        android:paddingTop="@dimen/wave_drawable_text_padding_top"
         android:text="@string/sign_in_title_branding"
         android:textColor="?attr/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxWidth="280dp"
+        android:maxWidth="@dimen/wave_drawable_text_max_width"
         android:text="@string/sign_in_subtitle_branding"
         android:textColor="?attr/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
