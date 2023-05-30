@@ -9,7 +9,7 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.utils.extensions.dpToPx
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 
 class BottomSheetAppBarLayoutBehavior(
@@ -20,10 +20,9 @@ class BottomSheetAppBarLayoutBehavior(
         private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.95
     }
 
+    private val appBarLayoutOffset = context.dpToPx(8)
     private val animationDuration =
         context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-    private val appBarLayoutOffset =
-        context.resources.getDimension(R.dimen.bottom_sheet_app_bar_layout_offset)
 
     private var appBarLayoutVisible = false
     private var appBarLayoutStartY: Float? = null

@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackgroundBorderless"
-    android:padding="@dimen/default_padding">
+    android:padding="@dimen/map_layers_dialog_fragment_padding_long"
+    tools:theme="@style/Theme.Temzone">
 
     <ImageView
         android:id="@+id/marker_image_view"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:contentDescription="@string/marker_image"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:contentDescription="@string/marker_image_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

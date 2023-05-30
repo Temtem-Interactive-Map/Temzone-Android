@@ -1,7 +1,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionGroup="true"
+    tools:theme="@style/Theme.Temzone">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -14,7 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
             app:navigationIcon="@drawable/arrow_back_icon"
-            app:title="@string/settings"
+            app:title="@string/settings_label"
             app:titleCentered="true" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -25,12 +28,11 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_out_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_out"
-            android:textAllCaps="true" />
+            android:text="@string/sign_out_button_text" />
 
     </LinearLayout>
 

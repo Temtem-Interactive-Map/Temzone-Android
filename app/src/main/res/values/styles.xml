@@ -1,84 +1,17 @@
 <resources>
 
-    <!-- Display typography -->
-    <style name="TextAppearance.Temzone.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+    <!-- Link typography -->
+    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.LabelLarge">
         <item name="fontFamily">@font/rubik</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Temzone.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
-        <item name="fontFamily">@font/rubik</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.LabelLarge">
         <item name="fontFamily">@font/rubik_bold</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- Headline typography -->
-    <style name="TextAppearance.Temzone.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="fontFamily">@font/rubik_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="fontFamily">@font/rubik_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
-        <item name="fontFamily">@font/rubik_bold</item>
-        <item name="android:textStyle">bold</item>
-        <item name="lineHeight">40sp</item>
-    </style>
-
-    <!-- Title typography -->
-    <style name="TextAppearance.Temzone.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="fontFamily">@font/rubik_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
-        <item name="fontFamily">@font/rubik_medium</item>
-        <item name="lineHeight">22sp</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
-        <item name="fontFamily">@font/rubik_medium</item>
-    </style>
-
-    <!-- Body typography -->
-    <style name="TextAppearance.Temzone.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="fontFamily">@font/rubik</item>
-        <item name="lineHeight">28sp</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="fontFamily">@font/rubik</item>
-        <item name="lineHeight">16sp</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.BodySmall" parent="TextAppearance.Material3.BodySmall">
-        <item name="fontFamily">@font/rubik</item>
-    </style>
-
-    <!-- Label typography -->
-    <style name="TextAppearance.Temzone.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
-        <item name="fontFamily">@font/rubik_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
-        <item name="fontFamily">@font/rubik</item>
-    </style>
-
-    <style name="TextAppearance.Temzone.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
-        <item name="fontFamily">@font/rubik</item>
     </style>
 
     <!-- Map layer floating action button -->
-    <style name="Widget.Temzone.MapLayerFloatingActionButton" parent="Base.Widget.Material3.FloatingActionButton.Small">
+    <style name="Widget.Temzone.FloatingActionButton.MapLayer" parent="Base.Widget.Material3.FloatingActionButton.Small">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraLarge</item>
         <item name="materialThemeOverlay">
             @style/ThemeOverlay.Temzone.FloatingActionButton.Small
@@ -90,22 +23,19 @@
         <item name="colorOnContainer">?attr/colorOnSurface</item>
     </style>
 
+    <!-- Google button -->
+    <style name="Widget.Temzone.Button.Google" parent="Widget.Material3.Button.TonalButton.Icon">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
+        <item name="android:text">@string/google_button_text</item>
+        <item name="icon">@drawable/google_icon</item>
+        <item name="iconTint">@null</item>
+    </style>
+
     <!-- Bottom sheet -->
     <style name="Widget.Temzone.BottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="android:maxWidth">@null</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
-    </style>
-
-    <!-- Bottom sheet modal -->
-    <style name="Widget.Temzone.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="android:maxWidth">@null</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
-    </style>
-
-    <!-- Bottom sheet dialog theme -->
-    <style name="ThemeOverlay.Temzone.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="behavior_draggable">false</item>
-        <item name="bottomSheetStyle">@style/Widget.Temzone.BottomSheet.Modal</item>
     </style>
 
 </resources>

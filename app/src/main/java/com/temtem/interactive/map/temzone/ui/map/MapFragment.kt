@@ -78,7 +78,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val bottomSheetBehavior = BottomSheetBehavior.from(viewBinding.bottomDrawer)
 
-        // region Configure toolbar
+        // region Configure the toolbar
 
         viewBinding.toolbar.setNavigationOnClickListener {
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -91,7 +91,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure search bar
+        // region Configure the search bar
 
         viewBinding.searchBar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -115,7 +115,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure search view
+        // region Configure the search view
 
         viewBinding.searchView.editText.addTextChangedListener {
             viewModel.onSearchQueryChanged(it.toString())
@@ -135,7 +135,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure map layer floating action button
+        // region Configure the map layer floating action button
 
         viewBinding.mapLayerFloatingActionButton.setOnClickListener {
             val direction = MapFragmentDirections.fromMapFragmentToMapLayersDialogFragment()
@@ -167,7 +167,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure map view
+        // region Configure the map view
 
         val tiles = TileStreamProvider { row, col, zoom ->
             try {
@@ -283,7 +283,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure bottom sheet
+        // region Configure the bottom sheet
 
         bottomSheetBehavior.expandedOffset =
             resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
@@ -291,7 +291,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // endregion
 
-        // region Configure back button
+        // region Configure the back button
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

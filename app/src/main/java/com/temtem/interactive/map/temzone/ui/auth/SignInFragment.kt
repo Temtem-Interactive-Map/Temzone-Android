@@ -26,14 +26,17 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.forgotPasswordTextView.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment()
+        viewBinding.signInButton.setOnClickListener {
+            val email = viewBinding.emailEditText.text.toString().trim()
+            val password = viewBinding.passwordEditText.text.toString().trim()
+
+            val direction = SignInFragmentDirections.fromSignInFragmentToMapFragment()
 
             findNavController().navigate(direction)
         }
 
-        viewBinding.signInButton.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToMapFragment()
+        viewBinding.forgotPasswordTextView.setOnClickListener {
+            val direction = SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment()
 
             findNavController().navigate(direction)
         }

@@ -10,6 +10,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.utils.extensions.dpToPx
 
 class SearchAppBarLayoutBehavior(
     context: Context, attrs: AttributeSet
@@ -19,10 +20,9 @@ class SearchAppBarLayoutBehavior(
         private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.6
     }
 
+    private val appBarLayoutOffset = context.dpToPx(110)
     private val animationDuration =
         context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-    private val appBarLayoutOffset =
-        context.resources.getDimension(R.dimen.search_app_bar_layout_offset)
 
     private var appBarLayoutVisible = false
     private var appBarLayoutStartY: Float? = null
@@ -56,7 +56,8 @@ class SearchAppBarLayoutBehavior(
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button).hide()
+                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
+                                .hide()
                         }
                     })
                     start()

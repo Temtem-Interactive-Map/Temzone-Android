@@ -1,16 +1,15 @@
 <resources>
 
-    <dimen name="default_padding">16dp</dimen>
-    <dimen name="default_icon_size">48dp</dimen>
-    <dimen name="wave_icon_height">165dp</dimen>
+    <!-- System -->
+    <dimen name="spacer">4dp</dimen>
+    <dimen name="common_icon_size">48dp</dimen>
+    <dimen name="map_layers_dialog_fragment_padding_short">4dp</dimen>
+    <dimen name="map_layers_dialog_fragment_padding_long">20dp</dimen>
 
-    <!-- App bar layout -->
-    <dimen name="search_app_bar_layout_offset">110dp</dimen>
-    <dimen name="bottom_sheet_app_bar_layout_offset">8dp</dimen>
-
-    <!-- Map layer floating action button -->
-    <dimen name="map_layer_floating_action_button_size">80dp</dimen>
-    <dimen name="map_layer_floating_action_button_stroke_width">4dp</dimen>
-    <dimen name="map_layer_floating_action_button_corner_radius">12dp</dimen>
+    <!-- Map layer button -->
+    <dimen name="map_layer_button_size">80dp</dimen>
+    <dimen name="map_layer_button_stroke_width">4dp</dimen>
+    <dimen name="map_layer_button_corner_radius">12dp</dimen>
+    <dimen name="map_layer_button_text_margin_top">4dp</dimen>
 
 </resources>

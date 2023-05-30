@@ -1,30 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:theme="@style/Theme.Temzone">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
-        android:paddingStart="@dimen/default_padding"
-        android:paddingEnd="4dp">
+        android:paddingVertical="@dimen/map_layers_dialog_fragment_padding_short"
+        android:paddingStart="@dimen/map_layers_dialog_fragment_padding_long"
+        android:paddingEnd="@dimen/map_layers_dialog_fragment_padding_short">
 
         <TextView
-            android:id="@+id/textView"
-            style="@style/TextAppearance.Temzone.TitleMedium"
+            style="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/map_details"
+            android:text="@string/map_details_label"
             app:layout_constraintBottom_toBottomOf="@+id/close_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/close_button" />
 
         <ImageButton
             android:id="@+id/close_button"
-            android:layout_width="@dimen/default_icon_size"
-            android:layout_height="@dimen/default_icon_size"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:background="@android:color/transparent"
             android:contentDescription="@string/close_button_content_description"
             android:src="@drawable/close_icon"
@@ -36,15 +37,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding">
+        android:paddingHorizontal="@dimen/map_layers_dialog_fragment_padding_long"
+        android:paddingBottom="@dimen/map_layers_dialog_fragment_padding_long">
 
         <ImageButton
             android:id="@+id/temtem_button"
-            android:layout_width="@dimen/map_layer_floating_action_button_size"
-            android:layout_height="@dimen/map_layer_floating_action_button_size"
+            android:layout_width="@dimen/map_layer_button_size"
+            android:layout_height="@dimen/map_layer_button_size"
             android:adjustViewBounds="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/temtem_button_content_description"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
             android:src="@drawable/temtem_check_button"
@@ -53,11 +55,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/TextAppearance.Temzone.LabelMedium"
+            style="?attr/textAppearanceLabelMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/temtem"
+            android:layout_marginTop="@dimen/map_layer_button_text_margin_top"
+            android:text="@string/temtem_button_text"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/temtem_button"
             app:layout_constraintStart_toStartOf="@+id/temtem_button"
@@ -65,10 +67,11 @@
 
         <ImageButton
             android:id="@+id/landmark_button"
-            android:layout_width="@dimen/map_layer_floating_action_button_size"
-            android:layout_height="@dimen/map_layer_floating_action_button_size"
+            android:layout_width="@dimen/map_layer_button_size"
+            android:layout_height="@dimen/map_layer_button_size"
             android:adjustViewBounds="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/landmark_button_content_description"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
             android:src="@drawable/landmark_check_button"
@@ -77,11 +80,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/TextAppearance.Temzone.LabelMedium"
+            style="?attr/textAppearanceLabelMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/landmarks"
+            android:layout_marginTop="@dimen/map_layer_button_text_margin_top"
+            android:text="@string/landmark_button_text"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/landmark_button"
             app:layout_constraintStart_toStartOf="@+id/landmark_button"
