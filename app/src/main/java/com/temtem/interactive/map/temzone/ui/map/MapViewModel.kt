@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import com.temtem.interactive.map.temzone.data.Coordinates
 import com.temtem.interactive.map.temzone.data.Marker
 import com.temtem.interactive.map.temzone.data.MarkerType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class MapViewModel : ViewModel() {
+@HiltViewModel
+class MapViewModel @Inject constructor() : ViewModel() {
 
     private val _markers = MutableStateFlow(listOf<Marker>())
     val markers = _markers.asStateFlow()

@@ -9,7 +9,9 @@ import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SettingsFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private val viewBinding: SettingsFragmentBinding by viewBindings()

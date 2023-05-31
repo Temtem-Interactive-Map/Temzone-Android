@@ -9,7 +9,9 @@ import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
     private val viewBinding: SignUpFragmentBinding by viewBindings()

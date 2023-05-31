@@ -26,6 +26,7 @@ import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapview.MapViewConfiguration
 import ovh.plrapps.mapview.api.MinimumScaleMode
@@ -38,6 +39,7 @@ import java.io.IOException
 import kotlin.math.max
 import kotlin.math.pow
 
+@AndroidEntryPoint
 class MapFragment : Fragment(R.layout.map_fragment) {
 
     private companion object {

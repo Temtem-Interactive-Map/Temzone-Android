@@ -12,7 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.MapLayersDialogFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_dialog_fragment) {
 
     private companion object {
