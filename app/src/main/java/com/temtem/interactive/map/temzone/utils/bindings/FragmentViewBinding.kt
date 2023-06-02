@@ -17,8 +17,8 @@ import kotlin.reflect.KProperty
  * }
  * ```
  */
-inline fun <reified T : ViewBinding> Fragment.viewBindings(): ReadOnlyProperty<Fragment, T> =
-    object : ReadOnlyProperty<Fragment, T>, DefaultLifecycleObserver {
+inline fun <reified T : ViewBinding> Fragment.viewBindings(): ReadOnlyProperty<Fragment, T> {
+    return object : ReadOnlyProperty<Fragment, T>, DefaultLifecycleObserver {
         private var binding: T? = null
 
         override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
@@ -37,3 +37,4 @@ inline fun <reified T : ViewBinding> Fragment.viewBindings(): ReadOnlyProperty<F
             binding = null
         }
     }
+}
