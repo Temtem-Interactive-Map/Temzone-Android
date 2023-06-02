@@ -26,9 +26,9 @@
     <string name="password_field_hint">Password</string>
     <string name="password_field_content_description">Password field</string>
 
-    <!-- Repeat password field -->
-    <string name="repeat_password_field_hint">Repeat password</string>
-    <string name="repeat_password_field_content_description">Repeat password field</string>
+    <!-- Confirm password field -->
+    <string name="confirm_password_field_hint">Confirm password</string>
+    <string name="confirm_password_field_content_description">Confirm password field</string>
 
     <!-- Links -->
     <string name="sign_in_link_prefix">Already have an account?</string>

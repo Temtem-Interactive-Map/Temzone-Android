@@ -45,7 +45,7 @@
         <action
             android:id="@+id/from_forgot_password_fragment_to_sign_up_fragment"
             app:destination="@id/sign_up_fragment"
-            app:popUpTo="@+id/sign_in_fragment"
+            app:popUpTo="@+id/forgot_password_fragment"
             app:popUpToInclusive="true" />
 
     </fragment>
@@ -55,6 +55,12 @@
         android:name="com.temtem.interactive.map.temzone.ui.auth.sign_up.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/sign_up_fragment">
+
+        <action
+            android:id="@+id/from_sign_up_fragment_to_sign_in_fragment"
+            app:destination="@id/sign_in_fragment"
+            app:popUpTo="@+id/sign_up_fragment"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/from_sign_up_fragment_to_map_fragment"
