@@ -15,7 +15,7 @@
     <string name="sign_up_branding_title">Let\'s get you signed in</string>
     <string name="sign_up_branding_subtitle">Create an account to get started</string>
     <string name="forgot_password_branding_title">Forgot Password?</string>
-    <string name="forgot_password_branding_subtitle">Don\'t worry, we\'ll send you an email to reset your password</string>
+    <string name="forgot_password_branding_subtitle">We\'ll send you an email</string>
 
     <!-- Email field -->
     <string name="email_field_hint">Email</string>
@@ -62,5 +62,8 @@
 
     <!-- Search marker item -->
     <string name="marker_image_content_description">Marker image</string>
+
+    <!-- Errors -->
+    <string name="field_required_error">This field is required</string>
 
 </resources>
