@@ -11,17 +11,19 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.search.SearchView.TransitionState
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.data.Marker
-import com.temtem.interactive.map.temzone.data.MarkerType
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
+import com.temtem.interactive.map.temzone.repositories.temzone.data.Marker
+import com.temtem.interactive.map.temzone.repositories.temzone.data.MarkerType
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
@@ -98,9 +100,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         viewBinding.searchBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.search_bar_menu_settings -> {
-                    val direction = MapFragmentDirections.fromMapFragmentToSettingsFragment()
-
-                    findNavController().navigate(direction)
+                    findNavController().navigate(MapFragmentDirections.fromMapFragmentToSettingsFragment())
                 }
             }
             true
@@ -120,7 +120,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         // region Configure the search view
 
         viewBinding.searchView.editText.addTextChangedListener {
-            viewModel.onSearchQueryChanged(it.toString())
+            viewModel.searchMarkers(it.toString())
         }
 
         viewBinding.searchView.addTransitionListener { _, _, newState ->
@@ -140,9 +140,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         // region Configure the map layer floating action button
 
         viewBinding.mapLayerFloatingActionButton.setOnClickListener {
-            val direction = MapFragmentDirections.fromMapFragmentToMapLayersDialogFragment()
-
-            findNavController().navigate(direction)
+            findNavController().navigate(MapFragmentDirections.fromMapFragmentToMapLayersDialogFragment())
         }
 
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
@@ -191,7 +189,10 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             configure(config)
             defineBounds(0.0, 0.0, MAP_SIZE.toDouble(), MAP_SIZE.toDouble())
             constrainScroll(
-                MAP_MIN_HORIZONTAL, MAP_MIN_VERTICAL, MAP_MAX_HORIZONTAL, MAP_MAX_VERTICAL
+                MAP_MIN_HORIZONTAL,
+                MAP_MIN_VERTICAL,
+                MAP_MAX_HORIZONTAL,
+                MAP_MAX_VERTICAL,
             )
 
             val logicalWidth = MAP_MAX_HORIZONTAL - MAP_MIN_HORIZONTAL
@@ -276,9 +277,11 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // Add markers to the map
         lifecycleScope.launch {
-            viewModel.markers.collect { markers ->
-                markers.forEach {
-                    addMarker(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.markers.collect { markers ->
+                    markers.forEach {
+                        addMarker(it)
+                    }
                 }
             }
         }
@@ -432,24 +435,23 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
     private fun addMarker(marker: Marker) {
         val markerView = MarkerView(
-            requireContext(), marker.id, marker.coordinates.x, marker.coordinates.y
+            requireContext(),
+            marker.coordinates.x.toDouble(),
+            marker.coordinates.y.toDouble(),
         ).apply {
             val drawable = when (marker.type) {
                 MarkerType.SPAWN -> try {
                     Drawable.createFromResourceStream(
                         null, TypedValue(), resources.assets.open(
                             "markers/${
-                                marker.title.replace("/[()]/g", "").replace(" ", "_")
+                                marker.title.replace(Regex("[()]"), "").replace(" ", "_")
                                     .lowercase()
                             }_icon.png"
                         ), null
                     )
                 } catch (e: IOException) {
                     Drawable.createFromResourceStream(
-                        null,
-                        TypedValue(),
-                        resources.assets.open("markers/temcard_icon.png"),
-                        null
+                        null, TypedValue(), resources.assets.open("markers/temcard_icon.png"), null
                     )
                 }
 
@@ -466,7 +468,14 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         }
 
         viewBinding.mapView.addMarker(
-            markerView, markerView.x, markerView.y, -0.5f, -0.5f, 0f, 0f, markerView.id
+            markerView,
+            markerView.x,
+            markerView.y,
+            -0.5f,
+            -0.5f,
+            0f,
+            0f,
+            marker.id,
         )
     }
 }

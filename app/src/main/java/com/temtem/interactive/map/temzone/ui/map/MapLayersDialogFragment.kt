@@ -1,13 +1,9 @@
 package com.temtem.interactive.map.temzone.ui.map
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.MapLayersDialogFragmentBinding
@@ -28,25 +24,8 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
     private var temtemButtonChecked = true
     private var landmarkButtonChecked = true
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-
-        dialog.setOnShowListener {
-            val bottomSheetDialog = it as BottomSheetDialog
-            val bottomDrawer =
-                bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)!!
-            val bottomSheetBehavior = BottomSheetBehavior.from(bottomDrawer)
-
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-
-        return dialog
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.closeButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        // region Configure the map layer buttons
 
         viewBinding.temtemButton.setOnClickListener {
             temtemButtonChecked = !temtemButtonChecked
@@ -67,6 +46,16 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
                 viewBinding.landmarkButton.setImageResource(R.drawable.landmark_uncheck_button)
             }
         }
+
+        // endregion
+
+        // region Configure the navigation graph
+
+        viewBinding.closeButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        // endregion
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
