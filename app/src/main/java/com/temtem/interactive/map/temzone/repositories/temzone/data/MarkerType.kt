@@ -8,5 +8,5 @@ enum class MarkerType(val value: String) {
     SPAWN("spawn"),
 
     @SerializedName("saipark")
-    SAIPARK("saipark")
+    SAIPARK("saipark"),
 }

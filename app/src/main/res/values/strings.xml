@@ -57,8 +57,9 @@
     <string name="landmark_button_text">Landmarks</string>
     <string name="landmark_button_content_description">Show/hide landmark markers</string>
 
-    <!-- Toasts -->
-    <string name="password_recovery_toast">We have sent a password recovery instruction to your email</string>
+    <!-- Snack bars -->
+    <string name="password_recovery_snackbar">We have sent a password recovery instruction to your email</string>
+    <string name="loading_markers_snackbar">Synchronizing markers…</string>
 
     <!-- Search marker item -->
     <string name="marker_image_content_description">Marker image</string>

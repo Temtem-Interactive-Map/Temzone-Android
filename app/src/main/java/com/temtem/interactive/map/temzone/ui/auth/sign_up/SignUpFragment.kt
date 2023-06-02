@@ -65,9 +65,9 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
                         is SignUpUiState.Error -> {
                             viewBinding.signUpButton.isEnabled = true
-                            viewBinding.confirmPasswordTextInputLayout.setErrorAndRequestFocus(it.confirmPasswordError)
-                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordError)
-                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailError)
+                            viewBinding.confirmPasswordTextInputLayout.setErrorAndRequestFocus(it.confirmPasswordMessage)
+                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
+                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)
                         }
                     }
                 }

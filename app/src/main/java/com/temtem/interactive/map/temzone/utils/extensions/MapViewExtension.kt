@@ -8,6 +8,7 @@ import ovh.plrapps.mapview.MapView
 @SuppressLint("ViewConstructor")
 class MarkerView(
     context: Context,
+    val id: String,
     val x: Double,
     val y: Double,
 ) : AppCompatImageView(context)

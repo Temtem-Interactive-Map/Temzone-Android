@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
         super.onCreate(savedInstanceState)
 
-        // Set the status bar color to transparent
+        // Set the display content edge to edge
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // Navigate to map fragment if user is already signed in
