@@ -13,7 +13,8 @@ import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.utils.extensions.dpToPx
 
 class SearchAppBarLayoutBehavior(
-    context: Context, attrs: AttributeSet
+    context: Context,
+    attrs: AttributeSet,
 ) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
@@ -56,7 +57,8 @@ class SearchAppBarLayoutBehavior(
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
+                            child
+                                .findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
                                 .hide()
                         }
                     })
