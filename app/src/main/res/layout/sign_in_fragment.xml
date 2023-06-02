@@ -14,31 +14,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/wave_icon" />
 
-    <TextView
-        android:id="@+id/branding_text_view"
-        style="?attr/textAppearanceTitleLarge"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxWidth="@dimen/wave_drawable_text_max_width"
-        android:paddingTop="@dimen/wave_drawable_text_padding_top"
-        android:text="@string/sign_in_title_branding"
-        android:textColor="?attr/colorSurface"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        style="?attr/textAppearanceTitleMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxWidth="@dimen/wave_drawable_text_max_width"
-        android:text="@string/sign_in_subtitle_branding"
-        android:textColor="?attr/colorSurface"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/branding_text_view" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:subtitle="@string/sign_in_subtitle_branding"
+            app:subtitleCentered="true"
+            app:subtitleTextColor="?attr/colorSurface"
+            app:title="@string/sign_in_title_branding"
+            app:titleCentered="true"
+            app:titleTextColor="?attr/colorSurface" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -52,6 +45,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email_field_hint"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintBottom_toTopOf="@+id/password_text_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +70,7 @@
             android:hint="@string/password_field_hint"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_text_input_layout"
@@ -94,7 +89,7 @@
 
         <TextView
             android:id="@+id/forgot_password_text_view"
-            style="@style/TextAppearance.Temzone.Link"
+            style="@style/TextAppearance.Temzone.Link.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forgot_password_link"
