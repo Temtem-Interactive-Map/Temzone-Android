@@ -1,4 +1,4 @@
-package com.temtem.interactive.map.temzone.ui.auth
+package com.temtem.interactive.map.temzone.ui.auth.sign_up
 
 import android.os.Bundle
 import android.view.View
@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
+import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragment : Fragment(R.layout.sign_in_fragment) {
+class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
-    private val viewBinding: SignInFragmentBinding by viewBindings()
+    private val viewBinding: SignUpFragmentBinding by viewBindings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,26 +28,25 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.signInButton.setOnClickListener {
-            val email = viewBinding.emailEditText.text.toString().trim()
-            val password = viewBinding.passwordEditText.text.toString().trim()
+        // region Configure the sign up button
 
-            val direction = SignInFragmentDirections.fromSignInFragmentToMapFragment()
-
-            findNavController().navigate(direction)
+        viewBinding.signUpButton.setOnClickListener {
+            findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToMapFragment())
         }
 
-        viewBinding.forgotPasswordTextView.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment()
+        // endregion
 
-            findNavController().navigate(direction)
+        // region Configure the navigation
+
+        viewBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
 
-        viewBinding.signUpTextView.setOnClickListener {
-            val direction = SignInFragmentDirections.fromSignInFragmentToSignUpFragment()
-
-            findNavController().navigate(direction)
+        viewBinding.signInTextView.setOnClickListener {
+            findNavController().popBackStack()
         }
+
+        // endregion
     }
 
     override fun onResume() {
