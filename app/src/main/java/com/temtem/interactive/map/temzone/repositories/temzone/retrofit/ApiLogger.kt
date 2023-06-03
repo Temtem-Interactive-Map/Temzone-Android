@@ -4,10 +4,10 @@ import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.Logger
 import javax.inject.Inject
 
-class ApiLogger @Inject constructor() : HttpLoggingInterceptor.Logger {
+class ApiLogger @Inject constructor() : Logger {
 
     private companion object {
         private const val TAG = "ApiLogger"

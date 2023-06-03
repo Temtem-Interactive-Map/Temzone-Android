@@ -264,7 +264,9 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                                 viewBinding.root,
                                 R.string.loading_markers_snackbar,
                                 Snackbar.LENGTH_INDEFINITE,
-                            ).apply { show() }
+                            ).apply {
+                                show()
+                            }
                         }
 
                         is MarkersUiState.Success -> {

@@ -1,11 +1,19 @@
 package com.temtem.interactive.map.temzone.repositories.auth
 
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.temtem.interactive.map.temzone.exceptions.ArgumentException
+import com.temtem.interactive.map.temzone.exceptions.InternalException
+import com.temtem.interactive.map.temzone.exceptions.NetworkException
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
 ) : AuthRepository {
 
     override fun isUserSignedIn(): Boolean {
@@ -15,24 +23,64 @@ class FirebaseAuthRepository @Inject constructor(
     override suspend fun getUserToken(): String {
         try {
             return firebaseAuth.currentUser?.getIdToken(false)?.await()?.token.orEmpty()
-        } catch (e: Exception) {
-            throw e
+        } catch (exception: Exception) {
+            when (exception) {
+                is FirebaseNetworkException -> {
+                    throw NetworkException(exception)
+                }
+
+                else -> {
+                    throw InternalException(exception)
+                }
+            }
         }
     }
 
     override suspend fun signInWithEmailAndPassword(email: String, password: String) {
         try {
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
-        } catch (e: Exception) {
-            throw e
+        } catch (exception: Exception) {
+            when (exception) {
+                is FirebaseAuthInvalidUserException, is FirebaseAuthInvalidCredentialsException -> {
+                    throw ArgumentException(exception)
+                }
+
+                is FirebaseNetworkException -> {
+                    throw NetworkException(exception)
+                }
+
+                else -> {
+                    throw InternalException(exception)
+                }
+            }
         }
     }
 
     override suspend fun signUpWithEmailAndPassword(email: String, password: String) {
         try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        } catch (e: Exception) {
-            throw e
+        } catch (exception: Exception) {
+            when (exception) {
+                is FirebaseAuthWeakPasswordException -> {
+                    throw ArgumentException(exception)
+                }
+
+                is FirebaseAuthInvalidCredentialsException -> {
+                    throw ArgumentException(exception)
+                }
+
+                is FirebaseAuthUserCollisionException -> {
+                    throw ArgumentException(exception)
+                }
+
+                is FirebaseNetworkException -> {
+                    throw NetworkException(exception)
+                }
+
+                else -> {
+                    throw InternalException(exception)
+                }
+            }
         }
     }
 

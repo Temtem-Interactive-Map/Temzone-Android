@@ -9,6 +9,7 @@ sealed interface SignInUiState {
     object Success : SignInUiState
 
     data class Error(
+        val message: String?,
         val emailMessage: String?,
         val passwordMessage: String?,
     ) : SignInUiState

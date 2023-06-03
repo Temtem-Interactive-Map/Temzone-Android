@@ -9,7 +9,7 @@ import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class RetrofitTemzoneRepository @Inject constructor(
-    private val temzoneApi: TemzoneApi
+    private val temzoneApi: TemzoneApi,
 ) : TemzoneRepository {
 
     override suspend fun getMarkers(): List<Marker> {

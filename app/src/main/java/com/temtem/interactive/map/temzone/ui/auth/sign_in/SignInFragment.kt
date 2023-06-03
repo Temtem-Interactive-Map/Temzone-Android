@@ -8,11 +8,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
 import com.temtem.interactive.map.temzone.ui.auth.sign_in.state.SignInUiState
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
+import com.temtem.interactive.map.temzone.utils.extensions.closeKeyboard
 import com.temtem.interactive.map.temzone.utils.extensions.setErrorAndRequestFocus
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +44,7 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
             val email = viewBinding.emailEditText.text.toString().trim()
             val password = viewBinding.passwordEditText.text.toString().trim()
 
+            closeKeyboard()
             viewModel.signIn(email, password)
         }
 
@@ -61,8 +64,17 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
                         is SignInUiState.Error -> {
                             viewBinding.signInButton.isEnabled = true
-                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
-                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)
+
+                            if (it.message != null) {
+                                viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(null)
+                                viewBinding.emailTextInputLayout.setErrorAndRequestFocus(null)
+
+                                Snackbar.make(viewBinding.root, it.message, Snackbar.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
+                                viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)
+                            }
                         }
                     }
                 }
