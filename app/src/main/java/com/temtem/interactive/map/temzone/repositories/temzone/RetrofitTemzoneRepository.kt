@@ -1,11 +1,14 @@
 package com.temtem.interactive.map.temzone.repositories.temzone
 
+import com.temtem.interactive.map.temzone.exceptions.InternalException
+import com.temtem.interactive.map.temzone.exceptions.NetworkException
 import com.temtem.interactive.map.temzone.repositories.temzone.data.Marker
 import com.temtem.interactive.map.temzone.repositories.temzone.retrofit.TemzoneApi
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import java.io.IOException
 import javax.inject.Inject
 
 class RetrofitTemzoneRepository @Inject constructor(
@@ -27,8 +30,16 @@ class RetrofitTemzoneRepository @Inject constructor(
             }
 
             return markers.awaitAll().flatten()
-        } catch (e: Exception) {
-            throw e
+        } catch (exception: Exception) {
+            when (exception) {
+                is IOException -> {
+                    throw NetworkException(exception)
+                }
+
+                else -> {
+                    throw InternalException(exception)
+                }
+            }
         }
     }
 }

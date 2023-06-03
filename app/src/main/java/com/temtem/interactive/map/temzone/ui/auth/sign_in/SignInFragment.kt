@@ -69,8 +69,11 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
                                 viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(null)
                                 viewBinding.emailTextInputLayout.setErrorAndRequestFocus(null)
 
-                                Snackbar.make(viewBinding.root, it.message, Snackbar.LENGTH_SHORT)
-                                    .show()
+                                Snackbar.make(
+                                    viewBinding.root,
+                                    it.message,
+                                    Snackbar.LENGTH_SHORT,
+                                ).show()
                             } else {
                                 viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
                                 viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)

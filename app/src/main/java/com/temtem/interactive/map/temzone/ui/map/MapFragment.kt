@@ -339,6 +339,12 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
                         is MarkersUiState.Error -> {
                             markersSnackbar?.dismiss()
+
+                            Snackbar.make(
+                                viewBinding.root,
+                                it.message,
+                                Snackbar.LENGTH_SHORT,
+                            ).show()
                         }
                     }
                 }

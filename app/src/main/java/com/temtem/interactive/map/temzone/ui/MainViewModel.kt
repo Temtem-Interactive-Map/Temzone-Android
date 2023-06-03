@@ -1,7 +1,10 @@
 package com.temtem.interactive.map.temzone.ui
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.exceptions.NetworkException
 import com.temtem.interactive.map.temzone.repositories.auth.AuthRepository
 import com.temtem.interactive.map.temzone.repositories.temzone.TemzoneRepository
 import com.temtem.interactive.map.temzone.repositories.temzone.data.MarkerType
@@ -17,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val application: Application,
     private val authRepository: AuthRepository,
     private val temzoneRepository: TemzoneRepository,
 ) : ViewModel() {
@@ -33,8 +37,20 @@ class MainViewModel @Inject constructor(
                 val markers = temzoneRepository.getMarkers()
 
                 _markersUiState.value = MarkersUiState.Success(markers, emptyList())
-            } catch (e: Exception) {
-                _markersUiState.value = MarkersUiState.Error(e.message.orEmpty())
+            } catch (exception: Exception) {
+                when (exception) {
+                    is NetworkException -> {
+                        _markersUiState.value = MarkersUiState.Error(
+                            application.getString(R.string.network_error),
+                        )
+                    }
+
+                    else -> {
+                        _markersUiState.value = MarkersUiState.Error(
+                            application.getString(R.string.unavailable_error),
+                        )
+                    }
+                }
             }
         }
     }

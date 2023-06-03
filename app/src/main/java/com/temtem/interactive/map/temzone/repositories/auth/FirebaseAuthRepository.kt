@@ -21,18 +21,10 @@ class FirebaseAuthRepository @Inject constructor(
     }
 
     override suspend fun getUserToken(): String {
-        try {
-            return firebaseAuth.currentUser?.getIdToken(false)?.await()?.token.orEmpty()
+        return try {
+            firebaseAuth.currentUser?.getIdToken(true)?.await()?.token.orEmpty()
         } catch (exception: Exception) {
-            when (exception) {
-                is FirebaseNetworkException -> {
-                    throw NetworkException(exception)
-                }
-
-                else -> {
-                    throw InternalException(exception)
-                }
-            }
+            ""
         }
     }
 
