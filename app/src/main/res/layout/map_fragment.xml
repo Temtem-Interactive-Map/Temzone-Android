@@ -1,0 +1,97 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionGroup="true"
+    tools:theme="@style/Theme.Temzone">
+
+    <ovh.plrapps.mapview.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#001e3c"
+        android:elevation="-2dp" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.BottomSheetAppBarLayoutBehavior">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationContentDescription="@string/expand_more_navigation_content_description"
+            app:navigationIcon="@drawable/expand_more_icon" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.SearchAppBarLayoutBehavior">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_hint"
+            app:menu="@menu/search_bar_menu"
+            app:navigationIcon="@drawable/search_icon"
+            app:navigationIconTint="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/map_layer_floating_action_button"
+            style="@style/Widget.Temzone.FloatingActionButton.MapLayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="@dimen/m3_searchbar_margin_horizontal"
+            android:contentDescription="@string/map_details_label"
+            app:srcCompat="@drawable/layers_icon" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/search_hint"
+        app:layout_anchor="@id/search_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.search.SearchView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bottom_drawer"
+        style="@style/Widget.Temzone.BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="-1dp"
+        app:behavior_fitToContents="false"
+        app:behavior_halfExpandedRatio="0.6"
+        app:behavior_peekHeight="100dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

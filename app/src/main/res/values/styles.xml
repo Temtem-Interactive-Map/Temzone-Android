@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Link typography -->
+    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/rubik</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Map layer floating action button -->
+    <style name="Widget.Temzone.FloatingActionButton.MapLayer" parent="Base.Widget.Material3.FloatingActionButton.Small">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraLarge</item>
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.Temzone.FloatingActionButton.Small
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.Temzone.FloatingActionButton.Small" parent="">
+        <item name="colorContainer">?attr/colorSurface</item>
+        <item name="colorOnContainer">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Google button -->
+    <style name="Widget.Temzone.Button.Google" parent="Widget.Material3.Button.TonalButton.Icon">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
+        <item name="android:text">@string/google_button_text</item>
+        <item name="icon">@drawable/google_icon</item>
+        <item name="iconTint">@null</item>
+    </style>
+
+    <!-- Bottom sheet -->
+    <style name="Widget.Temzone.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="android:maxWidth">@null</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+</resources>

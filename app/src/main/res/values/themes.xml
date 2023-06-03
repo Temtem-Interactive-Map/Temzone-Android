@@ -1,32 +1,171 @@
 <resources>
 
+    <style name="Theme.Temzone.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Temzone</item>
+    </style>
+
     <style name="Theme.Temzone" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/md_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/md_theme_light_error</item>
-        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
-        <item name="colorOnError">@color/md_theme_light_onError</item>
-        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_light_background</item>
-        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
-        <item name="colorSurface">@color/md_theme_light_surface</item>
-        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
-        <item name="colorOutline">@color/md_theme_light_outline</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+        <!-- System -->
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="fontFamily">@font/rubik</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Colors -->
+        <item name="colorPrimary">@color/fun_blue</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/pattens_blue</item>
+        <item name="colorOnPrimaryContainer">@color/midnight</item>
+        <item name="colorSecondary">@color/shuttle_gray</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="colorSecondaryContainer">@color/moon_raker</item>
+        <item name="colorOnSecondaryContainer">@color/big_stone</item>
+        <item name="colorTertiary">@color/vin_rouge</item>
+        <item name="colorOnTertiary">@android:color/white</item>
+        <item name="colorTertiaryContainer">@color/cosmos</item>
+        <item name="colorOnTertiaryContainer">@color/toledo</item>
+        <item name="colorError">@color/thunderbird</item>
+        <item name="colorErrorContainer">@color/peach_schnapps</item>
+        <item name="colorOnError">@android:color/white</item>
+        <item name="colorOnErrorContainer">@color/temptress</item>
+        <item name="android:colorBackground">@color/magnolia</item>
+        <item name="colorOnBackground">@color/shark</item>
+        <item name="colorSurface">@color/magnolia</item>
+        <item name="colorOnSurface">@color/shark</item>
+        <item name="colorSurfaceVariant">@color/mystic</item>
+        <item name="colorOnSurfaceVariant">@color/mako</item>
+        <item name="colorOutline">@color/pale_sky</item>
+        <item name="colorOnSurfaceInverse">@color/athens_gray</item>
+        <item name="colorSurfaceInverse">@color/tap_shoe</item>
+        <item name="colorPrimaryInverse">@color/anakiwa</item>
+
+        <!-- Typography -->
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Temzone.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Temzone.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Temzone.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Temzone.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">
+            @style/TextAppearance.Temzone.HeadlineMedium
+        </item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Temzone.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Temzone.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Temzone.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Temzone.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Temzone.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Temzone.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Temzone.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Temzone.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Temzone.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Temzone.LabelSmall</item>
+
+        <!-- Custom styles -->
+        <item name="textInputStyle">@style/Widget.Temzone.TextInputLayout</item>
+        <item name="materialButtonStyle">@style/Widget.Temzone.Button.Icon</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Temzone.BottomSheetDialog</item>
+    </style>
+
+    <!-- Display typography -->
+    <style name="TextAppearance.Temzone.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontFamily">@font/rubik</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="fontFamily">@font/rubik</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Headline typography -->
+    <style name="TextAppearance.Temzone.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="lineHeight">40sp</item>
+    </style>
+
+    <!-- Title typography -->
+    <style name="TextAppearance.Temzone.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/rubik_medium</item>
+    </style>
+
+    <!-- Body typography -->
+    <style name="TextAppearance.Temzone.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/rubik</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/rubik</item>
+        <item name="lineHeight">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/rubik_bold</item>
+    </style>
+
+    <!-- Label typography -->
+    <style name="TextAppearance.Temzone.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/rubik</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/rubik</item>
+    </style>
+
+    <!-- Text input layout -->
+    <style name="Widget.Temzone.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+    <!-- Filled button -->
+    <style name="Widget.Temzone.Button.Icon" parent="Widget.Material3.Button.Icon">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
+    </style>
+
+    <!-- Bottom sheet modal -->
+    <style name="Widget.Temzone.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:maxWidth">@null</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.None</item>
+    </style>
+
+    <style name="ThemeOverlay.Temzone.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="behavior_draggable">false</item>
+        <item name="bottomSheetStyle">@style/Widget.Temzone.BottomSheet.Modal</item>
     </style>
 
 </resources>
