@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.utils.extensions.dpToPx
+import com.temtem.interactive.map.temzone.utils.extensions.hideAndDisable
 
 class SearchAppBarLayoutBehavior(
     context: Context,
@@ -57,9 +58,10 @@ class SearchAppBarLayoutBehavior(
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            child
-                                .findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
-                                .hide()
+                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
+                                .apply {
+                                    hideAndDisable()
+                                }
                         }
                     })
                     start()

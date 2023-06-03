@@ -26,8 +26,10 @@ import com.temtem.interactive.map.temzone.ui.map.state.MarkersUiState
 import com.temtem.interactive.map.temzone.utils.bindings.viewBindings
 import com.temtem.interactive.map.temzone.utils.extensions.MarkerView
 import com.temtem.interactive.map.temzone.utils.extensions.getDrawable
+import com.temtem.interactive.map.temzone.utils.extensions.hideAndDisable
 import com.temtem.interactive.map.temzone.utils.extensions.moveToPosition
 import com.temtem.interactive.map.temzone.utils.extensions.setLightStatusBar
+import com.temtem.interactive.map.temzone.utils.extensions.showAndEnable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapview.MapViewConfiguration
@@ -104,24 +106,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             true
         }
 
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                viewBinding.searchBar.isClickable =
-                    !(newState == BottomSheetBehavior.STATE_DRAGGING || newState == BottomSheetBehavior.STATE_SETTLING)
-
-                // Reset the search bar menu when the bottom sheet is hidden
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    viewBinding.searchBar.menu.clear()
-                    viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                    viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
-                    viewBinding.searchBar.navigationContentDescription = null
-                    viewBinding.searchBar.setNavigationOnClickListener(null)
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
-
         // endregion
 
         // region Configure the search view
@@ -154,13 +138,11 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        viewBinding.mapLayerFloatingActionButton.isClickable = false
-                        viewBinding.mapLayerFloatingActionButton.hide()
+                        viewBinding.mapLayerFloatingActionButton.hideAndDisable()
                     }
 
                     BottomSheetBehavior.STATE_COLLAPSED, BottomSheetBehavior.STATE_HIDDEN -> {
-                        viewBinding.mapLayerFloatingActionButton.isClickable = true
-                        viewBinding.mapLayerFloatingActionButton.show()
+                        viewBinding.mapLayerFloatingActionButton.showAndEnable()
                     }
 
                     else -> {
@@ -216,6 +198,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             override fun onMarkerTap(view: View, x: Int, y: Int) {
                 val markerView = view as MarkerView
 
+                // Save the current marker id
                 currentMarkerId = markerView.id
 
                 // Change the search bar menu to a back menu
@@ -236,8 +219,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 }
 
                 // Force hide the map layer floating action button before showing the bottom sheet
-                viewBinding.mapLayerFloatingActionButton.isClickable = false
-                viewBinding.mapLayerFloatingActionButton.hide()
+                viewBinding.mapLayerFloatingActionButton.hideAndDisable()
 
                 // Show the bottom sheet
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -282,9 +264,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                                 viewBinding.root,
                                 R.string.loading_markers_snackbar,
                                 Snackbar.LENGTH_INDEFINITE,
-                            )
-
-                            markersSnackbar?.show()
+                            ).apply { show() }
                         }
 
                         is MarkersUiState.Success -> {
@@ -370,6 +350,24 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         bottomSheetBehavior.expandedOffset =
             resources.getDimension(com.google.android.material.R.dimen.m3_appbar_size_compact)
                 .toInt()
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                // Reset the search bar menu when the bottom sheet is hidden
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    viewBinding.searchBar.menu.clear()
+                    viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
+                    viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+                    viewBinding.searchBar.navigationContentDescription = null
+                    viewBinding.searchBar.setNavigationOnClickListener(null)
+
+                    // Reset the current selected marker
+                    currentMarkerId = null
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
 
         // endregion
 

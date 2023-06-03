@@ -8,6 +8,8 @@
 
     <style name="Theme.Temzone" parent="Theme.Material3.Light.NoActionBar">
         <!-- System -->
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="fontFamily">@font/rubik</item>
         <item name="elevationOverlayEnabled">false</item>
