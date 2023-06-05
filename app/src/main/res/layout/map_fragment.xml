@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.BottomSheetAppBarLayoutBehavior">
+        app:layout_behavior="com.temtem.interactive.map.temzone.presentation.map.behaviors.BottomSheetAppBarLayoutBehavior">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:layout_behavior="com.temtem.interactive.map.temzone.utils.behaviors.SearchAppBarLayoutBehavior">
+        app:layout_behavior="com.temtem.interactive.map.temzone.presentation.map.behaviors.SearchAppBarLayoutBehavior">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/search_bar"

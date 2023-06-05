@@ -65,9 +65,13 @@
     <string name="loading_markers_snackbar">Synchronizing markers…</string>
 
     <!-- Errors -->
-    <string name="field_required_error">This field is required</string>
-    <string name="sign_in_argument_error">Email or password is invalid</string>
+    <string name="email_empty_error">This field is required</string>
+    <string name="password_empty_error">This field is required</string>
+    <string name="credential_error">Email or password is invalid</string>
+    <string name="confirm_password_empty_error">This field is required</string>
+    <string name="passwords_do_not_match_error">Passwords do not match</string>
+    <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity. Please try again later</string>
     <string name="network_error">Network connectivity limited or unavailable</string>
-    <string name="unavailable_error">Service is currently unavailable. Please try again later</string>
+    <string name="internal_error">Service is currently unavailable. Please try again later</string>
 
 </resources>

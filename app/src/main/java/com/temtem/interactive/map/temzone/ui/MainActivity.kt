@@ -7,12 +7,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.presentation.map.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MapViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
