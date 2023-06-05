@@ -1,4 +1,4 @@
-package com.temtem.interactive.map.temzone.core.utils.extensions
+package com.temtem.interactive.map.temzone.core.extension
 
 import android.content.Context
 import android.graphics.drawable.Drawable

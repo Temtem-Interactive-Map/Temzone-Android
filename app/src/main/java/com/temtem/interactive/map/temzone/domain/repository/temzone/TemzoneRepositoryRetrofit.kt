@@ -1,12 +1,15 @@
 package com.temtem.interactive.map.temzone.domain.repository.temzone
 
+import android.app.Application
 import com.temtem.interactive.map.temzone.data.remote.TemzoneApi
 import com.temtem.interactive.map.temzone.data.remote.dto.marker.MarkerDto
-import com.temtem.interactive.map.temzone.domain.exceptions.InternalException
-import com.temtem.interactive.map.temzone.domain.exceptions.NetworkException
+import com.temtem.interactive.map.temzone.domain.exception.NetworkException
+import com.temtem.interactive.map.temzone.domain.exception.UnknownException
 import com.temtem.interactive.map.temzone.domain.mapper.marker.saipark.toMarkerSaipark
 import com.temtem.interactive.map.temzone.domain.mapper.marker.spawn.toMarkerSpawn
 import com.temtem.interactive.map.temzone.domain.mapper.marker.toMarker
+import com.temtem.interactive.map.temzone.domain.mapper.toPage
+import com.temtem.interactive.map.temzone.domain.model.Page
 import com.temtem.interactive.map.temzone.domain.model.marker.Marker
 import com.temtem.interactive.map.temzone.domain.model.marker.saipark.MarkerSaipark
 import com.temtem.interactive.map.temzone.domain.model.marker.spawn.MarkerSpawn
@@ -18,6 +21,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class TemzoneRepositoryRetrofit @Inject constructor(
+    private val application: Application,
     private val temzoneApi: TemzoneApi,
 ) : TemzoneRepository {
 
@@ -44,11 +48,11 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
-                    throw NetworkException(exception)
+                    throw NetworkException(application)
                 }
 
                 else -> {
-                    throw InternalException(exception)
+                    throw UnknownException(application)
                 }
             }
         }
@@ -60,11 +64,11 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
-                    throw NetworkException(exception)
+                    throw NetworkException(application)
                 }
 
                 else -> {
-                    throw InternalException(exception)
+                    throw UnknownException(application)
                 }
             }
         }
@@ -76,11 +80,11 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
-                    throw NetworkException(exception)
+                    throw NetworkException(application)
                 }
 
                 else -> {
-                    throw InternalException(exception)
+                    throw UnknownException(application)
                 }
             }
         }
@@ -92,27 +96,31 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
-                    throw NetworkException(exception)
+                    throw NetworkException(application)
                 }
 
                 else -> {
-                    throw InternalException(exception)
+                    throw UnknownException(application)
                 }
             }
         }
     }
 
-    override suspend fun searchMarkers(query: String, limit: Int, offset: Int): List<Marker> {
+    override suspend fun searchMarkers(query: String, limit: Int, offset: Int): Page<Marker> {
         try {
-            return temzoneApi.searchMarkers(query, limit, offset).items.map { it.toMarker() }
+            return temzoneApi.searchMarkers(query, limit, offset).let { page ->
+                page.toPage(page.items.map {
+                    it.toMarker()
+                })
+            }
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
-                    throw NetworkException(exception)
+                    throw NetworkException(application)
                 }
 
                 else -> {
-                    throw InternalException(exception)
+                    throw UnknownException(application)
                 }
             }
         }

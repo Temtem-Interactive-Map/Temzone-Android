@@ -11,12 +11,13 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.core.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.core.utils.extensions.closeKeyboard
-import com.temtem.interactive.map.temzone.core.utils.extensions.setErrorAndRequestFocus
-import com.temtem.interactive.map.temzone.core.utils.extensions.setLightStatusBar
+import com.temtem.interactive.map.temzone.core.binding.viewBindings
+import com.temtem.interactive.map.temzone.core.extension.closeKeyboard
+import com.temtem.interactive.map.temzone.core.extension.setErrorAndRequestFocus
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
 import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpState
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,9 +68,17 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
                         is SignUpState.Error -> {
                             viewBinding.signUpButton.isEnabled = true
-                            viewBinding.confirmPasswordTextInputLayout.setErrorAndRequestFocus(it.confirmPasswordError)
-                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordError)
-                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailError)
+                            viewBinding.confirmPasswordTextInputLayout.setErrorAndRequestFocus(it.confirmPasswordMessage)
+                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
+                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)
+
+                            if (it.snackbarMessage != null) {
+                                Snackbar.make(
+                                    viewBinding.root,
+                                    it.snackbarMessage,
+                                    Snackbar.LENGTH_SHORT,
+                                ).show()
+                            }
                         }
                     }
                 }

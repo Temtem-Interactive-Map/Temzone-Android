@@ -1,4 +1,4 @@
-package com.temtem.interactive.map.temzone.core.utils.bindings
+package com.temtem.interactive.map.temzone.core.binding
 
 import android.view.View
 import androidx.fragment.app.Fragment

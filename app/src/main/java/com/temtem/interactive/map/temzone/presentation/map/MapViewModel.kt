@@ -1,10 +1,8 @@
 package com.temtem.interactive.map.temzone.presentation.map
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.domain.exceptions.NetworkException
+import com.temtem.interactive.map.temzone.domain.exception.NetworkException
 import com.temtem.interactive.map.temzone.domain.model.NetworkStatus
 import com.temtem.interactive.map.temzone.domain.model.marker.Marker
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
@@ -24,7 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val application: Application,
     private val authRepository: AuthRepository,
     private val temzoneRepository: TemzoneRepository,
     private val networkRepository: NetworkRepository,
@@ -36,18 +33,8 @@ class MapViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             networkRepository.observe().collect {
-                if (it == NetworkStatus.AVAILABLE) {
-                    when (_markersState.value) {
-                        is MarkersState.Error -> {
-                            val state = _markersState.value as MarkersState.Error
-
-                            if (!state.networkAvailable) {
-                                getMarkers()
-                            }
-                        }
-
-                        else -> Unit
-                    }
+                if (it == NetworkStatus.AVAILABLE && _markersState.value is MarkersState.Error && !(_markersState.value as MarkersState.Error).networkAvailable) {
+                    getMarkers()
                 }
             }
         }
@@ -65,14 +52,14 @@ class MapViewModel @Inject constructor(
                 when (exception) {
                     is NetworkException -> {
                         _markersState.value = MarkersState.Error(
-                            internalError = application.getString(R.string.network_error),
+                            snackbarMessage = exception.message!!,
                             networkAvailable = false,
                         )
                     }
 
                     else -> {
                         _markersState.value = MarkersState.Error(
-                            internalError = application.getString(R.string.internal_error),
+                            snackbarMessage = exception.message!!,
                         )
                     }
                 }

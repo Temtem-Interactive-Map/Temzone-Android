@@ -1,15 +1,11 @@
 package com.temtem.interactive.map.temzone.presentation.auth.sign_in
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.core.validation.ValidateNotEmpty
+import com.temtem.interactive.map.temzone.domain.exception.InvalidCredentialException
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
-import com.temtem.interactive.map.temzone.domain.exceptions.InvalidCredentialException
-import com.temtem.interactive.map.temzone.domain.exceptions.NetworkException
 import com.temtem.interactive.map.temzone.presentation.auth.sign_in.state.SignInState
-import com.temtem.interactive.map.temzone.domain.use_case.ValidateEmail
-import com.temtem.interactive.map.temzone.domain.use_case.ValidatePassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val application: Application,
-    private val validateEmail: ValidateEmail,
-    private val validatePassword: ValidatePassword,
+    private val validateNotEmpty: ValidateNotEmpty,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
@@ -30,8 +24,8 @@ class SignInViewModel @Inject constructor(
     val signInState: StateFlow<SignInState> = _signInState.asStateFlow()
 
     fun signIn(email: String, password: String) {
-        val emailValidation = validateEmail.execute(email)
-        val passwordValidation = validatePassword.execute(password)
+        val emailValidation = validateNotEmpty(email)
+        val passwordValidation = validateNotEmpty(password)
         val hasError = listOf(emailValidation, passwordValidation).any {
             !it.successful
         }
@@ -39,15 +33,14 @@ class SignInViewModel @Inject constructor(
         if (hasError) {
             _signInState.update {
                 SignInState.Error(
-                    emailError = emailValidation.error,
-                    passwordError = passwordValidation.error,
+                    emailMessage = emailValidation.message,
+                    passwordMessage = passwordValidation.message,
                 )
             }
         } else {
             _signInState.update {
                 SignInState.Loading
             }
-
             viewModelScope.launch {
                 try {
                     authRepository.signInWithEmailAndPassword(email, password)
@@ -59,26 +52,15 @@ class SignInViewModel @Inject constructor(
                         is InvalidCredentialException -> {
                             _signInState.update {
                                 SignInState.Error(
-                                    emailError = application.getString(R.string.credential_error),
-                                    passwordError = application.getString(R.string.credential_error),
-                                )
-                            }
-                        }
-
-                        is NetworkException -> {
-                            _signInState.update {
-                                SignInState.Error(
-                                    internalError = application.getString(R.string.network_error),
-                                    networkAvailable = false,
+                                    emailMessage = exception.message,
+                                    passwordMessage = exception.message,
                                 )
                             }
                         }
 
                         else -> {
                             _signInState.update {
-                                SignInState.Error(
-                                    internalError = application.getString(R.string.internal_error),
-                                )
+                                SignInState.Error(snackbarMessage = exception.message)
                             }
                         }
                     }

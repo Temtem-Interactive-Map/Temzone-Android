@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.core.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.core.utils.extensions.closeKeyboard
-import com.temtem.interactive.map.temzone.core.utils.extensions.setErrorAndRequestFocus
-import com.temtem.interactive.map.temzone.core.utils.extensions.setLightStatusBar
+import com.temtem.interactive.map.temzone.core.binding.viewBindings
+import com.temtem.interactive.map.temzone.core.extension.closeKeyboard
+import com.temtem.interactive.map.temzone.core.extension.setErrorAndRequestFocus
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
 import com.temtem.interactive.map.temzone.presentation.auth.sign_in.state.SignInState
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,14 +63,14 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
                         }
 
                         is SignInState.Error -> {
-                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordError)
-                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailError)
                             viewBinding.signInButton.isEnabled = true
+                            viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
+                            viewBinding.emailTextInputLayout.setErrorAndRequestFocus(it.emailMessage)
 
-                            if (it.internalError != null) {
+                            if (it.snackbarMessage != null) {
                                 Snackbar.make(
                                     viewBinding.root,
-                                    it.internalError,
+                                    it.snackbarMessage,
                                     Snackbar.LENGTH_SHORT,
                                 ).show()
                             }

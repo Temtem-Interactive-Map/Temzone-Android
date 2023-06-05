@@ -1,18 +1,14 @@
 package com.temtem.interactive.map.temzone.presentation.auth.sign_up
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.core.validation.ValidateMatchPassword
+import com.temtem.interactive.map.temzone.core.validation.ValidateNotEmpty
+import com.temtem.interactive.map.temzone.domain.exception.EmailCollisionException
+import com.temtem.interactive.map.temzone.domain.exception.EmailFormatException
+import com.temtem.interactive.map.temzone.domain.exception.WeakPasswordException
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
-import com.temtem.interactive.map.temzone.domain.exceptions.EmailCollisionException
-import com.temtem.interactive.map.temzone.domain.exceptions.InvalidCredentialException
-import com.temtem.interactive.map.temzone.domain.exceptions.NetworkException
-import com.temtem.interactive.map.temzone.domain.exceptions.WeakPasswordException
 import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpState
-import com.temtem.interactive.map.temzone.domain.use_case.ValidateConfirmPassword
-import com.temtem.interactive.map.temzone.domain.use_case.ValidateEmail
-import com.temtem.interactive.map.temzone.domain.use_case.ValidatePassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val application: Application,
-    private val validateEmail: ValidateEmail,
-    private val validatePassword: ValidatePassword,
-    private val validateConfirmPassword: ValidateConfirmPassword,
+    private val validateNotEmpty: ValidateNotEmpty,
+    private val validateMatchPassword: ValidateMatchPassword,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
@@ -34,9 +28,9 @@ class SignUpViewModel @Inject constructor(
     val signUpState: StateFlow<SignUpState> = _signUpState.asStateFlow()
 
     fun signUp(email: String, password: String, confirmPassword: String) {
-        val emailValidation = validateEmail.execute(email)
-        val passwordValidation = validatePassword.execute(password)
-        val confirmPasswordValidation = validateConfirmPassword.execute(password, confirmPassword)
+        val emailValidation = validateNotEmpty(email)
+        val passwordValidation = validateNotEmpty(password)
+        val confirmPasswordValidation = validateMatchPassword(password, confirmPassword)
         val hasError = listOf(emailValidation, passwordValidation, confirmPasswordValidation).any {
             !it.successful
         }
@@ -44,16 +38,15 @@ class SignUpViewModel @Inject constructor(
         if (hasError) {
             _signUpState.update {
                 SignUpState.Error(
-                    emailError = emailValidation.error,
-                    passwordError = passwordValidation.error,
-                    confirmPasswordError = confirmPasswordValidation.error,
+                    emailMessage = emailValidation.message,
+                    passwordMessage = passwordValidation.message,
+                    confirmPasswordMessage = confirmPasswordValidation.message,
                 )
             }
         } else {
             _signUpState.update {
                 SignUpState.Loading
             }
-
             viewModelScope.launch {
                 try {
                     authRepository.signUpWithEmailAndPassword(email, password)
@@ -62,23 +55,18 @@ class SignUpViewModel @Inject constructor(
                     }
                 } catch (exception: Exception) {
                     when (exception) {
-                        is InvalidCredentialException -> {
-
-                        }
-
-                        is EmailCollisionException -> {
-
+                        is EmailFormatException, is EmailCollisionException -> {
+                            _signUpState.update {
+                                SignUpState.Error(
+                                    emailMessage = exception.message,
+                                )
+                            }
                         }
 
                         is WeakPasswordException -> {
-
-                        }
-
-                        is NetworkException -> {
                             _signUpState.update {
                                 SignUpState.Error(
-                                    internalError = application.getString(R.string.network_error),
-                                    networkAvailable = false,
+                                    passwordMessage = exception.message,
                                 )
                             }
                         }
@@ -86,7 +74,7 @@ class SignUpViewModel @Inject constructor(
                         else -> {
                             _signUpState.update {
                                 SignUpState.Error(
-                                    internalError = application.getString(R.string.internal_error),
+                                    snackbarMessage = exception.message,
                                 )
                             }
                         }

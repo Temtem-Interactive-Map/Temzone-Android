@@ -1,17 +1,17 @@
-package com.temtem.interactive.map.temzone.domain.use_case
+package com.temtem.interactive.map.temzone.core.validation
 
 import android.app.Application
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.domain.use_case.data.ValidationResult
+import com.temtem.interactive.map.temzone.core.validation.model.ValidationResult
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ValidateConfirmPassword @Inject constructor(
+class ValidateMatchPassword @Inject constructor(
     private val application: Application,
 ) {
 
-    fun execute(password: String, confirmPassword: String): ValidationResult {
+    operator fun invoke(password: String, confirmPassword: String): ValidationResult {
         if (confirmPassword.isBlank()) {
             return ValidationResult(application.getString(R.string.confirm_password_empty_error))
         }

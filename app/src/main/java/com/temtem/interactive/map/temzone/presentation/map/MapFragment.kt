@@ -20,13 +20,13 @@ import com.google.android.material.search.SearchView.TransitionState
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.core.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.core.utils.extensions.MarkerView
-import com.temtem.interactive.map.temzone.core.utils.extensions.getDrawable
-import com.temtem.interactive.map.temzone.core.utils.extensions.hideAndDisable
-import com.temtem.interactive.map.temzone.core.utils.extensions.moveToPosition
-import com.temtem.interactive.map.temzone.core.utils.extensions.setLightStatusBar
-import com.temtem.interactive.map.temzone.core.utils.extensions.showAndEnable
+import com.temtem.interactive.map.temzone.core.binding.viewBindings
+import com.temtem.interactive.map.temzone.core.extension.MarkerView
+import com.temtem.interactive.map.temzone.core.extension.getDrawable
+import com.temtem.interactive.map.temzone.core.extension.hideAndDisable
+import com.temtem.interactive.map.temzone.core.extension.moveToPosition
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
+import com.temtem.interactive.map.temzone.core.extension.showAndEnable
 import com.temtem.interactive.map.temzone.databinding.MapFragmentBinding
 import com.temtem.interactive.map.temzone.presentation.map.state.MarkersState
 import dagger.hilt.android.AndroidEntryPoint
@@ -345,7 +345,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
                             Snackbar.make(
                                 viewBinding.root,
-                                it.internalError,
+                                it.snackbarMessage,
                                 Snackbar.LENGTH_SHORT,
                             ).show()
                         }

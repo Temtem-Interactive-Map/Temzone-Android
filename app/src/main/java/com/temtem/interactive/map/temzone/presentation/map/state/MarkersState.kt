@@ -11,7 +11,7 @@ sealed interface MarkersState {
     ) : MarkersState
 
     data class Error(
-        val internalError: String,
+        val snackbarMessage: String,
         val networkAvailable: Boolean = true,
     ) : MarkersState
 }

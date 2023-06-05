@@ -5,9 +5,8 @@ sealed interface SignInState {
     object Loading : SignInState
     object Success : SignInState
     data class Error(
-        val emailError: String? = null,
-        val passwordError: String? = null,
-        val internalError: String? = null,
-        val networkAvailable: Boolean = true,
+        val emailMessage: String? = null,
+        val passwordMessage: String? = null,
+        val snackbarMessage: String? = null,
     ) : SignInState
 }

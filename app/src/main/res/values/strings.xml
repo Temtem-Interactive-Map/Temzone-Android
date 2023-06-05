@@ -66,12 +66,17 @@
 
     <!-- Errors -->
     <string name="email_empty_error">This field is required</string>
+    <string name="email_format_error">Email is badly formatted</string>
+    <string name="email_collision_error">Email already in use</string>
     <string name="password_empty_error">This field is required</string>
+    <string name="password_length_error">Password must be at least %1$d characters long</string>
+    <string name="password_number_error">Password must contain at least one number</string>
+    <string name="password_space_error">Password cannot contain spaces</string>
     <string name="credential_error">Email or password is invalid</string>
     <string name="confirm_password_empty_error">This field is required</string>
     <string name="passwords_do_not_match_error">Passwords do not match</string>
-    <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity. Please try again later</string>
     <string name="network_error">Network connectivity limited or unavailable</string>
-    <string name="internal_error">Service is currently unavailable. Please try again later</string>
+    <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity</string>
+    <string name="unknown_error">Service is currently unavailable. Please try again later</string>
 
 </resources>

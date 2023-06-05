@@ -10,8 +10,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.core.utils.extensions.dpToPx
-import com.temtem.interactive.map.temzone.core.utils.extensions.hideAndDisable
+import com.temtem.interactive.map.temzone.core.extension.dpToPx
+import com.temtem.interactive.map.temzone.core.extension.hideAndDisable
 
 class SearchAppBarLayoutBehavior(
     context: Context,

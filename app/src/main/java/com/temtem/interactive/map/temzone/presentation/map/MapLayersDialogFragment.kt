@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.databinding.MapLayersDialogFragmentBinding
 import com.temtem.interactive.map.temzone.presentation.map.state.MarkersState
-import com.temtem.interactive.map.temzone.core.utils.bindings.viewBindings
+import com.temtem.interactive.map.temzone.core.binding.viewBindings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

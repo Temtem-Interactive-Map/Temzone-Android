@@ -10,8 +10,8 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.temtem.interactive.map.temzone.core.utils.extensions.dpToPx
-import com.temtem.interactive.map.temzone.core.utils.extensions.setLightStatusBar
+import com.temtem.interactive.map.temzone.core.extension.dpToPx
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 
 class BottomSheetAppBarLayoutBehavior(
     private val context: Context,

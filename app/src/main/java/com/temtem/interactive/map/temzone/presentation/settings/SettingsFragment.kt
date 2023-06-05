@@ -7,8 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.core.utils.bindings.viewBindings
-import com.temtem.interactive.map.temzone.core.utils.extensions.setLightStatusBar
+import com.temtem.interactive.map.temzone.core.binding.viewBindings
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SettingsFragmentBinding
 import com.temtem.interactive.map.temzone.presentation.map.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
