@@ -27,7 +27,6 @@ class TemzoneRepositoryRetrofit @Inject constructor(
 
     override suspend fun getMarkers(): List<Marker> {
         try {
-
             val markers = mutableListOf<Deferred<List<MarkerDto>>>()
 
             coroutineScope {
