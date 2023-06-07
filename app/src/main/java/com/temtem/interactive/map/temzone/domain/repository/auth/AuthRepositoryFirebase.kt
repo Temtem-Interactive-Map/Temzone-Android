@@ -1,6 +1,10 @@
 package com.temtem.interactive.map.temzone.domain.repository.auth
 
 import android.app.Application
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.BeginSignInResult
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -10,8 +14,10 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.temtem.interactive.map.temzone.R
+import com.temtem.interactive.map.temzone.domain.exception.AccountException
 import com.temtem.interactive.map.temzone.domain.exception.EmailCollisionException
 import com.temtem.interactive.map.temzone.domain.exception.EmailFormatException
+import com.temtem.interactive.map.temzone.domain.exception.EmailNotFoundException
 import com.temtem.interactive.map.temzone.domain.exception.InvalidCredentialException
 import com.temtem.interactive.map.temzone.domain.exception.NetworkException
 import com.temtem.interactive.map.temzone.domain.exception.TooManyRequestsException
@@ -22,12 +28,30 @@ import javax.inject.Inject
 
 class AuthRepositoryFirebase @Inject constructor(
     private val application: Application,
+    private val signInClient: SignInClient,
     private val firebaseAuth: FirebaseAuth,
 ) : AuthRepository {
 
-    private companion object {
-        private const val PASSWORD_MIN_LENGTH = 8
-    }
+    private val signInRequest: BeginSignInRequest =
+        BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
+            .setFilterByAuthorizedAccounts(true).setServerClientId(
+                application.getString(
+                    R.string.default_web_client_id
+                )
+            ).build().let {
+                BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(it)
+                    .setAutoSelectEnabled(true).build()
+            }
+
+    private val signUpRequest: BeginSignInRequest =
+        BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
+            .setFilterByAuthorizedAccounts(false).setServerClientId(
+                application.getString(
+                    R.string.default_web_client_id
+                )
+            ).build().let {
+                BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(it).build()
+            }
 
     override fun isUserSignedIn(): Boolean {
         return firebaseAuth.currentUser != null
@@ -46,72 +70,22 @@ class AuthRepositoryFirebase @Inject constructor(
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
         } catch (exception: Exception) {
             when (exception) {
-                is FirebaseAuthInvalidUserException, is FirebaseAuthInvalidCredentialsException -> {
-                    throw InvalidCredentialException(application)
-                }
-
-                is FirebaseNetworkException -> {
-                    throw NetworkException(application)
-                }
-
-                is FirebaseTooManyRequestsException -> {
-                    throw TooManyRequestsException(application)
-                }
-
-                else -> {
-                    throw UnknownException(application)
-                }
-            }
-        }
-    }
-
-    override suspend fun signInWithGoogle(idToken: String) {
-        try {
-            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-
-            firebaseAuth.signInWithCredential(firebaseCredential).await()
-        } catch (exception: Exception) {
-            when (exception) {
+                // Thrown if the user account corresponding to email does not exist or has been disabled
                 is FirebaseAuthInvalidUserException -> {
                     throw InvalidCredentialException(application)
                 }
 
+                // Thrown if the password is wrong
                 is FirebaseAuthInvalidCredentialsException -> {
                     throw InvalidCredentialException(application)
                 }
 
-                is FirebaseAuthUserCollisionException -> {
-                    throw InvalidCredentialException(application)
-                }
-
+                // Thrown if the request has failed due to a network error
                 is FirebaseNetworkException -> {
                     throw NetworkException(application)
                 }
 
-                is FirebaseTooManyRequestsException -> {
-                    throw TooManyRequestsException(application)
-                }
-
-                else -> {
-                    throw UnknownException(application)
-                }
-            }
-        }
-    }
-
-    override suspend fun forgotPassword(email: String) {
-        try {
-            firebaseAuth.sendPasswordResetEmail(email).await()
-        } catch (exception: Exception) {
-            when (exception) {
-                is FirebaseAuthInvalidUserException -> {
-                    throw InvalidCredentialException(application)
-                }
-
-                is FirebaseNetworkException -> {
-                    throw NetworkException(application)
-                }
-
+                // Thrown if the request has been blocked due to excessive consecutive requests
                 is FirebaseTooManyRequestsException -> {
                     throw TooManyRequestsException(application)
                 }
@@ -124,28 +98,31 @@ class AuthRepositoryFirebase @Inject constructor(
     }
 
     override suspend fun signUpWithEmailAndPassword(email: String, password: String) {
-        validatePassword(password)
-
         try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
         } catch (exception: Exception) {
             when (exception) {
+                // Thrown if the password is not strong enough
                 is FirebaseAuthWeakPasswordException -> {
-                    throw WeakPasswordException(exception.reason.orEmpty())
+                    throw WeakPasswordException(application)
                 }
 
+                // Thrown if the email address is malformed
                 is FirebaseAuthInvalidCredentialsException -> {
                     throw EmailFormatException(application)
                 }
 
+                // Thrown if there already exists an account with the given email address
                 is FirebaseAuthUserCollisionException -> {
                     throw EmailCollisionException(application)
                 }
 
+                // Thrown if the request has failed due to a network error
                 is FirebaseNetworkException -> {
                     throw NetworkException(application)
                 }
 
+                // Thrown if the request has been blocked due to excessive consecutive requests
                 is FirebaseTooManyRequestsException -> {
                     throw TooManyRequestsException(application)
                 }
@@ -157,24 +134,95 @@ class AuthRepositoryFirebase @Inject constructor(
         }
     }
 
-    override fun signOut() {
-        firebaseAuth.signOut()
+    override suspend fun requestSignInWithGoogle(): BeginSignInResult {
+        return try {
+            signInClient.beginSignIn(signInRequest).await()
+        } catch (exception: ApiException) {
+            try {
+                signInClient.beginSignIn(signUpRequest).await()
+            } catch (exception: ApiException) {
+                throw UnknownException(application)
+            }
+        }
     }
 
-    private fun validatePassword(password: String) {
-        if (password.length < PASSWORD_MIN_LENGTH) {
-            throw WeakPasswordException(
-                application.getString(
-                    R.string.password_length_error,
-                    PASSWORD_MIN_LENGTH,
-                )
-            )
+    override suspend fun signInWithGoogle(idToken: String?) {
+        try {
+            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+
+            firebaseAuth.signInWithCredential(firebaseCredential).await()
+        } catch (exception: Exception) {
+            when (exception) {
+                // Thrown if the user has been disabled
+                is FirebaseAuthInvalidUserException -> {
+                    throw AccountException(application)
+                }
+
+                // Thrown if the credential is malformed or has expired
+                is FirebaseAuthInvalidCredentialsException -> {
+                    throw UnknownException(application)
+                }
+
+                // Thrown if there already exists an account with the email address
+                is FirebaseAuthUserCollisionException -> {
+                    throw EmailCollisionException(application)
+                }
+
+                // Thrown if the request has failed due to a network error
+                is FirebaseNetworkException -> {
+                    throw NetworkException(application)
+                }
+
+                // Thrown if the request has been blocked due to excessive consecutive requests
+                is FirebaseTooManyRequestsException -> {
+                    throw TooManyRequestsException(application)
+                }
+
+                else -> {
+                    throw UnknownException(application)
+                }
+            }
         }
-        if (!password.contains(Regex("[0-9]"))) {
-            throw WeakPasswordException(application.getString(R.string.password_number_error))
+    }
+
+    override suspend fun sendPasswordResetEmail(email: String) {
+        try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+        } catch (exception: Exception) {
+            when (exception) {
+                // Thrown if the email address is malformed
+                is FirebaseAuthInvalidCredentialsException -> {
+                    throw EmailFormatException(application)
+                }
+
+                // Thrown if there is no user corresponding to the given email address
+                is FirebaseAuthInvalidUserException -> {
+                    throw EmailNotFoundException(application)
+                }
+
+                // Thrown if the request has failed due to a network error
+                is FirebaseNetworkException -> {
+                    throw NetworkException(application)
+                }
+
+                // Thrown if the request has been blocked due to excessive consecutive requests
+                is FirebaseTooManyRequestsException -> {
+                    throw TooManyRequestsException(application)
+                }
+
+                else -> {
+                    throw UnknownException(application)
+                }
+            }
         }
-        if (password.contains(" ")) {
-            throw WeakPasswordException(application.getString(R.string.password_space_error))
+    }
+
+    override suspend fun signOut() {
+        firebaseAuth.signOut()
+
+        try {
+            signInClient.signOut().await()
+        } catch (_: Exception) {
         }
     }
 }
