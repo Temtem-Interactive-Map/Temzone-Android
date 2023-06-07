@@ -16,7 +16,7 @@ class NetworkRepositoryObserver @Inject constructor(
     private val application: Application,
 ) : NetworkRepository {
 
-    private val connectivityManager by lazy {
+    private val connectivityManager: ConnectivityManager by lazy {
         application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
