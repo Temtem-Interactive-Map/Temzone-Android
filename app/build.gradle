@@ -81,6 +81,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     implementation "androidx.paging:paging-runtime:3.1.1"
+    implementation "com.github.barteksc:android-pdf-viewer:3.2.0-beta.1"
     implementation "ovh.plrapps:mapview:3.1.5"
 
     // Network dependencies
@@ -94,6 +95,9 @@ dependencies {
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
+
+    // Google Play Services dependencies
+    implementation "com.google.android.gms:play-services-auth:20.5.0"
 }
 
 kapt {
