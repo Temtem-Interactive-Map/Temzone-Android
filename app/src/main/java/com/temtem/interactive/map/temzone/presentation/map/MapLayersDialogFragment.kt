@@ -13,9 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.temtem.interactive.map.temzone.R
-import com.temtem.interactive.map.temzone.databinding.MapLayersDialogFragmentBinding
-import com.temtem.interactive.map.temzone.presentation.map.state.MarkersState
 import com.temtem.interactive.map.temzone.core.binding.viewBindings
+import com.temtem.interactive.map.temzone.databinding.MapLayersDialogFragmentBinding
+import com.temtem.interactive.map.temzone.presentation.map.state.MapState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,6 +28,7 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
 
+        // Set the dialog to be expanded by default
         dialog.setOnShowListener {
             val bottomSheetDialog = it as BottomSheetDialog
             val bottomDrawer =
@@ -41,12 +42,16 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // region Configure the map layer buttons
+        // region Map layers
 
+        // region Temtem layer
+
+        // Add the temtem button click listener
         viewBinding.temtemButton.setOnClickListener {
             activityViewModel.changeTemtemLayerVisibility()
         }
 
+        // Observe the temtem button state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.temtemLayerState.collect {
@@ -55,10 +60,16 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
             }
         }
 
+        // endregion
+
+        // region Landmark layer
+
+        // Add the landmark button click listener
         viewBinding.landmarkButton.setOnClickListener {
             activityViewModel.changeLandmarkLayerVisibility()
         }
 
+        // Observe the landmark button state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.landmarkLayerState.collect {
@@ -67,11 +78,14 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
             }
         }
 
+        // endregion
+
+        // Observe the map state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.markersState.collect {
+                activityViewModel.mapState.collect {
                     when (it) {
-                        is MarkersState.Success -> {
+                        is MapState.Success -> {
                             viewBinding.temtemButton.isEnabled = true
                             viewBinding.landmarkButton.isEnabled = true
                         }
@@ -87,12 +101,9 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
 
         // endregion
 
-        // region Configure the navigation
-
+        // Navigate to the previous fragment
         viewBinding.closeButton.setOnClickListener {
             findNavController().popBackStack()
         }
-
-        // endregion
     }
 }

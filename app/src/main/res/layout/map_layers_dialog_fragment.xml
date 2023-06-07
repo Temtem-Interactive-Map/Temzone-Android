@@ -17,7 +17,7 @@
             style="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/map_details_label"
+            android:text="@string/map_details"
             app:layout_constraintBottom_toBottomOf="@+id/close_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/close_button" />

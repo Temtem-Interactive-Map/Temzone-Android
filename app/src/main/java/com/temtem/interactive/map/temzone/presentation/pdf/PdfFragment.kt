@@ -1,27 +1,27 @@
-package com.temtem.interactive.map.temzone.presentation.settings
+package com.temtem.interactive.map.temzone.presentation.pdf
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.core.binding.viewBindings
 import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
-import com.temtem.interactive.map.temzone.databinding.SettingsFragmentBinding
-import com.temtem.interactive.map.temzone.presentation.map.MapViewModel
+import com.temtem.interactive.map.temzone.databinding.PdfFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(R.layout.settings_fragment) {
+class PdfFragment : Fragment(R.layout.pdf_fragment) {
 
-    private val activityViewModel: MapViewModel by activityViewModels()
-    private val viewBinding: SettingsFragmentBinding by viewBindings()
+    companion object {
+        const val PRIVACY_POLICY_PDF = "privacy_policy.pdf"
+        const val TERMS_OF_SERVICE_PDF = "terms_of_service.pdf"
+    }
+
+    private val arguments: PdfFragmentArgs by navArgs()
+    private val viewBinding: PdfFragmentBinding by viewBindings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +35,11 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // region Sign out
+        // Set the toolbar title
+        viewBinding.toolbar.title = arguments.title
 
-        // Add the sign out button click listener
-        viewBinding.signOutButton.setOnClickListener {
-            viewBinding.signOutButton.isEnabled = false
-            activityViewModel.signOut()
-        }
-
-        // Observe the sign out state
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.signOutState.collect {
-                    findNavController().navigate(SettingsFragmentDirections.fromSettingsFragmentToSignInFragment())
-                }
-            }
-        }
-
-        // endregion
+        // Load the PDF file from the assets folder
+        viewBinding.pdfView.fromAsset(arguments.filename).load()
 
         // Navigate to the previous fragment
         viewBinding.toolbar.setNavigationOnClickListener {

@@ -151,7 +151,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/spacer"
-                    android:text="@string/terms_of_service_link_prefix" />
+                    android:text="@string/terms_of_service_link_prefix"
+                    android:textAllCaps="false" />
 
                 <TextView
                     android:id="@+id/terms_of_service_text_view"
