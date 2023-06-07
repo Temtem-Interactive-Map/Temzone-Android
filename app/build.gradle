@@ -62,7 +62,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.activity:activity-ktx:1.7.2"
-    implementation "androidx.fragment:fragment-ktx:1.5.7"
+    implementation "androidx.fragment:fragment-ktx:1.6.0"
 
     // Dependency injection dependencies
     implementation "com.google.dagger:hilt-android:2.46.1"
