@@ -18,16 +18,12 @@ class ApiLogger @Inject constructor() : Logger {
     override fun log(message: String) {
         if (message.startsWith("{") || message.startsWith("[")) {
             try {
-                val prettyPrintJson =
-                    GsonBuilder().setPrettyPrinting().create().toJson(JsonParser().parse(message))
+                val json = JsonParser().parse(message)
+                val prettyJson = GsonBuilder().setPrettyPrinting().create().toJson(json)
 
-                Log.d(
-                    TAG, prettyPrintJson
-                )
+                Log.d(TAG, prettyJson)
             } catch (m: JsonSyntaxException) {
-                Log.d(
-                    TAG, message
-                )
+                Log.d(TAG, message)
             }
         } else {
             Log.d(TAG, message)
