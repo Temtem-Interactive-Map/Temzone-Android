@@ -1,3 +1,86 @@
 <resources>
-    <string name="app_name">Temzone</string>
+
+    <!-- System -->
+    <string name="app_name" translatable="false">Temzone</string>
+    <string name="arrow_back_navigation_content_description">Back</string>
+    <string name="expand_more_navigation_content_description">Collapse the bottom sheet</string>
+    <string name="close_button_content_description">Close the map details</string>
+
+    <!-- Branding -->
+    <string name="sign_in_title_branding">Welcome to Temzone</string>
+    <string name="sign_in_subtitle_branding">Sign in to your account</string>
+    <string name="sign_up_branding_title">Let\'s get you signed in</string>
+    <string name="sign_up_branding_subtitle">Create an account and start</string>
+    <string name="forgot_password_branding_title">Forgot Password?</string>
+    <string name="forgot_password_branding_subtitle">We\'ll send you an email</string>
+
+    <!-- Email field -->
+    <string name="email_field_hint">Email</string>
+    <string name="email_field_placeholder">name@company.com</string>
+    <string name="email_field_content_description">Email field</string>
+
+    <!-- Password field -->
+    <string name="password_field_hint">Password</string>
+    <string name="password_field_content_description">Password field</string>
+
+    <!-- Confirm password field -->
+    <string name="confirm_password_field_hint">Confirm password</string>
+    <string name="confirm_password_field_content_description">Confirm password field</string>
+
+    <!-- Search bar/view field -->
+    <string name="search_hint">Search here</string>
+
+    <!-- Buttons -->
+    <string name="sign_in_button_text">Sign in</string>
+    <string name="sign_up_button_text">Sign up</string>
+    <string name="sign_out_button_text">Sign out</string>
+    <string name="google_button_text">Continue with Google</string>
+    <string name="send_button_text">Send</string>
+    <string name="temtem_button_text" translatable="false">Temtem</string>
+    <string name="temtem_button_content_description">Show/hide Temtem markers</string>
+    <string name="landmark_button_text">Landmarks</string>
+    <string name="landmark_button_content_description">Show/hide landmark markers</string>
+
+    <!-- Links -->
+    <string name="sign_in_link_prefix">Already have an account?</string>
+    <string name="sign_in_link">Sign in</string>
+    <string name="sign_up_link_prefix">Don\'t have an account?</string>
+    <string name="sign_up_link">Sign up</string>
+    <string name="forgot_password_link">Forgot your password?</string>
+    <string name="privacy_policy_link_prefix">By signing up, you agree to our</string>
+    <string name="privacy_policy_link">Privacy Policy</string>
+    <string name="terms_of_service_link_prefix">and</string>
+    <string name="terms_of_service_link">Terms of Service</string>
+
+    <!-- Success messages -->
+    <string name="loading_markers_message">Synchronizing markers…</string>
+    <string name="password_recovery_message">The password recovery instructions have been sent to your email</string>
+
+    <!-- Errors -->
+    <string name="email_empty_error">This field is required</string>
+    <string name="email_format_error">Email is badly formatted</string>
+    <string name="email_collision_error">Email already in use</string>
+    <string name="email_not_found_error">No account associated with this email</string>
+    <string name="password_empty_error">This field is required</string>
+    <string name="password_length_error">Password must be at least 6 characters long</string>
+    <string name="credential_error">Email or password is invalid</string>
+    <string name="confirm_password_empty_error">This field is required</string>
+    <string name="passwords_do_not_match_error">Passwords do not match</string>
+    <string name="account_error">Your account has been disabled or deleted</string>
+    <string name="network_error">Network connectivity limited or unavailable</string>
+    <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity</string>
+    <string name="unknown_error">Service is currently unavailable. Try again later</string>
+
+    <!-- Search marker item -->
+    <string name="marker_image_content_description">Marker image</string>
+
+    <!-- Literals -->
+    <string name="or">Or</string>
+    <string name="about">About</string>
+    <string name="account">Account</string>
+    <string name="settings">Settings</string>
+    <string name="map_details">Map details</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+
 </resources>

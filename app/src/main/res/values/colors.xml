@@ -1,10 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="fun_blue">#1860a5</color>
+    <color name="pattens_blue">#d3e3ff</color>
+    <color name="midnight">#001c39</color>
+    <color name="shuttle_gray">#545f71</color>
+    <color name="moon_raker">#d8e3f8</color>
+    <color name="big_stone">#111c2b</color>
+    <color name="vin_rouge">#9b3f58</color>
+    <color name="cosmos">#ffd9df</color>
+    <color name="toledo">#3f0017</color>
+    <color name="thunderbird">#ba1a1a</color>
+    <color name="peach_schnapps">#ffdad6</color>
+    <color name="temptress">#410002</color>
+    <color name="magnolia">#fdfcff</color>
+    <color name="shark">#1a1c1e</color>
+    <color name="mystic">#dfe2eb</color>
+    <color name="mako">#43474e</color>
+    <color name="pale_sky">#73777f</color>
+    <color name="athens_gray">#f1f0f4</color>
+    <color name="tap_shoe">#2f3033</color>
+    <color name="anakiwa">#a3c9ff</color>
+
 </resources>
