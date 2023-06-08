@@ -8,7 +8,7 @@ import com.temtem.interactive.map.temzone.domain.exception.EmailCollisionExcepti
 import com.temtem.interactive.map.temzone.domain.exception.EmailFormatException
 import com.temtem.interactive.map.temzone.domain.exception.WeakPasswordException
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
-import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpState
+import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,8 +24,9 @@ class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _signUpState: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState.Empty)
-    val signUpState: StateFlow<SignUpState> = _signUpState.asStateFlow()
+    private val _signUpFormState: MutableStateFlow<SignUpFormState> =
+        MutableStateFlow(SignUpFormState.Empty)
+    val signUpFormState: StateFlow<SignUpFormState> = _signUpFormState.asStateFlow()
 
     fun signUp(email: String, password: String, confirmPassword: String) {
         val emailValidation = validateNotEmpty(email)
@@ -36,44 +37,45 @@ class SignUpViewModel @Inject constructor(
         }
 
         if (hasError) {
-            _signUpState.update {
-                SignUpState.Error(
+            _signUpFormState.update {
+                SignUpFormState.Error(
                     emailMessage = emailValidation.message,
                     passwordMessage = passwordValidation.message,
                     confirmPasswordMessage = confirmPasswordValidation.message,
                 )
             }
         } else {
-            _signUpState.update {
-                SignUpState.Loading
+            _signUpFormState.update {
+                SignUpFormState.Loading
             }
+
             viewModelScope.launch {
                 try {
                     authRepository.signUpWithEmailAndPassword(email, password)
-                    _signUpState.update {
-                        SignUpState.Success
+                    _signUpFormState.update {
+                        SignUpFormState.Success
                     }
                 } catch (exception: Exception) {
                     when (exception) {
                         is EmailFormatException, is EmailCollisionException -> {
-                            _signUpState.update {
-                                SignUpState.Error(
+                            _signUpFormState.update {
+                                SignUpFormState.Error(
                                     emailMessage = exception.message,
                                 )
                             }
                         }
 
                         is WeakPasswordException -> {
-                            _signUpState.update {
-                                SignUpState.Error(
+                            _signUpFormState.update {
+                                SignUpFormState.Error(
                                     passwordMessage = exception.message,
                                 )
                             }
                         }
 
                         else -> {
-                            _signUpState.update {
-                                SignUpState.Error(
+                            _signUpFormState.update {
+                                SignUpFormState.Error(
                                     snackbarMessage = exception.message,
                                 )
                             }

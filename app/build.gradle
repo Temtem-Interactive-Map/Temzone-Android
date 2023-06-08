@@ -62,7 +62,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.activity:activity-ktx:1.7.2"
-    implementation "androidx.fragment:fragment-ktx:1.5.7"
+    implementation "androidx.fragment:fragment-ktx:1.6.0"
 
     // Dependency injection dependencies
     implementation "com.google.dagger:hilt-android:2.46.1"
@@ -81,6 +81,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     implementation "androidx.paging:paging-runtime:3.1.1"
+    implementation "com.github.barteksc:android-pdf-viewer:3.2.0-beta.1"
     implementation "ovh.plrapps:mapview:3.1.5"
 
     // Network dependencies
@@ -94,6 +95,9 @@ dependencies {
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
+
+    // Google Play Services dependencies
+    implementation "com.google.android.gms:play-services-auth:20.5.0"
 }
 
 kapt {

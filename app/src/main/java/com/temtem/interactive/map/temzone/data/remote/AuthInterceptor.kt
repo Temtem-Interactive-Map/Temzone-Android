@@ -17,22 +17,22 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val invocation =
-            chain.request().tag(Invocation::class.java) ?: return chain.proceed(chain.request())
-        val attachHeader = invocation.method().annotations.any {
+        val request = chain.request()
+        val invocation = request.tag(Invocation::class.java) ?: return chain.proceed(request)
+        val authenticate = invocation.method().annotations.any {
             it.annotationClass == AUTHENTICATED::class
         }
 
-        return if (attachHeader) {
+        return if (authenticate) {
             val token = runBlocking {
                 return@runBlocking authRepository.getAuthToken()
             }
 
             chain.proceed(
-                chain.request().newBuilder().addHeader("Authorization", "Bearer $token").build()
+                request.newBuilder().addHeader("Authorization", "Bearer $token").build()
             )
         } else {
-            chain.proceed(chain.request())
+            chain.proceed(request)
         }
     }
 }

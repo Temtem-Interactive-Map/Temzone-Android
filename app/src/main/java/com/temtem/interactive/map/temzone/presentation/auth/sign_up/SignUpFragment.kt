@@ -19,9 +19,11 @@ import com.temtem.interactive.map.temzone.core.extension.closeKeyboard
 import com.temtem.interactive.map.temzone.core.extension.setErrorAndRequestFocus
 import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
-import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpState
+import com.temtem.interactive.map.temzone.presentation.auth.sign_up.state.SignUpFormState
+import com.temtem.interactive.map.temzone.presentation.pdf.PdfFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
@@ -41,8 +43,9 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // region Configure the sign up button
+        // region Sign up with email and password
 
+        // Add the sign up button click listener
         viewBinding.signUpButton.setOnClickListener {
             val email = viewBinding.emailEditText.text.toString().trim()
             val password = viewBinding.passwordEditText.text.toString().trim()
@@ -52,21 +55,22 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             viewModel.signUp(email, password, confirmPassword)
         }
 
+        // Observe the sign up form state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.signUpState.collect {
+                viewModel.signUpFormState.collect {
                     when (it) {
-                        is SignUpState.Empty -> Unit
+                        is SignUpFormState.Empty -> Unit
 
-                        is SignUpState.Loading -> {
+                        is SignUpFormState.Loading -> {
                             viewBinding.signUpButton.isEnabled = false
                         }
 
-                        is SignUpState.Success -> {
+                        is SignUpFormState.Success -> {
                             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToMapFragment())
                         }
 
-                        is SignUpState.Error -> {
+                        is SignUpFormState.Error -> {
                             viewBinding.signUpButton.isEnabled = true
                             viewBinding.confirmPasswordTextInputLayout.setErrorAndRequestFocus(it.confirmPasswordMessage)
                             viewBinding.passwordTextInputLayout.setErrorAndRequestFocus(it.passwordMessage)
@@ -87,16 +91,39 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
         // endregion
 
-        // region Configure the navigation
+        // region Navigation
 
+        // Navigate to the sign in fragment
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
         }
 
+        // Navigate to the pdf fragment to show the privacy policy
+        viewBinding.privacyPolicyTextView.setOnClickListener {
+            findNavController().navigate(
+                SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
+                    title = getString(R.string.privacy_policy),
+                    filename = PdfFragment.PRIVACY_POLICY_PDF,
+                )
+            )
+        }
+
+        // Navigate to the pdf fragment to show the terms of service
+        viewBinding.termsOfServiceTextView.setOnClickListener {
+            findNavController().navigate(
+                SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
+                    title = getString(R.string.terms_of_service),
+                    filename = PdfFragment.TERMS_OF_SERVICE_PDF,
+                )
+            )
+        }
+
+        // Navigate to the sign in fragment
         viewBinding.signInTextView.setOnClickListener {
             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
         }
 
+        // Override the default back button behavior
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
@@ -114,7 +141,8 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         })
 
         requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(), onBackPressedCallback
+            requireActivity(),
+            onBackPressedCallback,
         )
 
         // endregion

@@ -68,6 +68,10 @@
             app:popUpTo="@+id/sign_up_fragment"
             app:popUpToInclusive="true" />
 
+        <action
+            android:id="@+id/from_sign_up_fragment_to_pdf_fragment"
+            app:destination="@id/pdf_fragment" />
+
     </fragment>
 
     <fragment
@@ -99,10 +103,30 @@
         tools:layout="@layout/settings_fragment">
 
         <action
+            android:id="@+id/from_settings_fragment_to_pdf_fragment"
+            app:destination="@id/pdf_fragment" />
+
+        <action
             android:id="@+id/from_settings_fragment_to_sign_in_fragment"
             app:destination="@id/sign_in_fragment"
             app:popUpTo="@+id/map_fragment"
             app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/pdf_fragment"
+        android:name="com.temtem.interactive.map.temzone.presentation.pdf.PdfFragment"
+        android:label="PdfFragment"
+        tools:layout="@layout/pdf_fragment">
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+
+        <argument
+            android:name="filename"
+            app:argType="string" />
 
     </fragment>
 

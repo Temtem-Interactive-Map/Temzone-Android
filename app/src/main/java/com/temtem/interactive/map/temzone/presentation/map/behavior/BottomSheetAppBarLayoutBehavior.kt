@@ -1,28 +1,28 @@
-package com.temtem.interactive.map.temzone.presentation.map.behaviors
+package com.temtem.interactive.map.temzone.presentation.map.behavior
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.core.extension.dpToPx
-import com.temtem.interactive.map.temzone.core.extension.hideAndDisable
+import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 
-class SearchAppBarLayoutBehavior(
-    context: Context,
+class BottomSheetAppBarLayoutBehavior(
+    private val context: Context,
     attrs: AttributeSet,
 ) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
 
     private companion object {
-        private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.6
+        private const val APP_BAR_SLIDE_OFFSET_THRESHOLD = 0.95
     }
 
-    private val appBarLayoutOffset = context.dpToPx(110)
+    private val appBarLayoutOffset = context.dpToPx(8)
     private val animationDuration =
         context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
@@ -34,6 +34,8 @@ class SearchAppBarLayoutBehavior(
     ): Boolean {
         if (appBarLayoutStartY == null) {
             appBarLayoutStartY = child.y
+            child.y = appBarLayoutStartY!! - appBarLayoutOffset
+            child.visibility = View.GONE
         }
 
         val layoutParams = dependency.layoutParams as CoordinatorLayout.LayoutParams
@@ -54,14 +56,17 @@ class SearchAppBarLayoutBehavior(
                 appBarLayoutVisible = true
 
                 child.animate().apply {
-                    y(appBarLayoutStartY!! - appBarLayoutOffset)
+                    alpha(1f)
+                    y(appBarLayoutStartY!!)
                     duration = animationDuration
                     setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
-                            child.findViewById<FloatingActionButton>(R.id.map_layer_floating_action_button)
-                                .apply {
-                                    hideAndDisable()
-                                }
+                            child.visibility = View.VISIBLE
+
+                            val contextWrapper = context as ContextWrapper
+                            val activity = contextWrapper.baseContext as Activity
+
+                            activity.setLightStatusBar(true)
                         }
                     })
                     start()
@@ -73,8 +78,21 @@ class SearchAppBarLayoutBehavior(
             appBarLayoutVisible = false
 
             child.animate().apply {
-                y(appBarLayoutStartY!!)
+                alpha(0f)
+                y(appBarLayoutStartY!! - appBarLayoutOffset)
                 duration = animationDuration
+                setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator) {
+                        val contextWrapper = context as ContextWrapper
+                        val activity = contextWrapper.baseContext as Activity
+
+                        activity.setLightStatusBar(false)
+                    }
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        child.visibility = View.GONE
+                    }
+                })
                 start()
             }
 

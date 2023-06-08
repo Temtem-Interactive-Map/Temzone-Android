@@ -8,15 +8,17 @@ import com.temtem.interactive.map.temzone.domain.model.marker.Marker
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
 import com.temtem.interactive.map.temzone.domain.repository.network.NetworkRepository
 import com.temtem.interactive.map.temzone.domain.repository.temzone.TemzoneRepository
-import com.temtem.interactive.map.temzone.presentation.map.state.MarkersState
+import com.temtem.interactive.map.temzone.presentation.map.state.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,13 +29,13 @@ class MapViewModel @Inject constructor(
     private val networkRepository: NetworkRepository,
 ) : ViewModel() {
 
-    private val _markersState: MutableStateFlow<MarkersState> = MutableStateFlow(MarkersState.Empty)
-    val markersState: SharedFlow<MarkersState> = _markersState.asSharedFlow()
+    private val _mapState: MutableStateFlow<MapState> = MutableStateFlow(MapState.Empty)
+    val mapState: SharedFlow<MapState> = _mapState.asSharedFlow()
 
     init {
         viewModelScope.launch {
             networkRepository.observe().collect {
-                if (it == NetworkStatus.AVAILABLE && _markersState.value is MarkersState.Error && !(_markersState.value as MarkersState.Error).networkAvailable) {
+                if (it == NetworkStatus.AVAILABLE && _mapState.value is MapState.Error && !(_mapState.value as MapState.Error).networkAvailable) {
                     getMarkers()
                 }
             }
@@ -41,26 +43,34 @@ class MapViewModel @Inject constructor(
     }
 
     fun getMarkers() {
-        _markersState.value = MarkersState.Loading
+        _mapState.update {
+            MapState.Loading
+        }
 
         viewModelScope.launch {
             try {
                 val markers = temzoneRepository.getMarkers()
 
-                _markersState.value = MarkersState.Success(markers, emptyList())
+                _mapState.update {
+                    MapState.Success(markers, emptyList())
+                }
             } catch (exception: Exception) {
                 when (exception) {
                     is NetworkException -> {
-                        _markersState.value = MarkersState.Error(
-                            snackbarMessage = exception.message!!,
-                            networkAvailable = false,
-                        )
+                        _mapState.update {
+                            MapState.Error(
+                                snackbarMessage = exception.message.orEmpty(),
+                                networkAvailable = false,
+                            )
+                        }
                     }
 
                     else -> {
-                        _markersState.value = MarkersState.Error(
-                            snackbarMessage = exception.message!!,
-                        )
+                        _mapState.update {
+                            MapState.Error(
+                                snackbarMessage = exception.message.orEmpty(),
+                            )
+                        }
                     }
                 }
             }
@@ -81,7 +91,7 @@ class MapViewModel @Inject constructor(
     val temtemLayerState: StateFlow<Boolean> = _temtemLayerState.asStateFlow()
 
     fun changeTemtemLayerVisibility() {
-        _temtemLayerState.value = !_temtemLayerState.value
+        _temtemLayerState.update { !it }
 
         changeLayerVisibility(_temtemLayerState.value, listOf(Marker.Type.Spawn))
     }
@@ -90,34 +100,38 @@ class MapViewModel @Inject constructor(
     val landmarkLayerState: StateFlow<Boolean> = _landmarkLayerState.asStateFlow()
 
     fun changeLandmarkLayerVisibility() {
-        _landmarkLayerState.value = !_landmarkLayerState.value
+        _landmarkLayerState.update { !it }
 
         changeLayerVisibility(_landmarkLayerState.value, listOf(Marker.Type.Saipark))
     }
 
     private fun changeLayerVisibility(visible: Boolean, types: List<Marker.Type>) {
-        val markersState = _markersState.value as MarkersState.Success
+        val mapState = _mapState.value as MapState.Success
 
         if (visible) {
-            val oldMarkers = markersState.oldMarkers.toMutableList()
+            val oldMarkers = mapState.oldMarkers.toMutableList()
             val newMarkers = oldMarkers.filter { it.type in types }
 
             oldMarkers.removeAll(newMarkers)
 
-            _markersState.value = MarkersState.Success(
-                markersState.newMarkers + newMarkers,
-                oldMarkers,
-            )
+            _mapState.update {
+                MapState.Success(
+                    mapState.newMarkers + newMarkers,
+                    oldMarkers,
+                )
+            }
         } else {
-            val newMarkers = markersState.newMarkers.toMutableList()
+            val newMarkers = mapState.newMarkers.toMutableList()
             val oldMarkers = newMarkers.filter { it.type in types }
 
             newMarkers.removeAll(oldMarkers)
 
-            _markersState.value = MarkersState.Success(
-                newMarkers,
-                markersState.oldMarkers + oldMarkers,
-            )
+            _mapState.update {
+                MapState.Success(
+                    newMarkers,
+                    mapState.oldMarkers + oldMarkers,
+                )
+            }
         }
     }
 
@@ -125,8 +139,17 @@ class MapViewModel @Inject constructor(
         return authRepository.isUserSignedIn()
     }
 
+    private val _signOutState = MutableSharedFlow<Boolean>()
+    val signOutState: SharedFlow<Boolean> = _signOutState.asSharedFlow()
+
     fun signOut() {
-        _markersState.value = MarkersState.Empty
-        authRepository.signOut()
+        _mapState.update {
+            MapState.Empty
+        }
+
+        viewModelScope.launch {
+            authRepository.signOut()
+            _signOutState.emit(true)
+        }
     }
 }

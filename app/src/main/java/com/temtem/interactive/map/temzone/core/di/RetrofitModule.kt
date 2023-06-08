@@ -32,8 +32,10 @@ object RetrofitModule {
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor,
     ): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(authInterceptor).build()
+        return OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authInterceptor)
+            .build()
     }
 
     @Provides
@@ -54,8 +56,11 @@ object RetrofitModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
-        return Retrofit.Builder().client(okHttpClient).baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(gsonConverterFactory).build()
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
     }
 
     @Provides

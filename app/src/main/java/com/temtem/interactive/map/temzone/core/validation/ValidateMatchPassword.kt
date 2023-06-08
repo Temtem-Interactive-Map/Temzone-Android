@@ -15,7 +15,6 @@ class ValidateMatchPassword @Inject constructor(
         if (confirmPassword.isBlank()) {
             return ValidationResult(application.getString(R.string.confirm_password_empty_error))
         }
-
         if (password != confirmPassword) {
             return ValidationResult(application.getString(R.string.passwords_do_not_match_error))
         }
