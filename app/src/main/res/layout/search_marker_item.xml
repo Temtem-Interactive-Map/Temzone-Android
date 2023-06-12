@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/temtem_icon" />
+        tools:src="@drawable/ic_temtem" />
 
     <TextView
         android:id="@+id/title_text_view"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:src="@drawable/north_west_icon"
+        android:src="@drawable/ic_north_west"
         app:layout_constraintBottom_toBottomOf="@+id/marker_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/marker_image_view" />

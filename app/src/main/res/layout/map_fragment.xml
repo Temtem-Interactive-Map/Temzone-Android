@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="@string/expand_more_navigation_content_description"
-            app:navigationIcon="@drawable/expand_more_icon" />
+            app:navigationIcon="@drawable/ic_expand_more" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             app:menu="@menu/search_bar_menu"
-            app:navigationIcon="@drawable/search_icon"
+            app:navigationIcon="@drawable/ic_search"
             app:navigationIconTint="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,7 +52,7 @@
             android:layout_gravity="end"
             android:layout_marginHorizontal="@dimen/m3_searchbar_margin_horizontal"
             android:contentDescription="@string/map_details"
-            app:srcCompat="@drawable/layers_icon" />
+            app:srcCompat="@drawable/ic_layers" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

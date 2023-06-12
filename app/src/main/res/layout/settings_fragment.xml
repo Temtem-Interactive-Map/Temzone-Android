@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
-            app:navigationIcon="@drawable/arrow_back_icon"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/settings"
             app:titleCentered="true" />
 
@@ -31,6 +31,12 @@
         android:text="@string/account"
         android:textAllCaps="true" />
 
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/notifications_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notifications" />
+
     <TextView
         style="?attr/textAppearanceTitleMedium"
         android:layout_width="wrap_content"
@@ -38,11 +44,30 @@
         android:text="@string/about"
         android:textAllCaps="true" />
 
+    <TextView
+        android:id="@+id/terms_of_service_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_of_service" />
+
+    <TextView
+        android:id="@+id/privacy_policy_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_policy" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/sign_out_button_text" />
+
+    <TextView
+        android:id="@+id/version_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:text="Version 0.1.0" />
 
 </LinearLayout>
