@@ -192,13 +192,13 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 // Change the search bar menu to a back menu
                 viewBinding.searchBar.menu.clear()
                 viewBinding.searchBar.inflateMenu(R.menu.search_bar_back_menu)
-                viewBinding.searchBar.setNavigationIcon(R.drawable.arrow_back_icon)
+                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_arrow_back)
                 viewBinding.searchBar.setNavigationContentDescription(R.string.arrow_back_navigation_content_description)
                 viewBinding.searchBar.setNavigationOnClickListener {
                     // Reset the search bar menu
                     viewBinding.searchBar.menu.clear()
                     viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                    viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+                    viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
                     viewBinding.searchBar.navigationContentDescription = null
                     viewBinding.searchBar.setNavigationOnClickListener(null)
 
@@ -268,7 +268,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                                 // Reset the search bar menu
                                 viewBinding.searchBar.menu.clear()
                                 viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                                viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+                                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
                                 viewBinding.searchBar.navigationContentDescription = null
                                 viewBinding.searchBar.setNavigationOnClickListener(null)
 
@@ -368,7 +368,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                         viewBinding.searchBar.menu.clear()
                         viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                        viewBinding.searchBar.setNavigationIcon(R.drawable.search_icon)
+                        viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
                         viewBinding.searchBar.navigationContentDescription = null
                         viewBinding.searchBar.setNavigationOnClickListener(null)
 

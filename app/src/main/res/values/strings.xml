@@ -2,6 +2,7 @@
 
     <!-- System -->
     <string name="app_name" translatable="false">Temzone</string>
+    <string name="app_version">Version %s (%d)</string>
     <string name="arrow_back_navigation_content_description">Back</string>
     <string name="expand_more_navigation_content_description">Collapse the bottom sheet</string>
     <string name="close_button_content_description">Close the map details</string>
@@ -80,6 +81,7 @@
     <string name="account">Account</string>
     <string name="settings">Settings</string>
     <string name="map_details">Map details</string>
+    <string name="notifications">Notifications</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_of_service">Terms of Service</string>
 

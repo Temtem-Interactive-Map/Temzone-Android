@@ -3,11 +3,11 @@ package com.temtem.interactive.map.temzone.presentation.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.temtem.interactive.map.temzone.domain.exception.NetworkException
-import com.temtem.interactive.map.temzone.domain.model.NetworkStatus
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
 import com.temtem.interactive.map.temzone.domain.repository.network.NetworkRepository
+import com.temtem.interactive.map.temzone.domain.repository.network.model.NetworkStatus
 import com.temtem.interactive.map.temzone.domain.repository.temzone.TemzoneRepository
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
 import com.temtem.interactive.map.temzone.presentation.map.state.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -34,7 +34,7 @@ class MapViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            networkRepository.observe().collect {
+            networkRepository.getStatus().collect {
                 if (it == NetworkStatus.AVAILABLE && _mapState.value is MapState.Error && !(_mapState.value as MapState.Error).networkAvailable) {
                     getMarkers()
                 }

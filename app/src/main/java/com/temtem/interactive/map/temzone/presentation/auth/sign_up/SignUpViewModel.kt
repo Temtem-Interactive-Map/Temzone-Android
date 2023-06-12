@@ -52,6 +52,7 @@ class SignUpViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     authRepository.signUpWithEmailAndPassword(email, password)
+
                     _signUpFormState.update {
                         SignUpFormState.Success
                     }

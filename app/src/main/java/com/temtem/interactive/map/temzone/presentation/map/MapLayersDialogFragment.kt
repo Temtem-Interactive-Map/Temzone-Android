@@ -55,7 +55,7 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.temtemLayerState.collect {
-                    viewBinding.temtemButton.setImageResource(if (it) R.drawable.temtem_check_button else R.drawable.temtem_uncheck_button)
+                    viewBinding.temtemButton.setImageResource(if (it) R.drawable.temtem_button_check else R.drawable.temtem_button_uncheck)
                 }
             }
         }
@@ -73,7 +73,7 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.landmarkLayerState.collect {
-                    viewBinding.landmarkButton.setImageResource(if (it) R.drawable.landmark_check_button else R.drawable.landmark_uncheck_button)
+                    viewBinding.landmarkButton.setImageResource(if (it) R.drawable.landmark_button_check else R.drawable.landmark_button_uncheck)
                 }
             }
         }

@@ -47,6 +47,7 @@ class SignInViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     authRepository.signInWithEmailAndPassword(email, password)
+
                     _signInFormState.update {
                         SignInFormState.Success
                     }
@@ -80,6 +81,7 @@ class SignInViewModel @Inject constructor(
         _signInGoogleState.update {
             SignInGoogleState.Loading
         }
+
         viewModelScope.launch {
             try {
                 val result = authRepository.requestSignInWithGoogle()
@@ -99,9 +101,11 @@ class SignInViewModel @Inject constructor(
         _signInGoogleState.update {
             SignInGoogleState.Loading
         }
+
         viewModelScope.launch {
             try {
                 authRepository.signInWithGoogle(idToken)
+
                 _signInGoogleState.update {
                     SignInGoogleState.Success
                 }
