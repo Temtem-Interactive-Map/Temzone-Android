@@ -23,6 +23,7 @@ import com.temtem.interactive.map.temzone.domain.exception.NetworkException
 import com.temtem.interactive.map.temzone.domain.exception.TooManyRequestsException
 import com.temtem.interactive.map.temzone.domain.exception.UnknownException
 import com.temtem.interactive.map.temzone.domain.exception.WeakPasswordException
+import com.temtem.interactive.map.temzone.domain.repository.preference.PreferenceRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -30,6 +31,7 @@ class AuthRepositoryFirebase @Inject constructor(
     private val application: Application,
     private val signInClient: SignInClient,
     private val firebaseAuth: FirebaseAuth,
+    private val preferenceRepository: PreferenceRepository,
 ) : AuthRepository {
 
     private val signInRequest: BeginSignInRequest =
@@ -68,6 +70,7 @@ class AuthRepositoryFirebase @Inject constructor(
     override suspend fun signInWithEmailAndPassword(email: String, password: String) {
         try {
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            preferenceRepository.updateNotificationPreference(true)
         } catch (exception: Exception) {
             when (exception) {
                 // Thrown if the user account corresponding to email does not exist or has been disabled
@@ -100,6 +103,7 @@ class AuthRepositoryFirebase @Inject constructor(
     override suspend fun signUpWithEmailAndPassword(email: String, password: String) {
         try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            preferenceRepository.updateNotificationPreference(true)
         } catch (exception: Exception) {
             when (exception) {
                 // Thrown if the password is not strong enough
@@ -151,6 +155,7 @@ class AuthRepositoryFirebase @Inject constructor(
             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
 
             firebaseAuth.signInWithCredential(firebaseCredential).await()
+            preferenceRepository.updateNotificationPreference(true)
         } catch (exception: Exception) {
             when (exception) {
                 // Thrown if the user has been disabled
@@ -219,10 +224,7 @@ class AuthRepositoryFirebase @Inject constructor(
 
     override suspend fun signOut() {
         firebaseAuth.signOut()
-
-        try {
-            signInClient.signOut().await()
-        } catch (_: Exception) {
-        }
+        signInClient.signOut().await()
+        preferenceRepository.updateNotificationPreference(false)
     }
 }
