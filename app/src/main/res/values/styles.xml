@@ -28,7 +28,7 @@
         <item name="android:minWidth">320dp</item>
         <item name="android:maxWidth">320dp</item>
         <item name="android:text">@string/google_button_text</item>
-        <item name="icon">@drawable/google_icon</item>
+        <item name="icon">@drawable/ic_google</item>
         <item name="iconTint">@null</item>
     </style>
 

@@ -1,9 +1,9 @@
 package com.temtem.interactive.map.temzone.domain.repository.temzone
 
-import com.temtem.interactive.map.temzone.domain.model.Page
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
-import com.temtem.interactive.map.temzone.domain.model.marker.saipark.MarkerSaipark
-import com.temtem.interactive.map.temzone.domain.model.marker.spawn.MarkerSpawn
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.Page
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.MarkerSaipark
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.spawn.MarkerSpawn
 
 interface TemzoneRepository {
     suspend fun getMarkers(): List<Marker>
