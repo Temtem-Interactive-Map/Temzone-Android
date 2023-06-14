@@ -63,6 +63,7 @@
 
         <!-- Custom styles -->
         <item name="textInputStyle">@style/Widget.Temzone.TextInputLayout</item>
+        <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
         <item name="materialButtonStyle">@style/Widget.Temzone.Button.Icon</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Temzone.BottomSheetDialog</item>
     </style>
@@ -144,17 +145,23 @@
         <item name="fontFamily">@font/rubik</item>
     </style>
 
-    <!-- Text input layout -->
+    <!-- Text input -->
     <style name="Widget.Temzone.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="android:minWidth">320dp</item>
-        <item name="android:maxWidth">320dp</item>
+        <item name="android:minWidth">@dimen/default_width</item>
+        <item name="android:maxWidth">@dimen/default_width</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+    <!-- Switch -->
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:minWidth">@dimen/default_width</item>
+        <item name="android:maxWidth">@dimen/default_width</item>
     </style>
 
     <!-- Filled button -->
     <style name="Widget.Temzone.Button.Icon" parent="Widget.Material3.Button.Icon">
-        <item name="android:minWidth">320dp</item>
-        <item name="android:maxWidth">320dp</item>
+        <item name="android:minWidth">@dimen/default_width</item>
+        <item name="android:maxWidth">@dimen/default_width</item>
     </style>
 
     <!-- Bottom sheet modal -->

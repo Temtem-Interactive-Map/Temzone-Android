@@ -192,13 +192,13 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 // Change the search bar menu to a back menu
                 viewBinding.searchBar.menu.clear()
                 viewBinding.searchBar.inflateMenu(R.menu.search_bar_back_menu)
-                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_arrow_back)
+                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_arrow_back_24)
                 viewBinding.searchBar.setNavigationContentDescription(R.string.arrow_back_navigation_content_description)
                 viewBinding.searchBar.setNavigationOnClickListener {
                     // Reset the search bar menu
                     viewBinding.searchBar.menu.clear()
                     viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                    viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
+                    viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search_24)
                     viewBinding.searchBar.navigationContentDescription = null
                     viewBinding.searchBar.setNavigationOnClickListener(null)
 
@@ -258,24 +258,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                         is MapState.Success -> {
                             markersSnackbar?.dismiss()
 
-                            // If the current marker is no longer in the list of markers to show,
-                            // reset the search bar menu and hide the bottom sheet
-                            val markerVisible = it.newMarkers.any { marker ->
-                                marker.id == currentMarkerId
-                            }
-
-                            if (!markerVisible) {
-                                // Reset the search bar menu
-                                viewBinding.searchBar.menu.clear()
-                                viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
-                                viewBinding.searchBar.navigationContentDescription = null
-                                viewBinding.searchBar.setNavigationOnClickListener(null)
-
-                                // Hide the bottom sheet
-                                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                            }
-
                             // Add new markers to the map
                             it.newMarkers.forEach { marker ->
                                 val markerView =
@@ -325,6 +307,29 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                                     viewBinding.mapView.removeMarker(markerView)
                                 }
                             }
+
+                            // If the current marker is no longer in the list of markers to show,
+                            // reset the search bar menu and hide the bottom sheet
+                            val markerVisible = it.newMarkers.any { marker ->
+                                marker.id == currentMarkerId
+                            }
+
+                            if (!markerVisible) {
+                                // Reset the search bar menu
+                                viewBinding.searchBar.menu.clear()
+                                viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
+                                viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search_24)
+                                viewBinding.searchBar.navigationContentDescription = null
+                                viewBinding.searchBar.setNavigationOnClickListener(null)
+
+                                // Hide the bottom sheet
+                                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                            }
+
+                            requireActivity().intent.extras?.getString("id")?.let { id ->
+                                val viewMarker = viewBinding.mapView.getMarkerByTag(id) as MarkerView
+                                viewMarker.requestFocus()
+                            }
                         }
 
                         is MapState.Error -> {
@@ -368,7 +373,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                     if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                         viewBinding.searchBar.menu.clear()
                         viewBinding.searchBar.inflateMenu(R.menu.search_bar_menu)
-                        viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search)
+                        viewBinding.searchBar.setNavigationIcon(R.drawable.ic_search_24)
                         viewBinding.searchBar.navigationContentDescription = null
                         viewBinding.searchBar.setNavigationOnClickListener(null)
 

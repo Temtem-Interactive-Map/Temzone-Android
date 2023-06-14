@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackgroundBorderless"
+    android:background="?android:attr/selectableItemBackground"
     android:padding="@dimen/map_layers_dialog_fragment_padding_long"
     tools:theme="@style/Theme.Temzone">
 
     <ImageView
         android:id="@+id/marker_image_view"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size"
+        android:layout_width="@dimen/default_icon_size"
+        android:layout_height="@dimen/default_icon_size"
         android:contentDescription="@string/marker_image_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_north_west"
+        android:src="@drawable/ic_north_west_24"
         app:layout_constraintBottom_toBottomOf="@+id/marker_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/marker_image_view" />

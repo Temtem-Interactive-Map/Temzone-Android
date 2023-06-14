@@ -15,7 +15,7 @@ class PreferenceRepositoryDatastore @Inject constructor(
 ) : PreferenceRepository {
 
     private companion object {
-        private const val TOPIC = "general"
+        private const val TOPIC_EN = "en"
         private val NOTIFICATION = booleanPreferencesKey("notification")
     }
 
@@ -27,9 +27,9 @@ class PreferenceRepositoryDatastore @Inject constructor(
 
     override suspend fun updateNotificationPreference(notificationPreference: Boolean) {
         if (notificationPreference) {
-            firebaseMessaging.subscribeToTopic(TOPIC)
+            firebaseMessaging.subscribeToTopic(TOPIC_EN)
         } else {
-            firebaseMessaging.unsubscribeFromTopic(TOPIC)
+            firebaseMessaging.unsubscribeFromTopic(TOPIC_EN)
         }
 
         application.datastore.edit {

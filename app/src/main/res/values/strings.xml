@@ -53,6 +53,19 @@
     <string name="terms_of_service_link_prefix">and</string>
     <string name="terms_of_service_link">Terms of Service</string>
 
+    <!-- Search marker item -->
+    <string name="marker_image_content_description">Marker image</string>
+
+    <!-- Literals -->
+    <string name="or">Or</string>
+    <string name="about">About</string>
+    <string name="account">Account</string>
+    <string name="settings">Settings</string>
+    <string name="map_details">Map details</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+
     <!-- Success messages -->
     <string name="loading_markers_message">Synchronizing markers…</string>
     <string name="password_recovery_message">The password recovery instructions have been sent to your email</string>
@@ -71,18 +84,5 @@
     <string name="network_error">Network connectivity limited or unavailable</string>
     <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity</string>
     <string name="unknown_error">Service is currently unavailable. Try again later</string>
-
-    <!-- Search marker item -->
-    <string name="marker_image_content_description">Marker image</string>
-
-    <!-- Literals -->
-    <string name="or">Or</string>
-    <string name="about">About</string>
-    <string name="account">Account</string>
-    <string name="settings">Settings</string>
-    <string name="map_details">Map details</string>
-    <string name="notifications">Notifications</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_of_service">Terms of Service</string>
 
 </resources>

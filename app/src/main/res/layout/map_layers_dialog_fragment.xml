@@ -24,11 +24,11 @@
 
         <ImageButton
             android:id="@+id/close_button"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
+            android:layout_width="@dimen/default_icon_size"
+            android:layout_height="@dimen/default_icon_size"
             android:background="@android:color/transparent"
             android:contentDescription="@string/close_button_content_description"
-            android:src="@drawable/ic_close"
+            android:src="@drawable/ic_close_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
