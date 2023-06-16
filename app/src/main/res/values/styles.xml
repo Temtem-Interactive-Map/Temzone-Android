@@ -10,14 +10,24 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Search typography -->
+    <style name="TextAppearance.Temzone.Search.Title" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.Search.Subtitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <!-- Setting typography -->
-    <style name="TextAppearance.Temzone.Setting" parent="">
+    <style name="TextAppearance.Temzone.Setting" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:minWidth">@dimen/default_width</item>
         <item name="android:maxWidth">@dimen/default_width</item>
         <item name="android:paddingVertical">6dp</item>
         <item name="android:drawablePadding">4dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
     </style>
 
     <!-- Map layer floating action button -->

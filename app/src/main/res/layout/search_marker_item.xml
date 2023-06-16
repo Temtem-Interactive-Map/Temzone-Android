@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:padding="@dimen/map_layers_dialog_fragment_padding_long"
     tools:theme="@style/Theme.Temzone">
 
     <ImageView
@@ -19,40 +18,27 @@
 
     <TextView
         android:id="@+id/title_text_view"
-        style="@style/TextAppearance.Temzone.BodyMedium"
+        style="@style/TextAppearance.Temzone.Search.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:ellipsize="end"
-        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/subtitle_text_view"
-        app:layout_constraintEnd_toStartOf="@+id/arrow_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/marker_image_view"
         app:layout_constraintTop_toTopOf="@+id/marker_image_view"
         tools:text="@tools:sample/lorem" />
 
     <TextView
         android:id="@+id/subtitle_text_view"
-        style="@style/TextAppearance.Temzone.BodyMedium"
+        style="@style/TextAppearance.Temzone.Search.Subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:ellipsize="end"
-        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="@+id/marker_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/arrow_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/marker_image_view"
         app:layout_constraintTop_toBottomOf="@+id/title_text_view"
         tools:text="@tools:sample/lorem" />
 
-    <ImageView
-        android:id="@+id/arrow_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_north_west_24"
-        app:layout_constraintBottom_toBottomOf="@+id/marker_image_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/marker_image_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
