@@ -240,6 +240,20 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                         is MapState.Success -> {
                             markersSnackbar?.dismiss()
 
+                            it.markers.forEach { marker ->
+                                viewBinding.mapView.addMarker(marker)
+                            }
+
+                            // On notification click, open the marker
+                            requireActivity().intent.extras?.getString("id")?.let { id ->
+                                val markerView =
+                                    viewBinding.mapView.getMarkerByTag(id) as MarkerView
+
+                                openMarker(markerView)
+                            }
+                        }
+
+                        is MapState.Update -> {
                             it.newMarkers.forEach { marker ->
                                 viewBinding.mapView.addMarker(marker)
                             }
@@ -263,14 +277,6 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
                                 // Hide the bottom sheet
                                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                            }
-
-                            // On notification click, open the marker
-                            requireActivity().intent.extras?.getString("id")?.let { id ->
-                                val viewMarker =
-                                    viewBinding.mapView.getMarkerByTag(id) as MarkerView
-
-                                openMarker(viewMarker)
                             }
                         }
 

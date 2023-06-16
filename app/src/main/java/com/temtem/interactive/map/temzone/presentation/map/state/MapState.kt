@@ -6,6 +6,10 @@ sealed interface MapState {
     object Empty : MapState
     object Loading : MapState
     data class Success(
+        val markers: List<Marker>,
+    ) : MapState
+
+    data class Update(
         val newMarkers: List<Marker>,
         val oldMarkers: List<Marker>,
     ) : MapState

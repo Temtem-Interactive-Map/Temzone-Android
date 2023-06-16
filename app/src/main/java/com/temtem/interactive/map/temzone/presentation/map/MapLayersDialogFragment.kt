@@ -85,7 +85,7 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.mapState.collect {
                     when (it) {
-                        is MapState.Success -> {
+                        is MapState.Success, is MapState.Update -> {
                             viewBinding.temtemButton.isEnabled = true
                             viewBinding.landmarkButton.isEnabled = true
                         }

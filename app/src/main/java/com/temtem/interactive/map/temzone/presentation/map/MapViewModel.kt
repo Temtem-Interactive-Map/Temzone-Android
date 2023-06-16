@@ -53,7 +53,7 @@ class MapViewModel @Inject constructor(
                 val markers = temzoneRepository.getMarkers()
 
                 _mapState.update {
-                    MapState.Success(markers, emptyList())
+                    MapState.Success(markers)
                 }
             } catch (exception: Exception) {
                 when (exception) {
@@ -101,7 +101,14 @@ class MapViewModel @Inject constructor(
     }
 
     private fun changeLayerVisibility(visible: Boolean, types: List<Marker.Type>) {
-        val mapState = _mapState.value as MapState.Success
+        val mapState = if (_mapState.value is MapState.Success) {
+            MapState.Update(
+                (_mapState.value as MapState.Success).markers,
+                emptyList(),
+            )
+        } else {
+            _mapState.value as MapState.Update
+        }
 
         if (visible) {
             val oldMarkers = mapState.oldMarkers.toMutableList()
@@ -110,7 +117,7 @@ class MapViewModel @Inject constructor(
             oldMarkers.removeAll(newMarkers)
 
             _mapState.update {
-                MapState.Success(
+                MapState.Update(
                     mapState.newMarkers + newMarkers,
                     oldMarkers,
                 )
@@ -122,7 +129,7 @@ class MapViewModel @Inject constructor(
             newMarkers.removeAll(oldMarkers)
 
             _mapState.update {
-                MapState.Success(
+                MapState.Update(
                     newMarkers,
                     mapState.oldMarkers + oldMarkers,
                 )
