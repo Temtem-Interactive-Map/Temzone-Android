@@ -1,6 +1,6 @@
 package com.temtem.interactive.map.temzone.presentation.map.state
 
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
 
 sealed interface MapState {
     object Empty : MapState

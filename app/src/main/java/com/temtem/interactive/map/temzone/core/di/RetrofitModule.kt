@@ -32,10 +32,16 @@ object RetrofitModule {
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor,
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(authInterceptor)
-            .build()
+        return if (BuildConfig.DEBUG) {
+            OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(authInterceptor)
+                .build()
+        } else {
+            OkHttpClient.Builder()
+                .addInterceptor(authInterceptor)
+                .build()
+        }
     }
 
     @Provides

@@ -13,7 +13,7 @@
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/wave_icon" />
+        app:srcCompat="@drawable/ic_wave" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
-            app:navigationIcon="@drawable/arrow_back_icon"
+            app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="?attr/colorSurface"
             app:subtitle="@string/sign_up_branding_subtitle"
             app:subtitleCentered="true"
@@ -57,7 +57,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:placeholderText="@string/email_field_placeholder"
             app:startIconContentDescription="@string/email_field_content_description"
-            app:startIconDrawable="@drawable/email_icon">
+            app:startIconDrawable="@drawable/ic_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_edit_text"
@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/email_text_input_layout"
             app:placeholderText="••••••••"
             app:startIconContentDescription="@string/password_field_content_description"
-            app:startIconDrawable="@drawable/lock_icon">
+            app:startIconDrawable="@drawable/ic_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit_text"
@@ -105,7 +105,7 @@
             app:layout_constraintTop_toBottomOf="@+id/password_text_input_layout"
             app:placeholderText="••••••••"
             app:startIconContentDescription="@string/confirm_password_field_content_description"
-            app:startIconDrawable="@drawable/lock_icon">
+            app:startIconDrawable="@drawable/ic_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_password_edit_text"
@@ -169,7 +169,7 @@
             android:id="@+id/sign_up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/form_margin"
+            android:layout_marginTop="@dimen/default_margin_top"
             android:text="@string/sign_up_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
             android:id="@+id/sign_up_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/form_margin"
+            android:layout_marginTop="@dimen/default_margin_top"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,22 +1,25 @@
 package com.temtem.interactive.map.temzone.domain.repository.temzone
 
 import android.app.Application
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.temtem.interactive.map.temzone.data.remote.TemzoneApi
 import com.temtem.interactive.map.temzone.data.remote.dto.marker.MarkerDto
 import com.temtem.interactive.map.temzone.domain.exception.NetworkException
 import com.temtem.interactive.map.temzone.domain.exception.UnknownException
-import com.temtem.interactive.map.temzone.domain.mapper.marker.saipark.toMarkerSaipark
-import com.temtem.interactive.map.temzone.domain.mapper.marker.spawn.toMarkerSpawn
-import com.temtem.interactive.map.temzone.domain.mapper.marker.toMarker
-import com.temtem.interactive.map.temzone.domain.mapper.toPage
-import com.temtem.interactive.map.temzone.domain.model.Page
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
-import com.temtem.interactive.map.temzone.domain.model.marker.saipark.MarkerSaipark
-import com.temtem.interactive.map.temzone.domain.model.marker.spawn.MarkerSpawn
+import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marker.saipark.toMarkerSaipark
+import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marker.spawn.toMarkerSpawn
+import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marker.toMarker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.MarkerSaipark
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.spawn.MarkerSpawn
+import com.temtem.interactive.map.temzone.domain.repository.temzone.paging.MarkerPagingSource
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 import javax.inject.Inject
 
@@ -105,23 +108,9 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         }
     }
 
-    override suspend fun searchMarkers(query: String, limit: Int, offset: Int): Page<Marker> {
-        try {
-            return temzoneApi.searchMarkers(query, limit, offset).let { page ->
-                page.toPage(page.items.map {
-                    it.toMarker()
-                })
-            }
-        } catch (exception: Exception) {
-            when (exception) {
-                is IOException -> {
-                    throw NetworkException(application)
-                }
-
-                else -> {
-                    throw UnknownException(application)
-                }
-            }
-        }
+    override fun searchMarkers(query: String): Flow<PagingData<Marker>> {
+        return Pager(PagingConfig(20)) {
+            MarkerPagingSource(query, application, temzoneApi)
+        }.flow
     }
 }

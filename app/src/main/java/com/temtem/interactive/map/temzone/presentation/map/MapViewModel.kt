@@ -2,16 +2,17 @@ package com.temtem.interactive.map.temzone.presentation.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.temtem.interactive.map.temzone.domain.exception.NetworkException
-import com.temtem.interactive.map.temzone.domain.model.NetworkStatus
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
 import com.temtem.interactive.map.temzone.domain.repository.network.NetworkRepository
+import com.temtem.interactive.map.temzone.domain.repository.network.model.NetworkStatus
 import com.temtem.interactive.map.temzone.domain.repository.temzone.TemzoneRepository
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
 import com.temtem.interactive.map.temzone.presentation.map.state.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,7 +35,7 @@ class MapViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            networkRepository.observe().collect {
+            networkRepository.getStatus().collect {
                 if (it == NetworkStatus.AVAILABLE && _mapState.value is MapState.Error && !(_mapState.value as MapState.Error).networkAvailable) {
                     getMarkers()
                 }
@@ -77,14 +78,8 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    private var searchJob: Job? = null
-
-    fun searchMarkers(query: String) {
-        searchJob?.cancel()
-
-        searchJob = viewModelScope.launch {
-            delay(500L)
-        }
+    fun searchMarkers(query: String): Flow<PagingData<Marker>> {
+        return temzoneRepository.searchMarkers(query).cachedIn(viewModelScope)
     }
 
     private val _temtemLayerState: MutableStateFlow<Boolean> = MutableStateFlow(true)

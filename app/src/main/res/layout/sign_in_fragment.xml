@@ -12,7 +12,7 @@
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/wave_icon" />
+        app:srcCompat="@drawable/ic_wave" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:placeholderText="@string/email_field_placeholder"
             app:startIconContentDescription="@string/email_field_content_description"
-            app:startIconDrawable="@drawable/email_icon">
+            app:startIconDrawable="@drawable/ic_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_edit_text"
@@ -76,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@+id/email_text_input_layout"
             app:placeholderText="••••••••"
             app:startIconContentDescription="@string/password_field_content_description"
-            app:startIconDrawable="@drawable/lock_icon">
+            app:startIconDrawable="@drawable/ic_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit_text"
@@ -100,7 +100,7 @@
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/form_margin"
+            android:layout_marginTop="@dimen/default_margin_top"
             android:text="@string/sign_in_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:dividerInsetStart="@dimen/form_margin"
+            app:dividerInsetStart="@dimen/default_margin_top"
             app:layout_constraintBottom_toBottomOf="@id/or_text_view"
             app:layout_constraintEnd_toStartOf="@+id/or_text_view"
             app:layout_constraintStart_toStartOf="@id/sign_in_button"
@@ -130,7 +130,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:dividerInsetEnd="@dimen/form_margin"
+            app:dividerInsetEnd="@dimen/default_margin_top"
             app:layout_constraintBottom_toBottomOf="@id/or_text_view"
             app:layout_constraintEnd_toEndOf="@id/sign_in_button"
             app:layout_constraintStart_toEndOf="@+id/or_text_view"
@@ -150,7 +150,7 @@
             android:id="@+id/sign_up_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/form_margin"
+            android:layout_marginTop="@dimen/default_margin_top"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

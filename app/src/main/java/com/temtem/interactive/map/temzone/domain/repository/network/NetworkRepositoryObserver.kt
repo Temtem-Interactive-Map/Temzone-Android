@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
-import com.temtem.interactive.map.temzone.domain.model.NetworkStatus
+import com.temtem.interactive.map.temzone.domain.repository.network.model.NetworkStatus
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -20,7 +20,7 @@ class NetworkRepositoryObserver @Inject constructor(
         application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
-    override fun observe(): Flow<NetworkStatus> {
+    override fun getStatus(): Flow<NetworkStatus> {
         return callbackFlow {
             val callbackFlow = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {

@@ -3,7 +3,7 @@ package com.temtem.interactive.map.temzone.core.extension
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
 import java.io.IOException
 
 fun Marker.getDrawable(context: Context): Drawable {

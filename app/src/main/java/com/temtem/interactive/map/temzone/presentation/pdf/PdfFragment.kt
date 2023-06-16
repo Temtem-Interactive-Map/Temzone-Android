@@ -16,8 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class PdfFragment : Fragment(R.layout.pdf_fragment) {
 
     companion object {
-        const val PRIVACY_POLICY_PDF = "privacy_policy.pdf"
-        const val TERMS_OF_SERVICE_PDF = "terms_of_service.pdf"
+        const val PRIVACY_POLICY = "privacy_policy.pdf"
+        const val TERMS_OF_SERVICE = "terms_of_service.pdf"
     }
 
     private val arguments: PdfFragmentArgs by navArgs()

@@ -3,6 +3,8 @@ package com.temtem.interactive.map.temzone.presentation.auth.sign_up
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -16,6 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.core.binding.viewBindings
 import com.temtem.interactive.map.temzone.core.extension.closeKeyboard
+import com.temtem.interactive.map.temzone.core.extension.requestNotificationPermission
 import com.temtem.interactive.map.temzone.core.extension.setErrorAndRequestFocus
 import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SignUpFragmentBinding
@@ -24,12 +27,13 @@ import com.temtem.interactive.map.temzone.presentation.pdf.PdfFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
     private val viewModel: SignUpViewModel by viewModels()
     private val viewBinding: SignUpFragmentBinding by viewBindings()
+    private val requestPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
                         is SignUpFormState.Success -> {
                             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToMapFragment())
+                            requestNotificationPermission(requestPermissionLauncher)
                         }
 
                         is SignUpFormState.Error -> {
@@ -103,7 +108,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             findNavController().navigate(
                 SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
                     title = getString(R.string.privacy_policy),
-                    filename = PdfFragment.PRIVACY_POLICY_PDF,
+                    filename = PdfFragment.PRIVACY_POLICY,
                 )
             )
         }
@@ -113,7 +118,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             findNavController().navigate(
                 SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
                     title = getString(R.string.terms_of_service),
-                    filename = PdfFragment.TERMS_OF_SERVICE_PDF,
+                    filename = PdfFragment.TERMS_OF_SERVICE,
                 )
             )
         }
