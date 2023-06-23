@@ -41,9 +41,10 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // region Send email to reset password
 
-        // Add the send email button click listener
         viewBinding.sendEmailButton.setOnClickListener {
             val email = viewBinding.emailEditText.text.toString().trim()
 
@@ -51,7 +52,6 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
             viewModel.sendPasswordResetEmail(email)
         }
 
-        // Observe the forgot password form state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.forgotPasswordFormState.collect {
@@ -95,17 +95,16 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
 
         // region Navigation
 
-        // Navigate to the sign in fragment
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().navigate(ForgotPasswordFragmentDirections.fromForgotPasswordFragmentToSignInFragment())
         }
 
-        // Navigate to the sign up fragment
         viewBinding.signUpTextView.setOnClickListener {
             findNavController().navigate(ForgotPasswordFragmentDirections.fromForgotPasswordFragmentToSignUpFragment())
         }
 
-        // Override the default back button behavior
+        // region Back button behavior
+
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(ForgotPasswordFragmentDirections.fromForgotPasswordFragmentToSignInFragment())
@@ -126,6 +125,8 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
             requireActivity(),
             onBackPressedCallback,
         )
+
+        // endregion
 
         // endregion
     }
