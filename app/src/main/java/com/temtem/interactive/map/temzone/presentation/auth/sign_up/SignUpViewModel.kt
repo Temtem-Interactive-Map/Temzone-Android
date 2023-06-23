@@ -52,34 +52,27 @@ class SignUpViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     authRepository.signUpWithEmailAndPassword(email, password)
-
                     _signUpFormState.update {
                         SignUpFormState.Success
                     }
                 } catch (exception: Exception) {
                     when (exception) {
-                        is EmailFormatException, is EmailCollisionException -> {
-                            _signUpFormState.update {
-                                SignUpFormState.Error(
-                                    emailMessage = exception.message,
-                                )
-                            }
+                        is EmailFormatException, is EmailCollisionException -> _signUpFormState.update {
+                            SignUpFormState.Error(
+                                emailMessage = exception.message,
+                            )
                         }
 
-                        is WeakPasswordException -> {
-                            _signUpFormState.update {
-                                SignUpFormState.Error(
-                                    passwordMessage = exception.message,
-                                )
-                            }
+                        is WeakPasswordException -> _signUpFormState.update {
+                            SignUpFormState.Error(
+                                passwordMessage = exception.message,
+                            )
                         }
 
-                        else -> {
-                            _signUpFormState.update {
-                                SignUpFormState.Error(
-                                    snackbarMessage = exception.message,
-                                )
-                            }
+                        else -> _signUpFormState.update {
+                            SignUpFormState.Error(
+                                snackbarMessage = exception.message,
+                            )
                         }
                     }
                 }

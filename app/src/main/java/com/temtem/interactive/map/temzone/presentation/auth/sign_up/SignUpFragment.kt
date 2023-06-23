@@ -47,9 +47,10 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // region Sign up with email and password
 
-        // Add the sign up button click listener
         viewBinding.signUpButton.setOnClickListener {
             val email = viewBinding.emailEditText.text.toString().trim()
             val password = viewBinding.passwordEditText.text.toString().trim()
@@ -59,7 +60,6 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             viewModel.signUp(email, password, confirmPassword)
         }
 
-        // Observe the sign up form state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signUpFormState.collect {
@@ -98,12 +98,10 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
 
         // region Navigation
 
-        // Navigate to the sign in fragment
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
         }
 
-        // Navigate to the pdf fragment to show the privacy policy
         viewBinding.privacyPolicyTextView.setOnClickListener {
             findNavController().navigate(
                 SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
@@ -113,7 +111,6 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             )
         }
 
-        // Navigate to the pdf fragment to show the terms of service
         viewBinding.termsOfServiceTextView.setOnClickListener {
             findNavController().navigate(
                 SignUpFragmentDirections.fromSignUpFragmentToPdfFragment(
@@ -123,12 +120,12 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             )
         }
 
-        // Navigate to the sign in fragment
         viewBinding.signInTextView.setOnClickListener {
             findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
         }
 
-        // Override the default back button behavior
+        // region Back button behavior
+
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(SignUpFragmentDirections.fromSignUpFragmentToSignInFragment())
@@ -149,6 +146,8 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
             requireActivity(),
             onBackPressedCallback,
         )
+
+        // endregion
 
         // endregion
     }
