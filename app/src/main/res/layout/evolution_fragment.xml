@@ -22,7 +22,6 @@
             android:id="@+id/evolution_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="2dp"
             tools:listitem="@layout/evolution_item" />
 
     </LinearLayout>
