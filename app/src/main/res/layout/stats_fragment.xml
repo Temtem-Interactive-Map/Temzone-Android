@@ -1,0 +1,286 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/hp" />
+
+            <TextView
+                android:id="@+id/hp_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/hp_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="130"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sta" />
+
+            <TextView
+                android:id="@+id/sta_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/sta_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/spd" />
+
+            <TextView
+                android:id="@+id/spd_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/spd_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/atk" />
+
+            <TextView
+                android:id="@+id/atk_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/atk_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/def" />
+
+            <TextView
+                android:id="@+id/def_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/def_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/spatk" />
+
+            <TextView
+                android:id="@+id/spatk_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/spatk_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/spdef" />
+
+            <TextView
+                android:id="@+id/spdef_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/spdef_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="120"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/total" />
+
+            <TextView
+                android:id="@+id/total_text_view"
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                tools:text="55" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/total_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:indeterminate="false"
+                android:max="850"
+                tools:progress="55" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
