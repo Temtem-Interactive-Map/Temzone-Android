@@ -70,28 +70,22 @@
 
     </com.google.android.material.search.SearchView>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/bottom_drawer"
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
         style="@style/Widget.Temzone.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="-1dp"
+        android:orientation="vertical"
         app:behavior_fitToContents="false"
-        app:behavior_halfExpandedRatio="0.6"
-        app:behavior_peekHeight="100dp"
+        app:behavior_halfExpandedRatio="0.33"
+        app:behavior_peekHeight="80dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <LinearLayout
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
