@@ -13,7 +13,7 @@ fun Fragment.closeKeyboard() {
     val inputMethodManager =
         requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-    inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
 }
 
 fun Fragment.hasNotificationPermission(): Boolean {
