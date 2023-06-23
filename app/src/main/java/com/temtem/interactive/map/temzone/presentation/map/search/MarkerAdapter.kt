@@ -11,13 +11,14 @@ import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker
 class MarkerAdapter(
     diffCallback: DiffUtil.ItemCallback<Marker>,
     private val context: Context,
+    private val listener: (Marker) -> Unit,
 ) : PagingDataAdapter<Marker, MarkerViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarkerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val itemBinding = SearchMarkerItemBinding.inflate(inflater, parent, false)
+        val viewBinding = SearchMarkerItemBinding.inflate(inflater, parent, false)
 
-        return MarkerViewHolder(context, itemBinding)
+        return MarkerViewHolder(context, viewBinding, listener)
     }
 
     override fun onBindViewHolder(holder: MarkerViewHolder, position: Int) {

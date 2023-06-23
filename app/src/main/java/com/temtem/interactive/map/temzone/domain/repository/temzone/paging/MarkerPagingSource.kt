@@ -21,7 +21,7 @@ class MarkerPagingSource(
             if (query.isBlank()) {
                 LoadResult.Page(emptyList(), null, null)
             } else {
-                val page = temzoneApi.searchMarkers(query, params.loadSize, params.key ?: 0)
+                val page = temzoneApi.search(query, params.loadSize, params.key ?: 0)
                 val items = page.items.map { it.toMarker() }
 
                 LoadResult.Page(items, null, page.next)
@@ -39,7 +39,5 @@ class MarkerPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Marker>): Int {
-        return 0
-    }
+    override fun getRefreshKey(state: PagingState<Int, Marker>): Int = 0
 }
