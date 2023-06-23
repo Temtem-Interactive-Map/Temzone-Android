@@ -35,33 +35,39 @@ class AuthRepositoryFirebase @Inject constructor(
 ) : AuthRepository {
 
     private val signInRequest: BeginSignInRequest =
-        BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
-            .setFilterByAuthorizedAccounts(true).setServerClientId(
-                application.getString(
-                    R.string.default_web_client_id
-                )
-            ).build().let {
-                BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(it)
-                    .setAutoSelectEnabled(true).build()
+        BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+            .setSupported(true)
+            .setFilterByAuthorizedAccounts(true)
+            .setServerClientId(application.getString(R.string.default_web_client_id))
+            .build().let {
+                BeginSignInRequest.builder()
+                    .setGoogleIdTokenRequestOptions(it)
+                    .setAutoSelectEnabled(true)
+                    .build()
             }
 
     private val signUpRequest: BeginSignInRequest =
-        BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
-            .setFilterByAuthorizedAccounts(false).setServerClientId(
-                application.getString(
-                    R.string.default_web_client_id
-                )
-            ).build().let {
-                BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(it).build()
+        BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+            .setSupported(true)
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(application.getString(R.string.default_web_client_id))
+            .build().let {
+                BeginSignInRequest.builder()
+                    .setGoogleIdTokenRequestOptions(it)
+                    .build()
             }
 
     override fun isUserSignedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
 
+    override fun getUserId(): String {
+        return firebaseAuth.currentUser?.uid.orEmpty()
+    }
+
     override suspend fun getAuthToken(): String {
         return try {
-            firebaseAuth.currentUser?.getIdToken(true)?.await()?.token.orEmpty()
+            firebaseAuth.currentUser?.getIdToken(false)?.await()?.token.orEmpty()
         } catch (exception: Exception) {
             ""
         }
