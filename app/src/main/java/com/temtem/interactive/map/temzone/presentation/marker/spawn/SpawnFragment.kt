@@ -3,6 +3,7 @@ package com.temtem.interactive.map.temzone.presentation.marker.spawn
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.core.binding.viewBindings
 import com.temtem.interactive.map.temzone.core.di.GlideApp
 import com.temtem.interactive.map.temzone.databinding.SpawnFragmentBinding
+import com.temtem.interactive.map.temzone.presentation.map.MapViewModel
 import com.temtem.interactive.map.temzone.presentation.marker.spawn.state.SpawnState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -19,9 +21,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SpawnFragment(
     private val id: String,
+    private val obtained: Boolean,
 ) : Fragment(R.layout.spawn_fragment) {
 
     private val viewModel: SpawnViewModel by viewModels()
+    private val activityViewModel: MapViewModel by activityViewModels()
     private val viewBinding: SpawnFragmentBinding by viewBindings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +39,17 @@ class SpawnFragment(
 
         viewBinding.retryButton.setOnClickListener {
             viewModel.getSpawn(id)
+        }
+
+        viewBinding.obtainedSwitch.isChecked = obtained
+        viewBinding.obtainedSwitch.jumpDrawablesToCurrentState()
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.obtainedState.collect { obtained ->
+                    viewBinding.obtainedSwitch.isChecked = obtained
+                }
+            }
         }
 
         lifecycleScope.launch {
@@ -70,6 +85,12 @@ class SpawnFragment(
                                     .into(viewBinding.secondaryTypeImageView)
                             } else {
                                 viewBinding.secondaryTypeImageView.visibility = View.GONE
+                            }
+                            viewBinding.obtainedSwitch.setOnCheckedChangeListener { _, _ ->
+                                viewModel.setTemtemObtained(it.spawn.temtem.id)
+                                activityViewModel.setTemtemObtained(
+                                    it.spawn.temtem.name.split(" ").first()
+                                )
                             }
                             viewBinding.tabLayout.visibility = View.VISIBLE
                             viewBinding.viewPager.adapter = SpawnFragmentStateAdapter(

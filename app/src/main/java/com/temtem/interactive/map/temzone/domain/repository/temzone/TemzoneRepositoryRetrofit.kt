@@ -43,7 +43,6 @@ class TemzoneRepositoryRetrofit @Inject constructor(
                     markers.add(items)
                 }
             }
-
             return markers.awaitAll().flatten().map {
                 it.toMarker()
             }
@@ -109,7 +108,7 @@ class TemzoneRepositoryRetrofit @Inject constructor(
     }
 
     override fun search(query: String): Flow<PagingData<Marker>> {
-        return Pager(PagingConfig(5)) {
+        return Pager(PagingConfig(20)) {
             MarkerPagingSource(query, application, temzoneApi)
         }.flow
     }

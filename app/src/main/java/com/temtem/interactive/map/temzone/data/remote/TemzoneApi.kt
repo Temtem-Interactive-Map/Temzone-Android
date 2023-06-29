@@ -5,6 +5,7 @@ import com.temtem.interactive.map.temzone.data.remote.dto.PageDto
 import com.temtem.interactive.map.temzone.data.remote.dto.marker.MarkerDto
 import com.temtem.interactive.map.temzone.data.remote.dto.marker.saipark.SaiparkDto
 import com.temtem.interactive.map.temzone.data.remote.dto.marker.spawn.SpawnDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -34,7 +35,7 @@ interface TemzoneApi {
     @PUT("users/temtem/{id}")
     suspend fun setTemtemObtained(
         @Path("id") id: Int,
-    )
+    ): Response<Unit>
 
     @AUTHENTICATED
     @GET("search")

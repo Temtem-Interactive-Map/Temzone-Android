@@ -544,7 +544,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             parentFragmentManager.beginTransaction().replace(
                 viewBinding.bottomSheet.id,
                 when (markerView.type) {
-                    is Marker.Type.Spawn -> SpawnFragment(markerView.id)
+                    is Marker.Type.Spawn -> SpawnFragment(markerView.id, markerView.obtained)
                     is Marker.Type.Saipark -> SaiparkFragment(markerView.id)
                 },
                 markerView.id,

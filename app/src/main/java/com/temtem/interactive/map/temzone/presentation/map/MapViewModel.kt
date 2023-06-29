@@ -124,6 +124,25 @@ class MapViewModel @Inject constructor(
         }
     }
 
+    fun setTemtemObtained(title: String){
+        val mapState = if (_mapState.value is MapState.Success) MapState.Update(
+            (_mapState.value as MapState.Success).markers,
+            emptyList(),
+        )
+        else _mapState.value as MapState.Update
+
+        _mapState.update {
+            MapState.Update(
+                mapState.newMarkers.map {
+                    if(it.title == title) it.copy(obtained = !it.obtained) else it
+                },
+                mapState.oldMarkers.map {
+                    if(it.title == title) it.copy(obtained = !it.obtained) else it
+                },
+            )
+        }
+    }
+
     fun isUserSignedIn(): Boolean {
         return authRepository.isUserSignedIn()
     }

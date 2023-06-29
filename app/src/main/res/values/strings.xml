@@ -109,6 +109,7 @@
     <string name="catch_rate">Catch Rate</string>
     <string name="base_stats">Base Stats</string>
     <string name="map_details">Map details</string>
+    <string name="obtained">Mark as collected</string>
     <string name="notifications">Notifications</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_of_service">Terms of Service</string>

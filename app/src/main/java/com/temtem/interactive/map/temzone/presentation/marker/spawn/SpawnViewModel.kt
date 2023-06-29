@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.temtem.interactive.map.temzone.domain.repository.temzone.TemzoneRepository
 import com.temtem.interactive.map.temzone.presentation.marker.spawn.state.SpawnState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -36,6 +37,19 @@ class SpawnViewModel @Inject constructor(
                 _spawnState.update {
                     SpawnState.Error(exception.message.orEmpty())
                 }
+            }
+        }
+    }
+
+    private val _obtainedState = MutableSharedFlow<Boolean>()
+    val obtainedState: SharedFlow<Boolean> = _obtainedState.asSharedFlow()
+
+    fun setTemtemObtained(id: Int) {
+        viewModelScope.launch {
+            try {
+                temzoneRepository.setTemtemObtained(id)
+            } catch (exception: Exception) {
+                _obtainedState.emit(false)
             }
         }
     }

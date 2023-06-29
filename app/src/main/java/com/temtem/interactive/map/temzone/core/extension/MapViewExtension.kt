@@ -13,6 +13,7 @@ class MarkerView(
     val type: Marker.Type,
     val x: Double,
     val y: Double,
+    val obtained: Boolean,
 ) : AppCompatImageView(context) {
 
     companion object {
@@ -23,6 +24,7 @@ class MarkerView(
                 marker.type,
                 marker.x.toDouble(),
                 marker.y.toDouble(),
+                marker.obtained,
             ).apply {
                 // Set the marker's elevation to its hash code so
                 // the markers are drawn always in the same order

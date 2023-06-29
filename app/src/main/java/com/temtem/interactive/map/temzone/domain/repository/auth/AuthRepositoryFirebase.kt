@@ -61,10 +61,6 @@ class AuthRepositoryFirebase @Inject constructor(
         return firebaseAuth.currentUser != null
     }
 
-    override fun getUserId(): String {
-        return firebaseAuth.currentUser?.uid.orEmpty()
-    }
-
     override suspend fun getAuthToken(): String {
         return try {
             firebaseAuth.currentUser?.getIdToken(false)?.await()?.token.orEmpty()
