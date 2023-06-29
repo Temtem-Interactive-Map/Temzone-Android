@@ -49,16 +49,12 @@ class ForgotPasswordViewModel @Inject constructor(
                     }
                 } catch (exception: Exception) {
                     when (exception) {
-                        is EmailFormatException, is EmailNotFoundException -> {
-                            _forgotPasswordFormState.update {
-                                ForgotPasswordFormState.Error(emailMessage = exception.message)
-                            }
+                        is EmailFormatException, is EmailNotFoundException -> _forgotPasswordFormState.update {
+                            ForgotPasswordFormState.Error(emailMessage = exception.message)
                         }
 
-                        else -> {
-                            _forgotPasswordFormState.update {
-                                ForgotPasswordFormState.Error(snackbarMessage = exception.message)
-                            }
+                        else -> _forgotPasswordFormState.update {
+                            ForgotPasswordFormState.Error(snackbarMessage = exception.message)
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 package com.temtem.interactive.map.temzone.data.remote.dto.marker.saipark.area
 
-import com.temtem.interactive.map.temzone.data.remote.dto.temtem.TemtemDto
+import com.temtem.interactive.map.temzone.data.remote.dto.marker.saipark.area.temtem.TemtemDto
 
 data class AreaDto(
     val name: String,

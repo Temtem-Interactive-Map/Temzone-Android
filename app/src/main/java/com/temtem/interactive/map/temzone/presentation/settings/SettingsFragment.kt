@@ -49,7 +49,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // region Account
 
-        // Add the notifications switch click listener
         viewBinding.notificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 requestNotificationPermission(requestPermissionLauncher)
@@ -71,7 +70,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
         // region About
 
-        // Navigate to the pdf fragment to show the terms of service
         viewBinding.termsOfServiceTextView.setOnClickListener {
             findNavController().navigate(
                 SettingsFragmentDirections.fromSettingsFragmentToPdfFragment(
@@ -81,7 +79,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             )
         }
 
-        // Navigate to the pdf fragment to show the terms of service
         viewBinding.privacyPolicyTextView.setOnClickListener {
             findNavController().navigate(
                 SettingsFragmentDirections.fromSettingsFragmentToPdfFragment(
@@ -95,13 +92,11 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
         // region Sign out
 
-        // Add the sign out button click listener
         viewBinding.signOutButton.setOnClickListener {
             viewBinding.signOutButton.isEnabled = false
             activityViewModel.signOut()
         }
 
-        // Observe the sign out state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.signOutState.collect {
@@ -112,17 +107,23 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
         // endregion
 
-        // Temzone version
+        // region Version
+
         viewBinding.versionTextView.text = getString(
             R.string.app_version,
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE,
         )
 
-        // Navigate to the previous fragment
+        // endregion
+
+        // region Navigation
+
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+
+        // endregion
     }
 
     override fun onResume() {

@@ -42,16 +42,16 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // region Map layers
 
         // region Temtem layer
 
-        // Add the temtem button click listener
         viewBinding.temtemButton.setOnClickListener {
             activityViewModel.changeTemtemLayerVisibility()
         }
 
-        // Observe the temtem button state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.temtemLayerState.collect {
@@ -64,12 +64,10 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
 
         // region Landmark layer
 
-        // Add the landmark button click listener
         viewBinding.landmarkButton.setOnClickListener {
             activityViewModel.changeLandmarkLayerVisibility()
         }
 
-        // Observe the landmark button state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.landmarkLayerState.collect {
@@ -80,12 +78,11 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
 
         // endregion
 
-        // Observe the map state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 activityViewModel.mapState.collect {
                     when (it) {
-                        is MapState.Success -> {
+                        is MapState.Success, is MapState.Update -> {
                             viewBinding.temtemButton.isEnabled = true
                             viewBinding.landmarkButton.isEnabled = true
                         }
@@ -101,9 +98,12 @@ class MapLayersDialogFragment : BottomSheetDialogFragment(R.layout.map_layers_di
 
         // endregion
 
-        // Navigate to the previous fragment
+        // region Navigation
+
         viewBinding.closeButton.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        // endregion
     }
 }

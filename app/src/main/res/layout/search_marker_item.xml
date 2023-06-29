@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="6dp"
     tools:theme="@style/Theme.Temzone">
 
     <ImageView
         android:id="@+id/marker_image_view"
-        android:layout_width="@dimen/default_icon_size"
-        android:layout_height="@dimen/default_icon_size"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:contentDescription="@string/marker_image_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_temtem" />
+        tools:src="@drawable/ic_landmark" />
 
     <TextView
         android:id="@+id/title_text_view"
@@ -39,6 +41,5 @@
         app:layout_constraintStart_toEndOf="@+id/marker_image_view"
         app:layout_constraintTop_toBottomOf="@+id/title_text_view"
         tools:text="@tools:sample/lorem" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

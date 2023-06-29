@@ -56,9 +56,10 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // region Sign in with email and password
 
-        // Add the sign in button click listener
         viewBinding.signInButton.setOnClickListener {
             val email = viewBinding.emailEditText.text.toString().trim()
             val password = viewBinding.passwordEditText.text.toString().trim()
@@ -67,7 +68,6 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
             viewModel.signInWithEmailAndPassword(email, password)
         }
 
-        // Observe the sign in form state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signInFormState.collect {
@@ -105,13 +105,11 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
         // region Sign in with Google
 
-        // Add the sign in button click listener
         viewBinding.googleButton.setOnClickListener {
             closeKeyboard()
             viewModel.requestSignInWithGoogle()
         }
 
-        // Observe the sign in with Google state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signInGoogleState.collect {
@@ -157,12 +155,10 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
         // region Navigation
 
-        // Navigate to the forgot password fragment
         viewBinding.forgotPasswordTextView.setOnClickListener {
             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment())
         }
 
-        // Navigate to the sign up fragment
         viewBinding.signUpTextView.setOnClickListener {
             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToSignUpFragment())
         }

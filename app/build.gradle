@@ -28,8 +28,8 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         debug {
-            applicationIdSuffix ".debug"
-            buildConfigField "String", "BASE_URL", "\"${properties.getProperty("DEBUG_BASE_URL")}\""
+//            applicationIdSuffix ".debug"
+            buildConfigField "String", "BASE_URL", "\"${properties.getProperty("RELEASE_BASE_URL")}\""
         }
 
         release {
@@ -94,6 +94,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.github.bumptech.glide:glide:4.15.1"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.15.1"
+    kapt "com.github.bumptech.glide:compiler:4.15.1"
 
     // Firebase dependencies
     implementation platform("com.google.firebase:firebase-bom:32.0.0")

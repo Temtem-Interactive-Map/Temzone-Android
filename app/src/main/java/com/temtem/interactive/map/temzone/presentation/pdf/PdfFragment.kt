@@ -35,16 +35,20 @@ class PdfFragment : Fragment(R.layout.pdf_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Set the toolbar title
-        viewBinding.toolbar.title = arguments.title
+        // region PDF
 
-        // Load the PDF file from the assets folder
+        viewBinding.toolbar.title = arguments.title
         viewBinding.pdfView.fromAsset(arguments.filename).load()
 
-        // Navigate to the previous fragment
+        // endregion
+
+        // region Navigation
+
         viewBinding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+
+        // endregion
     }
 
     override fun onResume() {

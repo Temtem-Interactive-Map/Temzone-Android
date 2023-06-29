@@ -1,6 +1,6 @@
 package com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.area
 
-import com.temtem.interactive.map.temzone.domain.repository.temzone.model.temtem.Temtem
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.area.temtem.Temtem
 
 data class Area(
     val name: String,

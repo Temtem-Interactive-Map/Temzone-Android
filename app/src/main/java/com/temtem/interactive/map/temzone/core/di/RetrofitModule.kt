@@ -1,15 +1,18 @@
 package com.temtem.interactive.map.temzone.core.di
 
+import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.temtem.interactive.map.temzone.BuildConfig
-import com.temtem.interactive.map.temzone.data.remote.ApiLogger
-import com.temtem.interactive.map.temzone.data.remote.AuthInterceptor
 import com.temtem.interactive.map.temzone.data.remote.TemzoneApi
+import com.temtem.interactive.map.temzone.domain.interceptor.AuthInterceptor
+import com.temtem.interactive.map.temzone.domain.interceptor.CacheInterceptor
+import com.temtem.interactive.map.temzone.domain.interceptor.LoggerInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,8 +25,14 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideHttpLoggingInterceptor(apiLogger: ApiLogger): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor(apiLogger).setLevel(HttpLoggingInterceptor.Level.BODY)
+    fun provideHttpLoggingInterceptor(loggerInterceptor: LoggerInterceptor): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor(loggerInterceptor).setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCache(application: Application): Cache {
+        return Cache(application.cacheDir, 10 * 1024 * 1024)
     }
 
     @Provides
@@ -31,15 +40,21 @@ object RetrofitModule {
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor,
+        cache: Cache,
+        cacheInterceptor: CacheInterceptor,
     ): OkHttpClient {
         return if (BuildConfig.DEBUG) {
             OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(httpLoggingInterceptor)
                 .addInterceptor(authInterceptor)
+                .addInterceptor(cacheInterceptor)
                 .build()
         } else {
             OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(authInterceptor)
+                .addInterceptor(cacheInterceptor)
                 .build()
         }
     }

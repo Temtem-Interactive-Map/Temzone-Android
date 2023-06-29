@@ -47,25 +47,20 @@ class SignInViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     authRepository.signInWithEmailAndPassword(email, password)
-
                     _signInFormState.update {
                         SignInFormState.Success
                     }
                 } catch (exception: Exception) {
                     when (exception) {
-                        is InvalidCredentialException -> {
-                            _signInFormState.update {
-                                SignInFormState.Error(
-                                    emailMessage = exception.message,
-                                    passwordMessage = exception.message,
-                                )
-                            }
+                        is InvalidCredentialException -> _signInFormState.update {
+                            SignInFormState.Error(
+                                emailMessage = exception.message,
+                                passwordMessage = exception.message,
+                            )
                         }
 
-                        else -> {
-                            _signInFormState.update {
-                                SignInFormState.Error(snackbarMessage = exception.message)
-                            }
+                        else -> _signInFormState.update {
+                            SignInFormState.Error(snackbarMessage = exception.message)
                         }
                     }
                 }

@@ -1,10 +1,11 @@
 package com.temtem.interactive.map.temzone.presentation.map
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.temtem.interactive.map.temzone.domain.exception.NetworkException
+import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
 import com.temtem.interactive.map.temzone.domain.repository.network.NetworkRepository
 import com.temtem.interactive.map.temzone.domain.repository.network.model.NetworkStatus
@@ -25,6 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
+    private val application: Application,
     private val authRepository: AuthRepository,
     private val temzoneRepository: TemzoneRepository,
     private val networkRepository: NetworkRepository,
@@ -36,7 +38,10 @@ class MapViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             networkRepository.getStatus().collect {
-                if (it == NetworkStatus.AVAILABLE && _mapState.value is MapState.Error && !(_mapState.value as MapState.Error).networkAvailable) {
+                if (it == NetworkStatus.AVAILABLE &&
+                    _mapState.value is MapState.Error &&
+                    (_mapState.value as MapState.Error).snackbarMessage == application.getString(R.string.network_error)
+                ) {
                     getMarkers()
                 }
             }
@@ -53,40 +58,25 @@ class MapViewModel @Inject constructor(
                 val markers = temzoneRepository.getMarkers()
 
                 _mapState.update {
-                    MapState.Success(markers, emptyList())
+                    MapState.Success(markers)
                 }
             } catch (exception: Exception) {
-                when (exception) {
-                    is NetworkException -> {
-                        _mapState.update {
-                            MapState.Error(
-                                snackbarMessage = exception.message.orEmpty(),
-                                networkAvailable = false,
-                            )
-                        }
-                    }
-
-                    else -> {
-                        _mapState.update {
-                            MapState.Error(
-                                snackbarMessage = exception.message.orEmpty(),
-                            )
-                        }
-                    }
+                _mapState.update {
+                    MapState.Error(exception.message.orEmpty())
                 }
             }
         }
     }
 
-    fun searchMarkers(query: String): Flow<PagingData<Marker>> {
-        return temzoneRepository.searchMarkers(query).cachedIn(viewModelScope)
+    fun search(query: String): Flow<PagingData<Marker>> {
+        return temzoneRepository.search(query).cachedIn(viewModelScope)
     }
 
     private val _temtemLayerState: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val temtemLayerState: StateFlow<Boolean> = _temtemLayerState.asStateFlow()
 
-    fun changeTemtemLayerVisibility() {
-        _temtemLayerState.update { !it }
+    fun changeTemtemLayerVisibility(force: Boolean = false) {
+        _temtemLayerState.update { force || !it }
 
         changeLayerVisibility(_temtemLayerState.value, listOf(Marker.Type.Spawn))
     }
@@ -94,14 +84,18 @@ class MapViewModel @Inject constructor(
     private val _landmarkLayerState: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val landmarkLayerState: StateFlow<Boolean> = _landmarkLayerState.asStateFlow()
 
-    fun changeLandmarkLayerVisibility() {
-        _landmarkLayerState.update { !it }
+    fun changeLandmarkLayerVisibility(force: Boolean = false) {
+        _landmarkLayerState.update { force || !it }
 
         changeLayerVisibility(_landmarkLayerState.value, listOf(Marker.Type.Saipark))
     }
 
     private fun changeLayerVisibility(visible: Boolean, types: List<Marker.Type>) {
-        val mapState = _mapState.value as MapState.Success
+        val mapState = if (_mapState.value is MapState.Success) MapState.Update(
+            (_mapState.value as MapState.Success).markers,
+            emptyList(),
+        )
+        else _mapState.value as MapState.Update
 
         if (visible) {
             val oldMarkers = mapState.oldMarkers.toMutableList()
@@ -110,7 +104,7 @@ class MapViewModel @Inject constructor(
             oldMarkers.removeAll(newMarkers)
 
             _mapState.update {
-                MapState.Success(
+                MapState.Update(
                     mapState.newMarkers + newMarkers,
                     oldMarkers,
                 )
@@ -122,7 +116,7 @@ class MapViewModel @Inject constructor(
             newMarkers.removeAll(oldMarkers)
 
             _mapState.update {
-                MapState.Success(
+                MapState.Update(
                     newMarkers,
                     mapState.oldMarkers + oldMarkers,
                 )
@@ -141,6 +135,8 @@ class MapViewModel @Inject constructor(
         _mapState.update {
             MapState.Empty
         }
+        _temtemLayerState.update { true }
+        _landmarkLayerState.update { true }
 
         viewModelScope.launch {
             authRepository.signOut()

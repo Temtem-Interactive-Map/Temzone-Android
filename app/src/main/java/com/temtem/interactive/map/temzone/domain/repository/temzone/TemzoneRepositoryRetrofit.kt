@@ -12,8 +12,8 @@ import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marke
 import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marker.spawn.toMarkerSpawn
 import com.temtem.interactive.map.temzone.domain.repository.temzone.mapper.marker.toMarker
 import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
-import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.MarkerSaipark
-import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.spawn.MarkerSpawn
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.Saipark
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.spawn.Spawn
 import com.temtem.interactive.map.temzone.domain.repository.temzone.paging.MarkerPagingSource
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -60,9 +60,25 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         }
     }
 
-    override suspend fun getMarkerSpawn(id: String): MarkerSpawn {
+    override suspend fun getSpawn(id: String): Spawn {
         try {
-            return temzoneApi.getMarkerSpawn(id).toMarkerSpawn()
+            return temzoneApi.getSpawn(id).toMarkerSpawn()
+        } catch (exception: Exception) {
+            when (exception) {
+                is IOException -> {
+                    throw NetworkException(application)
+                }
+
+                else -> {
+                    throw UnknownException(application)
+                }
+            }
+        }
+    }
+
+    override suspend fun getSaipark(id: String): Saipark {
+        try {
+            return temzoneApi.getSaipark(id).toMarkerSaipark()
         } catch (exception: Exception) {
             when (exception) {
                 is IOException -> {
@@ -92,24 +108,8 @@ class TemzoneRepositoryRetrofit @Inject constructor(
         }
     }
 
-    override suspend fun getMarkerSaipark(id: String): MarkerSaipark {
-        try {
-            return temzoneApi.getMarkerSaipark(id).toMarkerSaipark()
-        } catch (exception: Exception) {
-            when (exception) {
-                is IOException -> {
-                    throw NetworkException(application)
-                }
-
-                else -> {
-                    throw UnknownException(application)
-                }
-            }
-        }
-    }
-
-    override fun searchMarkers(query: String): Flow<PagingData<Marker>> {
-        return Pager(PagingConfig(20)) {
+    override fun search(query: String): Flow<PagingData<Marker>> {
+        return Pager(PagingConfig(5)) {
             MarkerPagingSource(query, application, temzoneApi)
         }.flow
     }
