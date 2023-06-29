@@ -28,8 +28,8 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         debug {
-//            applicationIdSuffix ".debug"
-            buildConfigField "String", "BASE_URL", "\"${properties.getProperty("RELEASE_BASE_URL")}\""
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "BASE_URL", "\"${properties.getProperty("DEBUG_BASE_URL")}\""
         }
 
         release {
