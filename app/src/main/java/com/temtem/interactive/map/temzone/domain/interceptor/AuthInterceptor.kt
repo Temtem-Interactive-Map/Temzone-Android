@@ -21,18 +21,15 @@ class AuthInterceptor @Inject constructor(
             it.annotationClass == AUTHENTICATED::class
         }
 
-        return if (authenticate) {
+        return chain.proceed(if (authenticate) {
             val token = runBlocking {
                 return@runBlocking authRepository.getAuthToken()
             }
 
-            chain.proceed(
-                request.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
-                    .build()
-            )
-        } else {
-            chain.proceed(request)
-        }
+            request.newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+        } else request
+        )
     }
 }

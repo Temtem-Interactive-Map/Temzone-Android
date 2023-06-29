@@ -90,6 +90,7 @@
     <string name="spdef">SPDEF</string>
     <string name="total">TOTAL</string>
     <string name="rate">Rate</string>
+    <string name="retry">Retry</string>
     <string name="about">About</string>
     <string name="level">Level</string>
     <string name="traits">Traits</string>
@@ -129,5 +130,7 @@
     <string name="network_error">Network connectivity limited or unavailable</string>
     <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity</string>
     <string name="unknown_error">Service is currently unavailable. Try again later</string>
+    <string name="no_results">No results found</string>
+    <string name="no_results_suggestion">Search again or try a different keyword</string>
 
 </resources>

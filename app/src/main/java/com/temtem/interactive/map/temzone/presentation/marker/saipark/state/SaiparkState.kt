@@ -8,5 +8,5 @@ sealed interface SaiparkState {
         val saipark: Saipark,
     ) : SaiparkState
 
-    data class Error(val snackbarMessage: String) : SaiparkState
+    data class Error(val message: String) : SaiparkState
 }

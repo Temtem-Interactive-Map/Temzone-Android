@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -124,6 +126,29 @@ class MapFragment : Fragment(R.layout.map_fragment) {
 
         // region Search
 
+        lifecycleScope.launch {
+            markerAdapter.loadStateFlow.collectLatest {
+                when (it.refresh) {
+                    is LoadState.Loading -> {
+                        viewBinding.searchRecyclerView.visibility = View.GONE
+                        viewBinding.noResultsLayout.visibility = View.GONE
+                        viewBinding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is LoadState.Error -> {
+                        viewBinding.noResultsLayout.visibility = View.VISIBLE
+                        viewBinding.progressBar.visibility = View.GONE
+                    }
+
+                    is LoadState.NotLoading -> {
+                        viewBinding.searchRecyclerView.visibility = View.VISIBLE
+                        viewBinding.noResultsLayout.isVisible = markerAdapter.itemCount == 0
+                        viewBinding.progressBar.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
         viewBinding.searchView.toolbar.setNavigationOnClickListener {
             viewBinding.searchView.hide()
 
@@ -131,6 +156,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                 lifecycleScope.launch {
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                         markerAdapter.submitData(PagingData.empty())
+                        viewBinding.noResultsLayout.visibility = View.GONE
                     }
                 }
             }
@@ -165,7 +191,8 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         }
 
         viewBinding.searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.searchRecyclerView.adapter = markerAdapter.withLoadStateFooter(LoaderAdapter())
+        viewBinding.searchRecyclerView.adapter =
+            markerAdapter.withLoadStateFooter(LoaderAdapter(markerAdapter))
 
         // Fix the recycler view bottom margin to avoid the last item to be hidden
         ViewCompat.setOnApplyWindowInsetsListener(viewBinding.searchRecyclerView) { searchRecyclerView, windowInsets ->
@@ -389,6 +416,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
                             lifecycleScope.launch {
                                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                                     markerAdapter.submitData(PagingData.empty())
+                                    viewBinding.noResultsLayout.visibility = View.GONE
                                 }
                             }
                         }
@@ -540,6 +568,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 markerAdapter.submitData(PagingData.empty())
+                viewBinding.noResultsLayout.visibility = View.GONE
             }
         }
 

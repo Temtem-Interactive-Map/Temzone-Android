@@ -6,13 +6,17 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import com.temtem.interactive.map.temzone.databinding.SearchLoaderItemBinding
 
-class LoaderAdapter : LoadStateAdapter<LoaderViewHolder>() {
+class LoaderAdapter(
+    private val adapter: MarkerAdapter,
+) : LoadStateAdapter<LoaderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoaderViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewBinding = SearchLoaderItemBinding.inflate(inflater, parent, false)
 
-        return LoaderViewHolder(viewBinding)
+        return LoaderViewHolder(viewBinding) {
+            adapter.retry()
+        }
     }
 
     override fun onBindViewHolder(holder: LoaderViewHolder, loadState: LoadState) {

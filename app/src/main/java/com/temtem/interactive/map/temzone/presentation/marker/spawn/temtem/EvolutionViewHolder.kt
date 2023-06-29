@@ -12,7 +12,7 @@ class EvolutionViewHolder(
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(evolution: Evolution) {
-        viewBinding.nameTextView.text = evolution.name
+        viewBinding.nameTextView.text = evolution.name.split(" ").first()
         viewBinding.primaryTraitTextView.text = evolution.traits.first()
         viewBinding.secondaryTraitTextView.text = evolution.traits.last()
         viewBinding.conditionTextView.text = evolution.condition

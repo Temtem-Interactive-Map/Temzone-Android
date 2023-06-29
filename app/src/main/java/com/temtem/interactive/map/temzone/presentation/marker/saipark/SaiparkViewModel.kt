@@ -22,6 +22,10 @@ class SaiparkViewModel @Inject constructor(
     val saiparkState: SharedFlow<SaiparkState> = _saiparkState.asSharedFlow()
 
     fun getSaipark(id: String) {
+        _saiparkState.update {
+            SaiparkState.Loading
+        }
+
         viewModelScope.launch {
             try {
                 val saipark = temzoneRepository.getSaipark(id)

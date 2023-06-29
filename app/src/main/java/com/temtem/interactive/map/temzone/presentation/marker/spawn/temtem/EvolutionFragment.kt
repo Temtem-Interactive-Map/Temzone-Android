@@ -20,7 +20,10 @@ class EvolutionFragment(
 
         if (spawn.temtem.evolutions.isEmpty()) {
             viewBinding.evolutionTextView.text =
-                resources.getString(R.string.evolution_template, spawn.temtem.name)
+                resources.getString(
+                    R.string.evolution_template,
+                    spawn.temtem.name.split(" ").first(),
+                )
         } else {
             viewBinding.evolutionTextView.visibility = View.GONE
         }

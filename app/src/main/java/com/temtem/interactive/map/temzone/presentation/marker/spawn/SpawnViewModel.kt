@@ -21,6 +21,10 @@ class SpawnViewModel @Inject constructor(
     val spawnState: SharedFlow<SpawnState> = _spawnState.asSharedFlow()
 
     fun getSpawn(id: String) {
+        _spawnState.update {
+            SpawnState.Loading
+        }
+
         viewModelScope.launch {
             try {
                 val spawn = temzoneRepository.getSpawn(id)

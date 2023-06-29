@@ -1,10 +1,14 @@
 package com.temtem.interactive.map.temzone.presentation.map
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.domain.repository.auth.AuthRepository
+import com.temtem.interactive.map.temzone.domain.repository.network.NetworkRepository
+import com.temtem.interactive.map.temzone.domain.repository.network.model.NetworkStatus
 import com.temtem.interactive.map.temzone.domain.repository.temzone.TemzoneRepository
 import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
 import com.temtem.interactive.map.temzone.presentation.map.state.MapState
@@ -22,12 +26,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
+    private val application: Application,
     private val authRepository: AuthRepository,
     private val temzoneRepository: TemzoneRepository,
+    private val networkRepository: NetworkRepository,
 ) : ViewModel() {
 
     private val _mapState: MutableStateFlow<MapState> = MutableStateFlow(MapState.Empty)
     val mapState: SharedFlow<MapState> = _mapState.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            networkRepository.getStatus().collect {
+                if (it == NetworkStatus.AVAILABLE &&
+                    _mapState.value is MapState.Error &&
+                    (_mapState.value as MapState.Error).snackbarMessage == application.getString(R.string.network_error)
+                ) {
+                    getMarkers()
+                }
+            }
+        }
+    }
 
     fun getMarkers() {
         _mapState.update {

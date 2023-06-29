@@ -5,5 +5,5 @@ import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker
 sealed interface SpawnState {
     object Loading : SpawnState
     data class Success(val spawn: Spawn) : SpawnState
-    data class Error(val snackbarMessage: String) : SpawnState
+    data class Error(val message: String) : SpawnState
 }

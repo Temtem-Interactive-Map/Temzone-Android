@@ -35,12 +35,19 @@ class SaiparkFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewBinding.retryButton.setOnClickListener {
+            viewModel.getSaipark(id)
+        }
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.saiparkState.collect {
                     when (it) {
                         is SaiparkState.Loading -> {
                             viewBinding.tabLayout.visibility = View.GONE
+                            viewBinding.progressBar.visibility = View.VISIBLE
+                            viewBinding.errorTextView.visibility = View.GONE
+                            viewBinding.retryButton.visibility = View.GONE
                         }
 
                         is SaiparkState.Success -> {
@@ -104,11 +111,10 @@ class SaiparkFragment(
                         }
 
                         is SaiparkState.Error -> {
-                            Snackbar.make(
-                                viewBinding.root,
-                                it.snackbarMessage,
-                                Snackbar.LENGTH_SHORT,
-                            ).show()
+                            viewBinding.progressBar.visibility = View.GONE
+                            viewBinding.errorTextView.visibility = View.VISIBLE
+                            viewBinding.errorTextView.text = it.message
+                            viewBinding.retryButton.visibility = View.VISIBLE
                         }
                     }
                 }
