@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         private const val REQUEST_UPDATE = 2000
     }
 
-    private val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
     private val viewModel: MapViewModel by viewModels()
+    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
