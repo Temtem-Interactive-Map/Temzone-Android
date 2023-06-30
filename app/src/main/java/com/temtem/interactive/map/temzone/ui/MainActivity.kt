@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     private companion object {
-        private const val UPDATE_TYPE = AppUpdateType.FLEXIBLE
+        private const val UPDATE_TYPE = AppUpdateType.IMMEDIATE
         private const val REQUEST_UPDATE = 2000
     }
 
