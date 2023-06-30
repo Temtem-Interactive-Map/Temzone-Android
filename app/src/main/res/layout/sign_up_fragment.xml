@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +25,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="?attr/colorSurface"
@@ -97,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password_field_hint"
+            app:endIconContentDescription="@string/confirm_password_end_icon_content_description"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"

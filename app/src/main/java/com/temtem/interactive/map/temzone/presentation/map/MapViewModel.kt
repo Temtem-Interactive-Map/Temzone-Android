@@ -124,7 +124,7 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun setTemtemObtained(title: String){
+    fun setTemtemObtained(title: String) {
         val mapState = if (_mapState.value is MapState.Success) MapState.Update(
             (_mapState.value as MapState.Success).markers,
             emptyList(),
@@ -134,10 +134,14 @@ class MapViewModel @Inject constructor(
         _mapState.update {
             MapState.Update(
                 mapState.newMarkers.map {
-                    if(it.title == title) it.copy(obtained = !it.obtained) else it
+                    if (
+                        it.title.split(" ").first() == title.split(" ").first()
+                    ) it.copy(obtained = !it.obtained) else it
                 },
                 mapState.oldMarkers.map {
-                    if(it.title == title) it.copy(obtained = !it.obtained) else it
+                    if (
+                        it.title.split(" ").first() == title.split(" ").first()
+                    ) it.copy(obtained = !it.obtained) else it
                 },
             )
         }

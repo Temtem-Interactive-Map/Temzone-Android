@@ -490,6 +490,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
         } else {
             view.visibility = View.VISIBLE
             view.drawable.alpha = if (marker.obtained) 153 else 255
+            view.obtained = marker.obtained
         }
     }
 
@@ -513,6 +514,7 @@ class MapFragment : Fragment(R.layout.map_fragment) {
             )
         } else {
             view.visibility = View.INVISIBLE
+            view.obtained = marker.obtained
         }
     }
 

@@ -27,6 +27,7 @@
     <!-- Confirm password field -->
     <string name="confirm_password_field_hint">Confirm password</string>
     <string name="confirm_password_field_content_description">Confirm password field</string>
+    <string name="confirm_password_end_icon_content_description">Show confirm password</string>
 
     <!-- Search bar/view field -->
     <string name="search_hint">Search here</string>

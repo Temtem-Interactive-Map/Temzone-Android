@@ -13,7 +13,7 @@ class MarkerView(
     val type: Marker.Type,
     val x: Double,
     val y: Double,
-    val obtained: Boolean,
+    var obtained: Boolean,
 ) : AppCompatImageView(context) {
 
     companion object {

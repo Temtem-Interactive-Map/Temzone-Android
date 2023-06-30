@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Link typography -->
-    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontFamily">@font/rubik</item>
     </style>
 
-    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontFamily">@font/rubik_bold</item>
         <item name="android:textStyle">bold</item>
     </style>

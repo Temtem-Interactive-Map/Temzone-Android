@@ -17,8 +17,8 @@ android {
         applicationId "com.temtem.interactive.map.temzone"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "0.1.0-a.2"
+        versionCode 3
+        versionName "0.1.0-a.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,10 +33,11 @@ android {
         }
 
         release {
-            minifyEnabled true
-            shrinkResources false
-
             buildConfigField "String", "BASE_URL", "\"${properties.getProperty("RELEASE_BASE_URL")}\""
+
+            ndk {
+                debugSymbolLevel "FULL"
+            }
         }
     }
 
@@ -106,6 +107,8 @@ dependencies {
 
     // Google Play Services dependencies
     implementation "com.google.android.gms:play-services-auth:20.5.0"
+    implementation "com.google.android.play:app-update:2.1.0"
+    implementation "com.google.android.play:app-update-ktx:2.1.0"
 }
 
 kapt {
