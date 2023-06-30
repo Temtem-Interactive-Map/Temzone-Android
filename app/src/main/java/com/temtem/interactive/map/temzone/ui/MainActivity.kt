@@ -17,6 +17,7 @@ import com.temtem.interactive.map.temzone.presentation.map.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     private companion object {
