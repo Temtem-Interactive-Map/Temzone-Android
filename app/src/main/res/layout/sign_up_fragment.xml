@@ -97,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password_field_hint"
+            app:endIconContentDescription="@string/confirm_password_end_icon_content_description"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
