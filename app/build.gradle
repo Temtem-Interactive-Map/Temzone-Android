@@ -33,8 +33,6 @@ android {
         }
 
         release {
-            minifyEnabled true
-            shrinkResources false
             buildConfigField "String", "BASE_URL", "\"${properties.getProperty("RELEASE_BASE_URL")}\""
 
             ndk {
