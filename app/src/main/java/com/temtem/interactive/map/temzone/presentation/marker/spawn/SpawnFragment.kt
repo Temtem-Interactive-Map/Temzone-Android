@@ -88,9 +88,7 @@ class SpawnFragment(
                             }
                             viewBinding.obtainedSwitch.setOnCheckedChangeListener { _, _ ->
                                 viewModel.setTemtemObtained(it.spawn.temtem.id)
-                                activityViewModel.setTemtemObtained(
-                                    it.spawn.temtem.name.split(" ").first()
-                                )
+                                activityViewModel.setTemtemObtained(it.spawn.temtem.name)
                             }
                             viewBinding.tabLayout.visibility = View.VISIBLE
                             viewBinding.viewPager.adapter = SpawnFragmentStateAdapter(
