@@ -11,6 +11,8 @@ import com.google.common.truth.Truth.assertThat
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.launchFragmentInHiltContainer
 import com.temtem.interactive.map.temzone.presentation.auth.sign_in.SignInFragment
+import com.temtem.interactive.map.temzone.presentation.auth.sign_up.SignUpFragment
+import com.temtem.interactive.map.temzone.presentation.map.MapFragment
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -19,7 +21,7 @@ import org.junit.Test
 
 @MediumTest
 @HiltAndroidTest
-class SignInNavigationTest {
+class MapNavigationTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -30,28 +32,15 @@ class SignInNavigationTest {
     }
 
     @Test
-    fun navigateToSignUpFragment() {
+    fun navigateFromMapFragmentToSettingsFragment() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
 
-        launchFragmentInHiltContainer<SignInFragment> {
+        launchFragmentInHiltContainer<MapFragment> {
             navController.setGraph(R.navigation.graph_navigation)
-            navController.setCurrentDestination(R.id.sign_in_fragment)
+            navController.setCurrentDestination(R.id.map_fragment)
             Navigation.setViewNavController(requireView(), navController)
         }
-        onView(ViewMatchers.withId(R.id.sign_up_text_view)).perform(ViewActions.click())
-        assertThat(navController.currentDestination?.id).isEqualTo(R.id.sign_up_fragment)
-    }
-
-    @Test
-    fun navigateToForgotPasswordFragment() {
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
-
-        launchFragmentInHiltContainer<SignInFragment> {
-            navController.setGraph(R.navigation.graph_navigation)
-            navController.setCurrentDestination(R.id.sign_in_fragment)
-            Navigation.setViewNavController(requireView(), navController)
-        }
-        onView(ViewMatchers.withId(R.id.forgot_password_text_view)).perform(ViewActions.click())
-        assertThat(navController.currentDestination?.id).isEqualTo(R.id.forgot_password_fragment)
+        onView(ViewMatchers.withId(R.id.search_bar_menu_settings)).perform(ViewActions.click())
+        assertThat(navController.currentDestination?.id).isEqualTo(R.id.settings_fragment)
     }
 }

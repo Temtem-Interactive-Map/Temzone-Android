@@ -15,21 +15,21 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     val startActivityIntent = Intent.makeMainActivity(
         ComponentName(
             ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
+            HiltTestActivity::class.java,
         )
     )
 
-    ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
-        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
+    ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity {
+        val fragment: Fragment = it.supportFragmentManager.fragmentFactory.instantiate(
             Preconditions.checkNotNull(T::class.java.classLoader),
-            T::class.java.name
+            T::class.java.name,
         )
+
         fragment.arguments = fragmentArgs
-        activity.supportFragmentManager
+        it.supportFragmentManager
             .beginTransaction()
             .add(android.R.id.content, fragment, "")
             .commitNow()
-
         fragment.action()
     }
 }
