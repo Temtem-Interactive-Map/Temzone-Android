@@ -1,0 +1,18 @@
+name: CI/CD - Develop
+on:
+  push:
+    branches: [develop]
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    name: Deploying
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Publish to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          releaseFiles: app/release/app-release.aab
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.temtem.interactive.map.temzone
+          track: internalsharing
