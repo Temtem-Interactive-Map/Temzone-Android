@@ -1,6 +1,7 @@
-name: CI/CD - Develop
+name: CI/CD - Main
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -45,5 +46,5 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.temtem.interactive.map.temzone
-          track: internal
+          track: production
           status: draft
