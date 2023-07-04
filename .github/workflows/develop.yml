@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
+          releaseFiles: $SIGNED_RELEASE_FILE
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.temtem.interactive.map.temzone
-          releaseFiles: ${{ steps.sign_app.outputs.signedReleaseFile }}
           track: internal
