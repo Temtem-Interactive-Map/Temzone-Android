@@ -15,8 +15,8 @@ jobs:
           distribution: zulu
           java-version: 17
           cache: gradle
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Build project
+        run: echo RELEASE_BASE_URL="${{ secrets.RELEASE_BASE_URL }}" > ./local.properties
       - name: Build project
         run: ./gradlew build
       - name: Generate artifacts
