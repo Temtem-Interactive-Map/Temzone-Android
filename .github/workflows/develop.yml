@@ -3,7 +3,7 @@ on:
   push:
     branches: [develop]
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-22.04
     name: Building
     env:
@@ -18,8 +18,6 @@ jobs:
           distribution: zulu
           java-version: 17
           cache: gradle
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
       - name: Generate local.properties
         run: |
           # echo DEBUG_BASE_URL="${{ secrets.DEBUG_BASE_URL }}" > ./local.properties
@@ -31,7 +29,7 @@ jobs:
           mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/release
           echo $RELEASE_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
       - name: Build project
-        run: ./gradlew build
+        run: ./gradlew assemble
       - name: Generate bundle
         run: ./gradlew bundleRelease
       - name: Sign bundle
@@ -42,20 +40,10 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-      - name: Upload bundle
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release-signed
-          path: app/build/outputs/bundle/release/app-release.aab
-  deploy:
-    needs: build
-    name: Deploying
-    runs-on: ubuntu-22.04
-    steps:
       - name: Deploy to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
-          releaseFiles: app/build/outputs/bundle/release/*.aab
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.temtem.interactive.map.temzone
           track: internal
