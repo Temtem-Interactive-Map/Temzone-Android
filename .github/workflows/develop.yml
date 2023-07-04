@@ -5,7 +5,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
-    name: Building
+    name: Deploying
     env:
       DEBUG_GOOGLE_SERVICES: ${{ secrets.DEBUG_GOOGLE_SERVICES }}
       RELEASE_GOOGLE_SERVICES: ${{ secrets.RELEASE_GOOGLE_SERVICES }}
@@ -47,3 +47,4 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.temtem.interactive.map.temzone
           track: internal
+          status: draft
