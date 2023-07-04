@@ -19,9 +19,15 @@ jobs:
           java-version: 17
           cache: gradle
       - name: Generate local.properties
-        run: echo RELEASE_BASE_URL="${{ secrets.RELEASE_BASE_URL }}" > ./local.properties
+        run: |
+          echo DEBUG_BASE_URL="${{ secrets.DEBUG_BASE_URL }}" > ./local.properties
+          echo RELEASE_BASE_URL="${{ secrets.RELEASE_BASE_URL }}" > ./local.properties
       - name: Generate google-services.json
-        run: echo $RELEASE_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/google-services.json
+        run: |
+          mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/debug
+          echo $DEBUG_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/debug/google-services.json
+          mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/release
+          echo $RELEASE_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
       - name: Build project
         run: ./gradlew assemble
       - name: Generate bundle
