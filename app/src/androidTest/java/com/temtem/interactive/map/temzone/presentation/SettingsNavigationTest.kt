@@ -56,7 +56,7 @@ class SettingsNavigationTest {
     }
 
     @Test
-    fun navigateToSignIn() {
+    fun navigateToSignInFragment() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
 
         launchFragmentInHiltContainer<SettingsFragment> {
