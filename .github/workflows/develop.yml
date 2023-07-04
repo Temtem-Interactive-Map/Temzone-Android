@@ -6,6 +6,8 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     name: Deploying
+    env:
+      GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -18,7 +20,7 @@ jobs:
       - name: Generate local.properties
         run: echo RELEASE_BASE_URL="${{ secrets.BASE_URL }}" > ./local.properties
       - name: Generate google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES }}" > /home/runner/work/Temzone-Android/Temzone-Android/app/google-services.json
+        run: echo $GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/google-services.json
       - name: Build project
         run: ./gradlew build
       - name: Generate artifacts
