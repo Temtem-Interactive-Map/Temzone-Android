@@ -1,13 +1,33 @@
 <resources>
 
     <!-- Link typography -->
-    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.Temzone.Link" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontFamily">@font/rubik</item>
     </style>
 
-    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.Temzone.Link.Bold" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontFamily">@font/rubik_bold</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Search typography -->
+    <style name="TextAppearance.Temzone.Search.Title" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextAppearance.Temzone.Search.Subtitle" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- Setting typography -->
+    <style name="TextAppearance.Temzone.Setting" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <!-- Map layer floating action button -->
@@ -28,7 +48,7 @@
         <item name="android:minWidth">320dp</item>
         <item name="android:maxWidth">320dp</item>
         <item name="android:text">@string/google_button_text</item>
-        <item name="icon">@drawable/google_icon</item>
+        <item name="icon">@drawable/ic_google_24</item>
         <item name="iconTint">@null</item>
     </style>
 
@@ -36,6 +56,13 @@
     <style name="Widget.Temzone.BottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="android:maxWidth">@null</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+    <!-- View pager -->
+    <style name="Widget.Temzone.ViewPager" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_horizontal|top</item>
     </style>
 
 </resources>

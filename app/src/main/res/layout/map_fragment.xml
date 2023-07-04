@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="@string/expand_more_navigation_content_description"
-            app:navigationIcon="@drawable/expand_more_icon" />
+            app:navigationIcon="@drawable/ic_expand_more_24" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             app:menu="@menu/search_bar_menu"
-            app:navigationIcon="@drawable/search_icon"
+            app:navigationIcon="@drawable/ic_search_24"
             app:navigationIconTint="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,7 +52,7 @@
             android:layout_gravity="end"
             android:layout_marginHorizontal="@dimen/m3_searchbar_margin_horizontal"
             android:contentDescription="@string/map_details"
-            app:srcCompat="@drawable/layers_icon" />
+            app:srcCompat="@drawable/ic_layers_24" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -68,30 +68,57 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <LinearLayout
+            android:id="@+id/no_results_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="?attr/textAppearanceTitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/no_results" />
+
+            <TextView
+                style="?attr/textAppearanceBodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:text="@string/no_results_suggestion" />
+
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
     </com.google.android.material.search.SearchView>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/bottom_drawer"
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
         style="@style/Widget.Temzone.BottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="-1dp"
+        android:orientation="vertical"
         app:behavior_fitToContents="false"
-        app:behavior_halfExpandedRatio="0.6"
-        app:behavior_peekHeight="100dp"
+        app:behavior_halfExpandedRatio="0.33"
+        app:behavior_peekHeight="80dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <LinearLayout
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

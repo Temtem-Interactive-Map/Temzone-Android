@@ -52,19 +52,15 @@ class SignInViewModel @Inject constructor(
                     }
                 } catch (exception: Exception) {
                     when (exception) {
-                        is InvalidCredentialException -> {
-                            _signInFormState.update {
-                                SignInFormState.Error(
-                                    emailMessage = exception.message,
-                                    passwordMessage = exception.message,
-                                )
-                            }
+                        is InvalidCredentialException -> _signInFormState.update {
+                            SignInFormState.Error(
+                                emailMessage = exception.message,
+                                passwordMessage = exception.message,
+                            )
                         }
 
-                        else -> {
-                            _signInFormState.update {
-                                SignInFormState.Error(snackbarMessage = exception.message)
-                            }
+                        else -> _signInFormState.update {
+                            SignInFormState.Error(snackbarMessage = exception.message)
                         }
                     }
                 }
@@ -80,6 +76,7 @@ class SignInViewModel @Inject constructor(
         _signInGoogleState.update {
             SignInGoogleState.Loading
         }
+
         viewModelScope.launch {
             try {
                 val result = authRepository.requestSignInWithGoogle()
@@ -99,9 +96,11 @@ class SignInViewModel @Inject constructor(
         _signInGoogleState.update {
             SignInGoogleState.Loading
         }
+
         viewModelScope.launch {
             try {
                 authRepository.signInWithGoogle(idToken)
+
                 _signInGoogleState.update {
                     SignInGoogleState.Success
                 }

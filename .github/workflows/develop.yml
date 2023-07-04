@@ -1,0 +1,49 @@
+name: CI/CD - Develop
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    name: Deploying
+    env:
+      DEBUG_GOOGLE_SERVICES: ${{ secrets.DEBUG_GOOGLE_SERVICES }}
+      RELEASE_GOOGLE_SERVICES: ${{ secrets.RELEASE_GOOGLE_SERVICES }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: gradle
+      - name: Generate local.properties
+        run: |
+          echo DEBUG_BASE_URL="${{ secrets.DEBUG_BASE_URL }}" > ./local.properties
+          echo RELEASE_BASE_URL="${{ secrets.RELEASE_BASE_URL }}" > ./local.properties
+      - name: Generate google-services.json
+        run: |
+          mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/debug
+          echo $DEBUG_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/debug/google-services.json
+          mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/release
+          echo $RELEASE_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
+      - name: Build project
+        run: ./gradlew assemble
+      - name: Generate bundle
+        run: ./gradlew bundleRelease
+      - name: Sign bundle
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Deploy to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.temtem.interactive.map.temzone
+          track: internal
+          status: draft

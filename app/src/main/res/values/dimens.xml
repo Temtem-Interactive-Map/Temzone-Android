@@ -2,14 +2,6 @@
 
     <!-- System -->
     <dimen name="spacer">4dp</dimen>
-    <dimen name="form_margin">16dp</dimen>
-    <dimen name="common_icon_size">48dp</dimen>
-    <dimen name="wave_drawable_height">150dp</dimen>
-    <dimen name="divider_padding_horizontal">20dp</dimen>
-
-    <!-- Map layers dialog fragment -->
-    <dimen name="map_layers_dialog_fragment_padding_short">4dp</dimen>
-    <dimen name="map_layers_dialog_fragment_padding_long">20dp</dimen>
 
     <!-- Map layer button -->
     <dimen name="map_layer_button_size">80dp</dimen>

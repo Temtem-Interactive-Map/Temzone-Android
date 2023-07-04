@@ -3,9 +3,9 @@ package com.temtem.interactive.map.temzone.core.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.temtem.interactive.map.temzone.BuildConfig
-import com.temtem.interactive.map.temzone.data.remote.ApiLogger
-import com.temtem.interactive.map.temzone.data.remote.AuthInterceptor
 import com.temtem.interactive.map.temzone.data.remote.TemzoneApi
+import com.temtem.interactive.map.temzone.domain.interceptor.AuthInterceptor
+import com.temtem.interactive.map.temzone.domain.interceptor.LoggerInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +22,8 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideHttpLoggingInterceptor(apiLogger: ApiLogger): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor(apiLogger).setLevel(HttpLoggingInterceptor.Level.BODY)
+    fun provideHttpLoggingInterceptor(loggerInterceptor: LoggerInterceptor): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor(loggerInterceptor).setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Provides
@@ -32,10 +32,16 @@ object RetrofitModule {
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor,
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(authInterceptor)
-            .build()
+        return if (BuildConfig.DEBUG) {
+            OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(authInterceptor)
+                .build()
+        } else {
+            OkHttpClient.Builder()
+                .addInterceptor(authInterceptor)
+                .build()
+        }
     }
 
     @Provides

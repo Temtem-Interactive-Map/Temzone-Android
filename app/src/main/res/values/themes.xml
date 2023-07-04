@@ -2,7 +2,7 @@
 
     <style name="Theme.Temzone.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@android:color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.Temzone</item>
     </style>
 
@@ -11,6 +11,7 @@
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="fontFamily">@font/rubik</item>
         <item name="elevationOverlayEnabled">false</item>
 
@@ -63,6 +64,7 @@
 
         <!-- Custom styles -->
         <item name="textInputStyle">@style/Widget.Temzone.TextInputLayout</item>
+        <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
         <item name="materialButtonStyle">@style/Widget.Temzone.Button.Icon</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Temzone.BottomSheetDialog</item>
     </style>
@@ -144,11 +146,17 @@
         <item name="fontFamily">@font/rubik</item>
     </style>
 
-    <!-- Text input layout -->
+    <!-- Text input -->
     <style name="Widget.Temzone.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="android:minWidth">320dp</item>
         <item name="android:maxWidth">320dp</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Medium</item>
+    </style>
+
+    <!-- Switch -->
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:minWidth">320dp</item>
+        <item name="android:maxWidth">320dp</item>
     </style>
 
     <!-- Filled button -->

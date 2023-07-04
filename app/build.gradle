@@ -3,6 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.android"
     id "androidx.navigation.safeargs.kotlin"
     id "kotlin-kapt"
+    id "kotlin-parcelize"
     id "com.google.dagger.hilt.android"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
@@ -16,10 +17,9 @@ android {
         applicationId "com.temtem.interactive.map.temzone"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "0.1.0-alpha.1"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 10
+        versionName "0.1.0"
+        testInstrumentationRunner "com.temtem.interactive.map.temzone.HiltTestRunner"
     }
 
     buildTypes {
@@ -27,14 +27,16 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         debug {
+            applicationIdSuffix ".debug"
             buildConfigField "String", "BASE_URL", "\"${properties.getProperty("DEBUG_BASE_URL")}\""
         }
 
         release {
-            minifyEnabled true
-            shrinkResources false
-
             buildConfigField "String", "BASE_URL", "\"${properties.getProperty("RELEASE_BASE_URL")}\""
+
+            ndk {
+                debugSymbolLevel "SYMBOL_TABLE"
+            }
         }
     }
 
@@ -73,8 +75,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 
     // Navigation dependencies
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.6.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0"
 
     // Layout dependencies
     implementation "com.google.android.material:material:1.9.0"
@@ -84,20 +86,41 @@ dependencies {
     implementation "com.github.barteksc:android-pdf-viewer:3.2.0-beta.1"
     implementation "ovh.plrapps:mapview:3.1.5"
 
+    // Persistence dependencies
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
     // Network dependencies
     implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.github.bumptech.glide:glide:4.15.1"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.15.1"
+    kapt "com.github.bumptech.glide:compiler:4.15.1"
 
     // Firebase dependencies
     implementation platform("com.google.firebase:firebase-bom:32.0.0")
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-messaging-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
 
     // Google Play Services dependencies
-    implementation "com.google.android.gms:play-services-auth:20.5.0"
+    implementation "com.google.android.gms:play-services-auth:20.6.0"
+    implementation "com.google.android.play:app-update:2.1.0"
+    implementation "com.google.android.play:app-update-ktx:2.1.0"
+
+    // Test dependencies
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test:core:1.5.0"
+    androidTestImplementation "androidx.test.ext:truth:1.5.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.44"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.44"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.6.0"
+
+    // Debug dependencies
+    debugImplementation "androidx.fragment:fragment-testing:1.6.0"
 }
 
 kapt {

@@ -2,6 +2,7 @@
 
     <!-- System -->
     <string name="app_name" translatable="false">Temzone</string>
+    <string name="app_version">Version %s (%d)</string>
     <string name="arrow_back_navigation_content_description">Back</string>
     <string name="expand_more_navigation_content_description">Collapse the bottom sheet</string>
     <string name="close_button_content_description">Close the map details</string>
@@ -26,6 +27,7 @@
     <!-- Confirm password field -->
     <string name="confirm_password_field_hint">Confirm password</string>
     <string name="confirm_password_field_content_description">Confirm password field</string>
+    <string name="confirm_password_end_icon_content_description">Show confirm password</string>
 
     <!-- Search bar/view field -->
     <string name="search_hint">Search here</string>
@@ -52,8 +54,68 @@
     <string name="terms_of_service_link_prefix">and</string>
     <string name="terms_of_service_link">Terms of Service</string>
 
+    <!-- Search marker item -->
+    <string name="marker_image_content_description">Marker image</string>
+
+    <!-- Temtem details -->
+    <string name="id_template">#%03d</string>
+    <string name="height_template">%dcm / %.2f\"</string>
+    <string name="weight_template">%dkg / %.2flbs</string>
+    <string name="gender_template">\u2641 %d%% \u2640 %d%%</string>
+    <string name="hp_tv_yield_template">+%d HP</string>
+    <string name="sta_tv_yield_template">+%d STA</string>
+    <string name="spd_tv_yield_template">+%d SPD</string>
+    <string name="atk_tv_yield_template">+%d ATK</string>
+    <string name="def_tv_yield_template">+%d DEF</string>
+    <string name="spatk_tv_yield_template">+%d SPATK</string>
+    <string name="spdef_tv_yield_template">+%d SPDEF</string>
+    <string name="trait_template">%s: %s</string>
+    <string name="rate_template">%d%%</string>
+    <string name="level_template">%d - %d</string>
+    <string name="luma_rate_template">x%d</string>
+    <string name="min_svs_template">%d</string>
+    <string name="egg_moves_template">%d%%</string>
+    <string name="evolution_template">%s does not evolve into any other Temtem.</string>
+    <string name="temtem_image_content_description">Temtem image</string>
+    <string name="temtem_tab_layout_content_description">Temtem details</string>
+    <string name="temtem_location_content_description">Temtem location</string>
+
+    <!-- Literals -->
+    <string name="or">Or</string>
+    <string name="hp">HP</string>
+    <string name="sta">STA</string>
+    <string name="spd">SPD</string>
+    <string name="atk">ATK</string>
+    <string name="def">DEF</string>
+    <string name="spatk">SPATK</string>
+    <string name="spdef">SPDEF</string>
+    <string name="total">TOTAL</string>
+    <string name="rate">Rate</string>
+    <string name="retry">Retry</string>
+    <string name="about">About</string>
+    <string name="level">Level</string>
+    <string name="traits">Traits</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="gender">Gender</string>
+    <string name="account">Account</string>
+    <string name="details">Details</string>
+    <string name="min_svs">Min. SVs</string>
+    <string name="location">Location</string>
+    <string name="tv_yield">TV Yield</string>
+    <string name="settings">Settings</string>
+    <string name="luma_rate">Luma rate</string>
+    <string name="egg_moves">Egg moves</string>
+    <string name="evolution">Evolution</string>
+    <string name="catch_rate">Catch Rate</string>
+    <string name="base_stats">Base Stats</string>
+    <string name="map_details">Map details</string>
+    <string name="obtained">Mark as collected</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+
     <!-- Success messages -->
-    <string name="loading_markers_message">Synchronizing markers…</string>
     <string name="password_recovery_message">The password recovery instructions have been sent to your email</string>
 
     <!-- Errors -->
@@ -70,17 +132,7 @@
     <string name="network_error">Network connectivity limited or unavailable</string>
     <string name="too_many_requests_error">Your account has been temporarily disabled due to unusual activity</string>
     <string name="unknown_error">Service is currently unavailable. Try again later</string>
-
-    <!-- Search marker item -->
-    <string name="marker_image_content_description">Marker image</string>
-
-    <!-- Literals -->
-    <string name="or">Or</string>
-    <string name="about">About</string>
-    <string name="account">Account</string>
-    <string name="settings">Settings</string>
-    <string name="map_details">Map details</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_of_service">Terms of Service</string>
+    <string name="no_results">No results found</string>
+    <string name="no_results_suggestion">Search again or try a different keyword</string>
 
 </resources>

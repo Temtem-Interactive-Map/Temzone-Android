@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,38 +11,94 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
-            app:navigationIcon="@drawable/arrow_back_icon"
+            app:navigationIcon="@drawable/ic_arrow_back_24"
             app:title="@string/settings"
             app:titleCentered="true" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
+        android:id="@+id/account_text_view"
         style="?attr/textAppearanceTitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/account"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        app:layout_constraintStart_toStartOf="@+id/sign_out_button"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/notifications_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacer"
+        android:text="@string/notifications"
+        app:drawableStartCompat="@drawable/ic_notifications_32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_text_view" />
 
     <TextView
+        android:id="@+id/about_text_view"
         style="?attr/textAppearanceTitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/about"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        app:layout_constraintStart_toStartOf="@+id/sign_out_button"
+        app:layout_constraintTop_toBottomOf="@id/notifications_switch" />
+
+    <TextView
+        android:id="@+id/terms_of_service_text_view"
+        style="@style/TextAppearance.Temzone.Setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/terms_of_service"
+        app:drawableStartCompat="@drawable/ic_description_32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_text_view" />
+
+    <TextView
+        android:id="@+id/privacy_policy_text_view"
+        style="@style/TextAppearance.Temzone.Setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_policy"
+        app:drawableStartCompat="@drawable/ic_description_32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/terms_of_service_text_view" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/sign_out_button_text" />
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_out_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/privacy_policy_text_view" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/version_text_view"
+        style="?attr/textAppearanceBodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_out_button"
+        tools:text="Version 0.1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

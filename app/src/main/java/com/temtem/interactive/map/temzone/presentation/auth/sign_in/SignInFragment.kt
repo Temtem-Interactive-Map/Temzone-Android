@@ -3,6 +3,8 @@ package com.temtem.interactive.map.temzone.presentation.auth.sign_in
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.temtem.interactive.map.temzone.R
 import com.temtem.interactive.map.temzone.core.binding.viewBindings
 import com.temtem.interactive.map.temzone.core.extension.closeKeyboard
+import com.temtem.interactive.map.temzone.core.extension.requestNotificationPermission
 import com.temtem.interactive.map.temzone.core.extension.setErrorAndRequestFocus
 import com.temtem.interactive.map.temzone.core.extension.setLightStatusBar
 import com.temtem.interactive.map.temzone.databinding.SignInFragmentBinding
@@ -25,9 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
+@Suppress("DEPRECATION")
 class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
     private companion object {
@@ -39,6 +41,8 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
     private val viewModel: SignInViewModel by viewModels()
     private val viewBinding: SignInFragmentBinding by viewBindings()
+    private val requestPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +56,10 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // region Sign in with email and password
 
-        // Add the sign in button click listener
         viewBinding.signInButton.setOnClickListener {
             val email = viewBinding.emailEditText.text.toString().trim()
             val password = viewBinding.passwordEditText.text.toString().trim()
@@ -63,7 +68,6 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
             viewModel.signInWithEmailAndPassword(email, password)
         }
 
-        // Observe the sign in form state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signInFormState.collect {
@@ -76,6 +80,7 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
                         is SignInFormState.Success -> {
                             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToMapFragment())
+                            requestNotificationPermission(requestPermissionLauncher)
                         }
 
                         is SignInFormState.Error -> {
@@ -100,12 +105,11 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
         // region Sign in with Google
 
-        // Add the sign in button click listener
         viewBinding.googleButton.setOnClickListener {
+            closeKeyboard()
             viewModel.requestSignInWithGoogle()
         }
 
-        // Observe the sign in with Google state
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.signInGoogleState.collect {
@@ -130,6 +134,7 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
                         is SignInGoogleState.Success -> {
                             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToMapFragment())
+                            requestNotificationPermission(requestPermissionLauncher)
                         }
 
                         is SignInGoogleState.Error -> {
@@ -150,12 +155,10 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
 
         // region Navigation
 
-        // Navigate to the forgot password fragment
         viewBinding.forgotPasswordTextView.setOnClickListener {
             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToForgotPasswordFragment())
         }
 
-        // Navigate to the sign up fragment
         viewBinding.signUpTextView.setOnClickListener {
             findNavController().navigate(SignInFragmentDirections.fromSignInFragmentToSignUpFragment())
         }
@@ -163,6 +166,7 @@ class SignInFragment : Fragment(R.layout.sign_in_fragment) {
         // endregion
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

@@ -1,14 +1,15 @@
 package com.temtem.interactive.map.temzone.domain.repository.temzone
 
-import com.temtem.interactive.map.temzone.domain.model.Page
-import com.temtem.interactive.map.temzone.domain.model.marker.Marker
-import com.temtem.interactive.map.temzone.domain.model.marker.saipark.MarkerSaipark
-import com.temtem.interactive.map.temzone.domain.model.marker.spawn.MarkerSpawn
+import androidx.paging.PagingData
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.Marker
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.saipark.Saipark
+import com.temtem.interactive.map.temzone.domain.repository.temzone.model.marker.spawn.Spawn
+import kotlinx.coroutines.flow.Flow
 
 interface TemzoneRepository {
     suspend fun getMarkers(): List<Marker>
-    suspend fun getMarkerSpawn(id: String): MarkerSpawn
+    suspend fun getSpawn(id: String): Spawn
+    suspend fun getSaipark(id: String): Saipark
     suspend fun setTemtemObtained(id: Int)
-    suspend fun getMarkerSaipark(id: String): MarkerSaipark
-    suspend fun searchMarkers(query: String, limit: Int, offset: Int): Page<Marker>
+    fun search(query: String): Flow<PagingData<Marker>>
 }

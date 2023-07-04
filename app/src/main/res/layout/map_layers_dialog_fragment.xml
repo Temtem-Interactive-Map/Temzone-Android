@@ -9,9 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/map_layers_dialog_fragment_padding_short"
-        android:paddingStart="@dimen/map_layers_dialog_fragment_padding_long"
-        android:paddingEnd="@dimen/map_layers_dialog_fragment_padding_short">
+        android:paddingStart="16dp"
+        tools:ignore="RtlSymmetry">
 
         <TextView
             style="?attr/textAppearanceTitleMedium"
@@ -24,11 +23,11 @@
 
         <ImageButton
             android:id="@+id/close_button"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/close_button_content_description"
-            android:src="@drawable/close_icon"
+            android:src="@drawable/ic_close_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,8 +36,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/map_layers_dialog_fragment_padding_long"
-        android:paddingBottom="@dimen/map_layers_dialog_fragment_padding_long">
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
 
         <ImageButton
             android:id="@+id/temtem_button"
@@ -49,7 +48,7 @@
             android:contentDescription="@string/temtem_button_content_description"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
-            android:src="@drawable/temtem_check_button"
+            android:src="@drawable/temtem_button_check"
             app:layout_constraintEnd_toStartOf="@+id/landmark_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -74,7 +73,7 @@
             android:contentDescription="@string/landmark_button_content_description"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
-            android:src="@drawable/landmark_check_button"
+            android:src="@drawable/landmark_button_check"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

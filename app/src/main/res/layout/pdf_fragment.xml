@@ -16,9 +16,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:navigationContentDescription="@string/arrow_back_navigation_content_description"
-            app:navigationIcon="@drawable/arrow_back_icon"
+            app:navigationIcon="@drawable/ic_arrow_back_24"
             app:titleCentered="true" />
 
     </com.google.android.material.appbar.AppBarLayout>
