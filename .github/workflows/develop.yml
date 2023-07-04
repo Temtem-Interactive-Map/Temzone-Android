@@ -3,39 +3,17 @@ on:
   push:
     branches: [develop]
 jobs:
-  test:
-    runs-on: macos-13
-    strategy:
-      matrix:
-        api-level: [29]
-    name: Testing
+  deploy:
+    runs-on: ubuntu-22.04
+    name: Deploying
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache Gradle
-        uses: gradle/gradle-build-action@v2
-      - name: Cache AVD
-        uses: actions/cache@v3
-        id: avd-cache
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching"
-      - name: Test code
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: ./gradlew connectedCheck
+          distribution: zulu
+          java-version: 17
+          cache: gradle
+      - name: Build apk
+        run: ./gradlew assemble
