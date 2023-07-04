@@ -15,8 +15,12 @@ jobs:
           distribution: zulu
           java-version: 17
           cache: gradle
-      - name: Build project
-        run: echo RELEASE_BASE_URL="${{ secrets.RELEASE_BASE_URL }}" > ./local.properties
+      - name: Generate local.properties
+        run: echo RELEASE_BASE_URL="${{ secrets.BASE_URL }}" > ./local.properties
+      - name: Generate google-services.json
+        run: |
+          cat /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
+          echo $${{ secrets.GOOGLE_SERVICES }} > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
       - name: Build project
         run: ./gradlew build
       - name: Generate artifacts
