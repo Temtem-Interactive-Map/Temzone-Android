@@ -21,7 +21,7 @@ jobs:
         run: mkdir /home/runner/work/Temzone-Android/Temzone-Android/app/src/release
       - name: Generate google-services.json
         run: |
-          echo $${{ secrets.GOOGLE_SERVICES }} > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
+          echo $"${{ secrets.GOOGLE_SERVICES }}" > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
       - name: Build project
         run: ./gradlew build
       - name: Generate artifacts
