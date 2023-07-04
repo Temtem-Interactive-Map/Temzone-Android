@@ -12,12 +12,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # - name: Setup Java
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     distribution: zulu
-      #     java-version: 17
-      #     cache: gradle
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: gradle
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
       - name: Generate local.properties
         run: |
           # echo DEBUG_BASE_URL="${{ secrets.DEBUG_BASE_URL }}" > ./local.properties
@@ -28,8 +30,8 @@ jobs:
           echo $DEBUG_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/debug/google-services.json
           mkdir -p /home/runner/work/Temzone-Android/Temzone-Android/app/src/release
           echo $RELEASE_GOOGLE_SERVICES > /home/runner/work/Temzone-Android/Temzone-Android/app/src/release/google-services.json
-      # - name: Build project
-      #   run: ./gradlew build
+      - name: Build project
+        run: ./gradlew build
       - name: Generate bundle
         run: ./gradlew bundleRelease
       - name: Sign bundle
