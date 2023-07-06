@@ -43,7 +43,7 @@ To execute instrumented tests for the Android application, follow these steps:
 
 This command will trigger the Gradle build process and start running all the instrumented tests in the project on the connected device or emulator.
 
-Instrumented tests are designed to simulate real interactions with the application on a device, providing a more comprehensive evaluation of its functionality and behavior. As a result, they might take longer to complete than local unit tests. It's essential to have a stable testing environment to ensure reliable and accurate test results.
+Instrumented tests are designed to simulate real interactions with the application on a device, providing a more comprehensive evaluation of its functionality and behavior. As a result, they might take longer to complete than local unit tests.
 
 ## License
 
