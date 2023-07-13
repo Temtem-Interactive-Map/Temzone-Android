@@ -47,3 +47,4 @@ jobs:
           packageName: com.temtem.interactive.map.temzone
           track: internal
           status: draft
+          changesNotSentForReview: true

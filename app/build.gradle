@@ -17,8 +17,8 @@ android {
         applicationId "com.temtem.interactive.map.temzone"
         minSdk 26
         targetSdk 33
-        versionCode 11
-        versionName "0.1.0"
+        versionCode 13
+        versionName "0.1.1"
         testInstrumentationRunner "com.temtem.interactive.map.temzone.HiltTestRunner"
     }
 
