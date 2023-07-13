@@ -1,6 +1,6 @@
 # Temzone - Android
 
-[![Version](https://img.shields.io/badge/version-0.1.0-orange)](https://github.com/Temtem-Interactive-Map/Temzone-Android)
+[![Version](https://img.shields.io/badge/version-v0.1.0-orange)](https://github.com/Temtem-Interactive-Map/Temzone-Android)
 [![Build](https://img.shields.io/github/actions/workflow/status/Temtem-Interactive-Map/Temzone-Android/main.yml?branch=main)](https://github.com/Temtem-Interactive-Map/Temzone-Android/actions/workflows/main.yml)
 [![Quality](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Android)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-android)
 
@@ -43,7 +43,7 @@ To execute instrumented tests for the Android application, follow these steps:
 
 This command will trigger the Gradle build process and start running all the instrumented tests in the project on the connected device or emulator.
 
-Instrumented tests are designed to simulate real interactions with the application on a device, providing a more comprehensive evaluation of its functionality and behavior. As a result, they might take longer to complete than local unit tests. It's essential to have a stable testing environment to ensure reliable and accurate test results.
+Instrumented tests are designed to simulate real interactions with the application on a device, providing a more comprehensive evaluation of its functionality and behavior. As a result, they might take longer to complete than local unit tests.
 
 ## License
 
